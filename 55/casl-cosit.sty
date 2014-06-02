@@ -1,0 +1,426 @@
+
+
+%\section{Befehle und Code}
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{casl-cosit} [2005/01/24 1.1 casl-cosit]
+
+\RequirePackage{stmaryrd,mathbbol}
+
+%%% 1. Packages are in the tex file for convenience.
+
+%%% 2. Environments (Theormems, Lists, etc.) are contained in woelfl-lncs.sty
+
+%%% 2.1 Theorems
+\RequirePackage{theorem}
+{\theorembodyfont{\normalfont}
+  \newtheorem{mytheorem}{NN}
+  \newtheorem{Def}[mytheorem]{Definition}
+  \newtheorem{Rem}[mytheorem]{Remark}
+  \newtheorem{Exmpl}[mytheorem]{Example}
+  \newtheorem{Exmpls}[mytheorem]{Examples}
+}
+{\theorembodyfont{\rmfamily\itshape}
+  \newtheorem{Prop}[mytheorem]{Proposition}
+  \newtheorem{Theorem}[mytheorem]{Theorem}
+  \newtheorem{Cor}[mytheorem]{Corollary}
+  \newtheorem{Lemma}[mytheorem]{Lemma}
+  %% \newtheorem{Int}[mytheorem]{\IntWort}
+  %% \newtheorem{These}[mytheorem]{\TheseWort}
+  %% \newtheorem{Expl}[mytheorem]{\ExplWort}
+}
+
+
+%%% 2.2 Floats
+
+\newlength{\floatwidth}
+\newlength{\floatcwidth}
+\newlength{\legendewidth}
+\setlength{\floatwidth}{115mm}
+\setlength{\floatcwidth}{100mm}
+%%\setlength{\abovecaptionskip}{0mm}
+\newcommand\floatc@specplain[2]{\setbox\@tempboxa\hbox{{\bf #1:} #2}%
+  \ifdim\wd\@tempboxa>\linewidth \hbox to\linewidth{%
+    \hfil\parbox{\floatcwidth}{{\bf #1:} #2}\hfil}
+    \else\hbox to\linewidth{\hfil\box\@tempboxa\hfil}\fi}
+\newcommand\fs@specruled{\def\@fs@cfont{\bfseries}\let\@fs@capt\floatc@specplain
+  \def\@fs@pre{\relax}%
+  \def\@fs@post{\kern2pt\rule{1em}{.0pt}\rule{\floatcwidth}{0.4pt}\kern2pt\relax}%
+  \def\@fs@mid{\kern2pt\rule{1em}{.0pt}\rule{\floatcwidth}{0.4pt}\kern2pt}%
+  \let\@fs@iftopcapt\iftrue}
+\newcommand\fs@spectable{\def\@fs@cfont{\bfseries}\let\@fs@capt\floatc@specplain
+  \def\@fs@pre{}\def\@fs@post{}%
+  \def\@fs@mid{\vspace\abovecaptionskip\relax}%
+  \let\@fs@iftopcapt\iftrue}
+\newcommand\fs@specfigure{\def\@fs@cfont{\bfseries}\let\@fs@capt\floatc@specplain
+  \def\@fs@pre{}\def\@fs@post{}%
+  \def\@fs@mid{\vspace\abovecaptionskip\relax}%
+  \let\@fs@iftopcapt\iffalse}
+\newenvironment{legende}[1][50mm]{\begin{center}\ifdim\wd\@tempboxa > \floatcwidth%
+    \begin{minipage}{\floatcwidth}\small%
+      \else  \begin{minipage}{#1}\small\fi}
+  {\end{minipage}\end{center}}
+\floatstyle{specruled}
+\newfloat{spec}{here}{spc}
+\floatname{spec}{Spec.\rule[-1ex]{0mm}{3ex}}
+\floatstyle{specfigure}
+\restylefloat{figure}
+\floatstyle{spectable}
+\restylefloat{table}
+
+
+%%% 3. Symbols, Logic, and Math
+
+%%% 3.1 Symbols 
+\newcommand{\MathOperatorFont}{\rm}
+\newcommand{\mymathconst}[1]{\operatorname{\MathOperatorFont #1}}
+%%\newcommand{\Tot}[1][]{\Tot@^{#1}}
+\newcommand{\Tot}{\mymathconst{Tot}}
+\newcommand{\Mom}{\mymathconst{Mom}}
+\newcommand{\His}{\mymathconst{His}}
+\newcommand{\Ch@}{\mymathconst{Ch}}
+\newcommand{\Cf@}{\mymathconst{f}}
+\newcommand{\ch@}{\mymathconst{ch}}
+
+\newcommand{\hisr}[1]{\His\tupel{#1}}
+\newcommand{\Stat}{\mymathconst{Stat}}  
+\newcommand{\Ag}{\mymathconst{Ag}}
+\newcommand{\tleq}[1][]{\preceq^{#1}}
+\newcommand{\tl}[1][]{\prec^{#1}} 
+\newcommand{\tgeq}[1][]{\succ^{#1}}
+\newcommand{\tg}[1][]{\succ^{#1}} 
+\newcommand{\splt}[1]{\mathbin{\bot_{#1}}}
+\newcommand{\undv}[1]{\mathbin{\Yup_{#1}}}
+\newcommand{\unrel}{\mathbin{\Vert}}
+\newcommand{\succTot}[1]{\Tot^{*}\tupel{#1}}
+\newcommand{\agSuccTottt}[3]{\Tot_{#1}^*\tupel{#2,#3}}
+
+\newcommand{\Ch}{\Ch@}
+\newcommand{\Cf}{\Cf@}
+\newcommand{\chfff}[3]{\Cf@_{#1}(#2,#3)}
+\renewcommand{\chfff}[3]{{\rm ch}_{#1}(#2,#3)}
+\newcommand{\chff}[3][\agpha]{\chfff{#1}{#2}{#3}}
+\newcommand{\chh}[3][]{\Ch@#1_{#2}\!\tupel{#3}}
+\newcommand{\ch}[2][\agpha]{\chh{#1}{#2}}
+\renewcommand{\succ}{\mathop{\rm Succ}}
+
+
+
+
+%%% 3.2 Logical Operators, and the like
+
+%%% 3.2.1 Propositional Logic
+\def\Tau{\text{\textnormal{T}}} 
+\def\logneg{\lnot }                \let\ln=\logneg
+\def\logund{\mathbin{\land}}       \let\lu=\logund
+\def\logoder{\mathbin{\lor}}       \let\lo=\logoder
+\def\logimp{\mathbin{\rightarrow}} \let\li=\logimp
+\def\logaequ{\leftrightarrow }     \let\le=\logaequ 
+\def\kontrad{\bot }                \let\ktr=\kontrad 
+\def\tautolog{\top }               \let\tlg=\tautolog
+
+%%% 3.2.2 Modal Operators
+\newcommand{\MOP}[1]{\ensuremath{\mathsf{#1}}} %
+\def\oG{\MOP{G}}\def\oF{\MOP{F}} %
+\def\oH{\MOP{H}}\def\oP{\MOP{P}} %
+\def\oN{\MOP{N}}\def\oM{\MOP{M}} %
+\def\oA{\MOP{A}}\def\oS{\MOP{S}} %
+
+
+%%% 3.2.3 Further Operators (Boxes)
+
+\newcommand{\opN}{\mathord{\square}}
+\newcommand{\opM}{\mathord{\lozenge}}
+
+%%% 3.2.4 Quantificational Stuff
+\def\fa#1 {\forall #1\,}
+\def\ex#1 {\exists #1\,} 
+\def\opQ#1{\oQ #1\,} 
+\def\id{=}
+\def\fr#1{\operatorname{fr}\left(#1\right)}  %% free Variables
+
+%%% 3.2.4 Substitution
+\def\asub#1#2{_{#2/#1}}
+\def\sub#1#2{(#2/#1)}
+
+%%% 3.3 Definitions for Semantical Stuff
+
+\makeatletter
+\ifx\mathscr\@undefined%
+     \let\mathvar\mathcal
+     \let\mathscr\mathcal
+     \else
+     \let\mathvar\mathscr
+\fi
+
+\newcommand{\Frame}[1][F]{\mathscr{#1}}
+\newcommand{\Str}[1][S]{\mathscr{#1}} \newcommand{\TxWFr}{\Frame[R]}
+\newcommand{\TrFr}{\Frame[B]} \newcommand{\AgTxWFr}{\Frame[F]}
+\newcommand{\AgTrFr}{\Frame[C]}
+\newcommand{\Mdl}[1][M]{\Frame[#1]}
+\renewcommand{\Mdl}{\ensuremath{\mathscr{M}}}
+\newcommand{\FrmCl}{\Frame[C]}
+\newcommand{\MdlCl}{\Frame[K]}
+\newcommand{\Sfour}{\text{S4}}
+\newcommand{\Sfive}{\text{S5}}
+\newcommand{\Skai}[1][]{\text{K#1}}
+\newcommand{\skai}[1]{\text{K#1}}
+\newcommand{\Struth}{\text{T}}
+\newcommand{\Fot}[1][T]{\Frame[#1]}
+%%\newcommand{\FoT}{\Frame[T]}
+\newcommand{\agpha}{\mathord{\alpha}}
+
+
+%%% 3.4 Sammelsurium of Logical Stuff
+\def\Kalk{\mathfrak{K}} 
+\makeatletter
+\ifx\mathscr\@undefined%
+     \let\mathvar\mathcal
+     \let\mathscr\mathcal
+     \else
+     \let\mathvar\mathscr
+\fi
+\makeatother
+\def\Spr{\ensuremath{\mathvar{L}}}
+\def\AP{P} %% atomic proposition
+\newcommand{\syntOr}{\mathbin{\>\vert\>}}
+\newcommand{\Rel}[2][]{\mathbin{R^{#1}_{#2}}}
+\renewcommand{\Rel}[1][R]{\mathbin{#1}}
+\newcommand{\var}{\operatorname{Var}}
+
+
+%%% 3.5 Math 
+
+%%% 3.5.1 Tupel
+\newcommand{\tupel}[1]{\ensuremath{\left\langle #1\right\rangle}}
+\newcommand{\dyntupel}[1]{\ensuremath{\left\langle #1\right\rangle}}
+\newcommand{\bigtupel}[1]{\ensuremath{\bigl\langle #1\bigr\rangle}}
+\newcommand{\Bigtupel}[1]{\ensuremath{\Bigl\langle #1\Bigr\rangle}}
+\newcommand{\texttupel}[1]{\ensuremath{\langle #1\rangle}}
+
+%%% 3.5.2 Sets
+\def\grMenge#1#2{\bigl\{\> #1\> : \> #2 \> \bigr\}}
+\def\dynMenge#1#2{\left\{\> #1\> : \> #2 \> \right\}}
+\def\klMenge#1#2{\{\,#1\,:\linebreak[1]\,#2 \}}
+
+%%% 3.5.3 Maps
+\def\klAbbb#1#2#3{#1\colon #2\longrightarrow #3}
+\def\grAbbb#1#2#3{#1\enskip\colon\enskip #2\longrightarrow #3}
+\def\grAbbbbb#1#2#3#4#5{#1\enskip\colon\enskip #2\longrightarrow #3,%
+  \enskip #4 \longmapsto #5}
+\def\textAbbbb#1#2#3#4{#1\rightarrow #2,%
+  \enskip #3 \mapsto #4}
+\def\textAbbb#1#2#3{#1:\,#2\rightarrow #3}
+
+
+%%% 3.5.4 Redefinition of \subset, \supset
+\let\orgsubset\subset \def\subset{\mathrel{\subseteq}}
+\def\esubset{\mathrel{\subsetneq}}
+
+\let\orgsupset\supset \def\supset{\supseteq} \def\esupset{\supsetneq}
+
+%%% 3.5.5 Mathematical Entities
+\def\NN{\mathbb{N}}
+\def\QQ{\mathbb{Q}}
+\def\ZZ{\mathbb{Z}}
+\def\RR{\mathbb{R}}
+\def\PP{\mathbb{P}}
+
+%%% 3.5.6 Mathematical Functions
+\DeclareMathOperator{\cardOp}{card}
+\DeclareMathOperator{\domOp}{dom}
+\newcommand{\dom}[1]{\domOp\left(#1\right)}
+\newcommand{\card}[1]{\cardOp\left(#1\right)}
+
+%%% 3.5.6 Topological Stuff
+% \newcommand{\TopSp}{\Frame[S]}
+% \newcommand{\TopOp}[1][]{\ensuremath{\mathcal O}_{#1}}
+% \newcommand{\TopCl}[1][]{\ensuremath{\mathcal A}_{#1}}
+% \newcommand{\TopRegCl}[1][]{\ensuremath{{\mathcal A}_{#1}^{\text{reg}}}}
+% \newcommand{\Sp}{\ensuremath{S}}
+% \renewcommand{\int}[2][]{\operatorname{int}_{#1}(#2)}
+% \newcommand{\cls}[2][]{\operatorname{cls}_{#1}(#2)}
+% \newcommand{\intprime}[2][]{\operatorname{int}'_{#1}(#2)}
+% \newcommand{\clsprime}[2][]{\operatorname{cls}'_{#1}(#2)}
+% %%\newcommand{\primitive}[1]{\mathsf{#1}}
+% \newcommand{\Conv}[1][\FoT]{\operatorname{Conv}_{#1}}
+% \newcommand{\Int}[1][\FoT]{\operatorname{Int}_{#1}} 
+% \newcommand{\ClInt}[1][\FoT]{\operatorname{ClInt}_{#1}} 
+% \newcommand{\Reg}[1][\TopSp]{\operatorname{Reg}_{#1}} 
+% \def\Umgeb{\mathcal{U}}
+
+%%% 4. Abbreviations in Text
+\newcommand{\anf}[1]{`#1'} 
+\newcommand{\also}{\>\>\Longrightarrow\>\>}
+\newcommand{\gdw}{\>\>\Longleftrightarrow\>\>}
+\newcommand{\defgdw}{\>\>{:\Longleftrightarrow}\>\>}
+%\newcommand{\wrt}{w.\,r.\,t{.}~\ignorespaces}
+\newcommand{\wrt}{w.\,r.\,t{.}}
+\newcommand{\resp}{resp{.}}
+\newcommand{\ie}[1][,]{i.\,e.#1}
+\renewcommand{\ie}{i.\,e.,}
+\newcommand{\zB}[1][\ ]{e.\,g.#1}
+\newcommand{\seite}[1]{\verweis{p}{#1}}
+\newcommand{\seiten}[1]{\verweis{pp}{#1}}
+\newcommand{\vgl}[1]{\verweis{cp}{#1}}
+\newcommand{\Vgl}[1]{\verweis{Cp}{#1}}
+\newcommand{\siehe}{cf.}
+\newcommand{\Siehe}{Cf.}
+\newcommand{\st}{s.\,t.}
+\newcommand{\defBegr}{\emph}
+\newcommand{\multicite}[1]{\let\cite\relax\llncscite{#1}\let\cite\llncscite}
+
+
+%%% 5. Formatting of Text
+
+%\setlength{\parindent}{0em}
+
+
+%%% 6. Locale Settings for Allen, RCC, etc.
+
+\renewcommand{\Mdl}{\ensuremath{\mathcal{M}}}
+%%% \operatorname is in amsmath.sty
+\newcommand{\FoT}{\Frame[T]}
+\newcommand{\TopSp}{\Frame[S]}
+\newcommand{\TopOp}[1][]{\ensuremath{\mathcal O}_{#1}}
+\newcommand{\TopCl}[1][]{\ensuremath{\mathcal A}_{#1}}
+\newcommand{\TopRegCl}[1][]{\ensuremath{{\mathcal A}_{#1}^{\text{reg}}}}
+\newcommand{\Sp}{\ensuremath{S}}
+\renewcommand{\int}[2][]{\operatorname{int}_{#1}(#2)}
+\newcommand{\cls}[2][]{\operatorname{cls}_{#1}(#2)}
+\newcommand{\intprime}[2][]{\operatorname{int}'_{#1}(#2)}
+\newcommand{\clsprime}[2][]{\operatorname{cls}'_{#1}(#2)}
+%%\newcommand{\primitive}[1]{\mathsf{#1}}
+\newcommand{\primitive}[1]{\text{\rm #1}}
+\newcommand{\rccC}{\primitive{C}}  
+\newcommand{\rccDC}{\primitive{DC}}  
+\newcommand{\rccP}{\primitive{P}}  
+\newcommand{\rccPP}{\primitive{PP}}  
+\newcommand{\rccO}{\primitive{O}}  
+\newcommand{\rccPO}{\primitive{PO}}  
+\newcommand{\rccDR}{\primitive{DR}}  
+\newcommand{\rccTPP}{\primitive{TPP}}  
+\newcommand{\rccEC}{\primitive{EC}}  
+\newcommand{\rccEQ}{\primitive{EQ}}  
+\newcommand{\rccNTPP}{\primitive{NTPP}}  
+\newcommand{\rccPi}{\primitive{Pi}}  
+\newcommand{\rccPPi}{\primitive{PPi}}  
+\newcommand{\rccTPPi}{\primitive{TPPi}}  
+\newcommand{\rccNTPPi}{\primitive{NTPPi}}  
+\newcommand{\rccDiff}{\primitive{diff}}
+\newcommand{\rccSum}{\primitive{sum}}
+\newcommand{\rccCompl}{\primitive{compl}}
+\newcommand{\rccProd}{\primitive{prod}}
+\newcommand{\rccCON}{\primitive{CON}}
+
+\newcommand{\All}{\text{All-13}}
+\newcommand{\SprAll}[1][13]{\Spr_{\text{All-#1}}}
+%\renewcommand{\primitive}[1]{\mathsf{\lowercase{#1}}}
+%\renewcommand{\primitive}[1]{\uppercase{#1}}
+\newcommand{\allenm}{\mathrel{\primitive{M}}} 
+\newcommand{\allenmi}{\mathrel{\primitive{M}\textit{i}}} 
+\newcommand{\alleno}{\mathrel{\primitive{O}}} 
+\newcommand{\allenoi}{\mathrel{\primitive{O}\textit{i}}} 
+\newcommand{\allenb}{\mathrel{\primitive{B}}} 
+\newcommand{\allenbi}{\mathrel{\primitive{B}\textit{i}}} 
+\newcommand{\allene}{\mathrel{\primitive{E}}} 
+\newcommand{\allend}{\mathrel{\primitive{D}}} 
+\newcommand{\allendi}{\mathrel{\primitive{D}\textit{i}}} 
+\newcommand{\allens}{\mathrel{\primitive{S}}} 
+\newcommand{\allensi}{\mathrel{\primitive{S}\textit{i}}} 
+\newcommand{\allenf}{\mathrel{\primitive{F}}} 
+\newcommand{\allenfi}{\mathrel{\primitive{F}\textit{i}}} 
+
+\newcommand{\brallenpb}{\mathrel{\primitive{PB}}} 
+\newcommand{\brallenpbi}{\mathrel{\primitive{PB}\textit{i}}} 
+\newcommand{\brallenpm}{\mathrel{\primitive{PM}}} 
+\newcommand{\brallenpmi}{\mathrel{\primitive{PM}\textit{i}}} 
+\newcommand{\brallensm}{\mathrel{\primitive{SM}}} 
+\newcommand{\brallensmi}{\mathrel{\primitive{SM}\textit{i}}} 
+\newcommand{\brallenpw}{\mathrel{\primitive{PW}}} 
+\newcommand{\brallenpwi}{\mathrel{\primitive{PW}\textit{i}}} 
+\newcommand{\brallenib}{\mathrel{\primitive{IB}}} 
+\newcommand{\brallenibi}{\mathrel{\primitive{IB}\textit{i}}} 
+\newcommand{\brallenie}{\mathrel{\primitive{IE}}} 
+\newcommand{\bralleniei}{\mathrel{\primitive{IE}\textit{i}}} 
+\newcommand{\brallenid}{\mathrel{\primitive{ID}}} 
+\newcommand{\brallenidi}{\mathrel{\primitive{ID}\textit{i}}} 
+\newcommand{\brallenpd}{\mathrel{\primitive{PD}}} 
+\newcommand{\brallenpdi}{\mathrel{\primitive{PD}\textit{i}}} 
+\newcommand{\brallenpo}{\mathrel{\primitive{PO}}} 
+\newcommand{\brallenpoi}{\mathrel{\primitive{PO}\textit{i}}} 
+\newcommand{\brallenps}{\mathrel{\primitive{PS}}} 
+\newcommand{\brallensw}{\mathrel{\primitive{SW}}} 
+\newcommand{\brallenswi}{\mathrel{\primitive{SW}\textit{i}}} 
+\newcommand{\bralleni}{\mathrel{\primitive{I}}}
+\newcommand{\brallenim}{\mathrel{\primitive{IM}}}
+\newcommand{\brallenimi}{\mathrel{\primitive{IM}\textit{i}}} 
+\newcommand{\brallenu}{\mathrel{\primitive{U}}}
+\newcommand{\brallena}{\mathrel{\primitive{A}}}
+\newcommand{\brallent}{\mathrel{\primitive{T}}}
+\newcommand{\brallenai}{\mathrel{\primitive{A}\textit{i}}} 
+%%%
+\newcommand{\brallensb}{\mathrel{\primitive{SB}}} 
+\newcommand{\brallensbi}{\mathrel{\primitive{SB}\textit{i}}} 
+
+
+\newcommand{\PAlin}{PA_{\text{lin}}}
+\newcommand{\PAbr}{PA_{\text{br}}}
+\newcommand{\IAlin}[1][]{IA_{\text{lin}}^{#1}}
+\newcommand{\IAbr}[1][]{IA_{\text{br}}^{#1}}
+
+
+% %%\newcommand{\FoT}{\Frame[T]}
+% \renewcommand{\TopSp}{\Frame[S]}
+% %%\newcommand{\TopOp}[1][]{\ensuremath{\mathcal O}_{#1}}
+% %%\newcommand{\TopCl}[1][]{\ensuremath{\mathcal A}_{#1}}
+% %%\newcommand{\TopRegCl}[1][]{\ensuremath{{\mathcal A}_{#1}^{\text{reg}}}}
+% %%\newcommand{\Sp}{\ensuremath{S}}
+% %%\renewcommand{\int}[2][]{\operatorname{int}_{#1}(#2)}
+% %%\newcommand{\cls}[2][]{\operatorname{cls}_{#1}(#2)}
+% %%\newcommand{\intprime}[2][]{\operatorname{int}'_{#1}(#2)}
+% %%\newcommand{\clsprime}[2][]{\operatorname{cls}'_{#1}(#2)}
+% \newcommand{\primitive}[1]{\mathsf{#1}}
+% \newcommand{\rccC}{\primitive{C}}  
+% \newcommand{\rccDC}{\primitive{DC}}  
+% \newcommand{\rccP}{\primitive{P}}  
+% \newcommand{\rccPP}{\primitive{PP}}  
+% \newcommand{\rccO}{\primitive{O}}  
+% \newcommand{\rccPO}{\primitive{PO}}  
+% \newcommand{\rccDR}{\primitive{DR}}  
+% \newcommand{\rccTPP}{\primitive{TPP}}  
+% \newcommand{\rccEC}{\primitive{EC}}  
+% \newcommand{\rccEQ}{\primitive{EQ}}  
+% \newcommand{\rccNTPP}{\primitive{NTPP}}  
+% \newcommand{\rccPi}{\primitive{Pi}}  
+% \newcommand{\rccPPi}{\primitive{PPi}}  
+% \newcommand{\rccTPPi}{\primitive{TPPi}}  
+% \newcommand{\rccNTPPi}{\primitive{NTPPi}}  
+% \newcommand{\rccDiff}{\primitive{diff}}
+% \newcommand{\rccSum}{\primitive{sum}}
+% \newcommand{\rccCompl}{\primitive{compl}}
+% \newcommand{\rccProd}{\primitive{prod}}
+% \newcommand{\rccCON}{\primitive{CON}}
+
+% \newcommand{\All}{\text{All-13}}
+% \newcommand{\SprAll}[1][13]{\Spr_{\text{All-#1}}}
+% %\newcommand{\primitive}[1]{\mathsf{#1}}
+% \newcommand{\allenm}{\primitive{M}} 
+% \newcommand{\allenmi}{\primitive{M}^-} 
+% \newcommand{\alleno}{\primitive{O}} 
+% \newcommand{\allenoi}{\primitive{O}^-} 
+% \newcommand{\allenb}{\primitive{B}} 
+% \newcommand{\allenbi}{\primitive{B}^-} 
+% \newcommand{\allene}{\primitive{E}} 
+% \newcommand{\allend}{\primitive{D}} 
+% \newcommand{\allendi}{\primitive{D}^-} 
+% \newcommand{\allens}{\primitive{S}} 
+% \newcommand{\allensi}{\primitive{S}^-} 
+% \newcommand{\allenf}{\primitive{F}} 
+% \newcommand{\allenfi}{\primitive{F}^-} 
+
+
+
+
+
+
