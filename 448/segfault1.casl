@@ -1,0 +1,388 @@
+
+%%--------------------------------
+%%--------------------------------
+
+spec DolceModel =
+%%
+sorts     
+EDorPDorQ,PT,AB,Q,PD,ED,R
+
+esorts
+TR,T,PR,S,AR,TQ,TL,PQ,SL,AQ,PED,M,F,POB,APO,NAPO,NPED,NPOB,
+MOB,SOB,ASO,SAG,SC,NASO,AS,EV,ACH,ACC,STV,ST,PRO
+
+%%----------------------------------- instantiated leaves 
+
+		free type   TL ::= tl; 
+		free type   SL ::= sl;
+		
+		free type   ST ::= st;
+		
+		free type   M ::= ma;
+
+		free type   S ::= sp;
+		free type   T ::= ti;
+		
+%%----------------------------------
+
+%%---------------------------------- declare empty leaves					
+
+forall x : AQ . false
+forall x : PRO . false
+forall x : ACH . false
+forall x : ACC . false
+forall x : NAPO . false
+forall x : APO . false
+forall x : F . false
+forall x : SC . false
+forall x : SAG . false
+forall x : NASO . false
+forall x : MOB . false
+forall x : AS . false
+forall x : AR . false
+
+forall x : EV . false
+forall x : POB . false
+forall x : ASO . false
+forall x : SOB . false
+forall x : NPOB . false
+forall x : NPED . false
+
+%%-------------------------------- Generated Sorts
+
+free type   TQ ::= tl;
+free type   PQ ::= sl;
+
+free type   Q ::= tl | sl;
+	
+
+free type   STV ::= st;
+
+free type   PD ::= st;
+			
+free type   PED ::= ma;
+			
+free type   ED ::= ma;
+			
+free type   PR ::= sp;
+free type   TR ::= ti;
+free type   R ::= sp | ti;	
+			
+free type   EDorPDorQ ::= tl | sl | st | ma;
+ 
+free type   AB ::= sp | ti;
+			
+free type   PT ::= tl | sl | st | ma | sp | ti;
+
+%%
+sorts AR, PR, R, S, T, TR < AB; SAG, SC < ASO;
+      APO, AS, ASO, F, M, MOB, NAPO, NASO, NPED, NPOB, PED, POB, SAG, SC,
+      SOB < ED;
+      ACC, ACH, APO, AQ, AS, ASO, ED, EV, F, M, MOB, NAPO, NASO, NPED,
+      NPOB, PD, PED, POB, PQ, PRO, Q, SAG, SC, SL, SOB, ST, STV, TL,
+      TQ < EDorPDorQ;
+      ACC, ACH < EV; ASO, MOB, NASO, NPOB, SAG, SC, SOB < NPED;
+      ASO, MOB, NASO, SAG, SC, SOB < NPOB;
+      ACC, ACH, EV, PRO, ST, STV < PD; APO, F, M, NAPO, POB < PED;
+      APO, NAPO < POB; SL < PQ; S < PR;
+      AB, ACC, ACH, APO, AQ, AR, AS, ASO, ED, EDorPDorQ, EV, F, M, MOB,
+      NAPO, NASO, NPED, NPOB, PD, PED, POB, PQ, PR, PRO, Q, R, S, SAG,
+      SC, SL, SOB, ST, STV, T, TL, TQ, TR < PT;
+      AQ, PQ, SL, TL, TQ < Q; AR, PR, S, T, TR < R;
+      ASO, NASO, SAG, SC < SOB; PRO, ST < STV; TL < TQ; T < TR
+
+%%-------------------------------------------
+
+pred At : AR
+pred At : PD
+pred At : S
+pred At : T
+pred AtP : AR * AR
+pred AtP : PD * PD
+pred AtP : S * S
+pred AtP : T * T
+pred Dif : AR * AR * AR
+pred Dif : PD * PD * PD
+pred Dif : S * S * S
+pred Dif : T * T * T
+pred K : NPED * NPED * T
+pred K : PD * PD * T
+pred K : PED * PED * T
+pred Ov : AR * AR
+pred Ov : PD * PD
+pred Ov : S * S
+pred Ov : T * T
+pred P : AR * AR
+pred P : PD * PD
+pred P : S * S
+pred P : T * T
+pred PC : ED * PD * T
+pred PP : AR * AR
+pred PP : PD * PD
+pred PP : S * S
+pred PP : T * T
+pred PRE : EDorPDorQ * T
+pred P_T : PD * PD
+pred SD : AQ * NPED
+pred SD : MOB * APO
+pred SD : NPED * AQ
+pred SD : PD * TQ
+pred SD : PED * PQ
+pred SD : PQ * PED
+pred SD : TQ * PD
+pred Sum : AR * AR * AR
+pred Sum : PD * PD * PD
+pred Sum : S * S * S
+pred Sum : T * T * T
+pred dqt : AQ * NPED
+pred dqt : PQ * PED
+pred dqt : TQ * PD
+pred ql : T * TL
+pred ql : TR * TQ
+pred tDif : NPED * NPED * NPED
+pred tDif : PD * PD * PD
+pred tDif : PED * PED * PED
+pred tOv : NPED * NPED * T
+pred tOv : PD * PD * T
+pred tOv : PED * PED * T
+pred tP : NPED * NPED * T
+pred tP : PD * PD * T
+pred tP : PED * PED * T
+pred tPP : NPED * NPED * T
+pred tPP : PD * PD * T
+pred tPP : PED * PED * T
+pred tSum : NPED * NPED * NPED
+pred tSum : PD * PD * PD
+pred tSum : PED * PED * PED
+pred tql : AR * AQ * T
+pred tql : PR * PQ * T
+pred tql : S * SL * T
+
+
+%%--------------- 6 Point Model -------------
+ 
+%% Parthood
+
+. P(ti,ti)
+. P(sp,sp)
+. tP(ma,ma,ti)
+. P((op st:PD),(op st:PD))
+
+%% Being Present
+
+. PRE(ma:EDorPDorQ,ti)
+. PRE((op st:EDorPDorQ),ti)
+. PRE((op tl:EDorPDorQ),ti)
+. PRE((op sl:EDorPDorQ),ti)
+
+%% Participation
+
+. PC(ma,st,ti)
+
+%% Quality
+
+. dqt(tl,st)
+. dqt(sl,ma)
+
+%% Quale
+
+. ql(ti,tl)
+. tql(sp,sl,ti)
+
+%%----------------- Definitorial Axioms----------
+%%-----------------------------------------------
+%%-----------------------------------------------
+
+
+%%-------------------------------------------------------
+
+forall x : PD; y : PD
+. P_T(x, y)
+  <=> P(x, y)
+      /\ forall z : PD
+         . (P(z, y) /\ forall t : T . PRE(z, t) => PRE(x, t)) => P(z, x) 		%(Ax1_2)%
+
+
+forall x : PED; y : PED; t : T
+. tPP(x, y, t) <=> tP(x, y, t) /\ not tP(y, x, t)       						%(Ax1_4)%
+
+forall x : PED; y : PED; t : T
+. tOv(x, y, t) <=> exists z : PED . tP(z, x, t) /\ tP(z, y, t)	                %(Ax2_1)%
+
+forall z : PED; x : PED; y : PED
+. tSum(z, x, y)
+  <=> forall w : PED; t : T
+      . tOv(w, z, t) <=> tOv(w, x, t) \/ tOv(w, y, t)     						%(Ax3)%
+
+forall z : PED; x : PED; y : PED
+. tDif(z, x, y)
+  <=> forall w : PED; t : T
+      . tP(w, z, t) <=> tP(w, x, t) \/ not tOv(w, y, t)    						%(Ax4)%
+
+
+forall x : NPED; y : NPED; t : T
+. tPP(x, y, t) <=> tP(x, y, t) /\ not tP(y, x, t)      %(Ax1_4_1)%
+
+forall x : NPED; y : NPED; t : T
+. tOv(x, y, t) <=> exists z : NPED . tP(z, x, t) /\ tP(z, y, t)
+                                                       %(Ax2_1_1)%
+
+forall z : NPED; x : NPED; y : NPED
+. tSum(z, x, y)
+  <=> forall w : NPED; t : T
+      . tOv(w, z, t) <=> tOv(w, x, t) \/ tOv(w, y, t)    %(Ax3_1)%
+
+forall z : NPED; x : NPED; y : NPED
+. tDif(z, x, y)
+  <=> forall w : NPED; t : T
+      . tP(w, z, t) <=> tP(w, x, t) \/ not tOv(w, y, t)  %(Ax4_1)%
+
+
+forall x : PD; y : PD; t : T
+. tPP(x, y, t) <=> tP(x, y, t) /\ not tP(y, x, t)      %(Ax1_4_2)%
+
+forall x : PD; y : PD; t : T
+. tOv(x, y, t) <=> exists z : PD . tP(z, x, t) /\ tP(z, y, t)
+                                                       %(Ax2_1_2)%
+
+forall z : PD; x : PD; y : PD
+. tSum(z, x, y)
+  <=> forall w : PD; t : T
+      . tOv(w, z, t) <=> tOv(w, x, t) \/ tOv(w, y, t)    %(Ax3_2)%
+
+forall z : PD; x : PD; y : PD
+. tDif(z, x, y)
+  <=> forall w : PD; t : T
+      . tP(w, z, t) <=> tP(w, x, t) \/ not tOv(w, y, t)  %(Ax4_2)%
+
+
+forall x : TQ; y : PD
+. SD(x, y)
+  <=> (exists t : T . PRE(x, t))
+      /\ forall t : T . PRE(x, t) => PRE(y, t)         %(Ax1_2_5)%
+
+forall x : PD; y : TQ
+. SD(x, y)
+  <=> (exists t : T . PRE(x, t))
+      /\ forall t : T . PRE(x, t) => PRE(y, t)       %(Ax1_2_1_4)%
+
+
+forall x : PQ; y : PED
+. SD(x, y)
+  <=> (exists t : T . PRE(x, t))
+      /\ forall t : T . PRE(x, t) => PRE(y, t)       %(Ax1_2_3_1)%
+
+
+forall x : PED; y : PQ
+. SD(x, y)
+  <=> (exists t : T . PRE(x, t))
+      /\ forall t : T . PRE(x, t) => PRE(y, t)     %(Ax1_2_1_3_1)%
+
+
+forall x : AQ; y : NPED
+. SD(x, y)
+  <=> (exists t : T . PRE(x, t))
+      /\ forall t : T . PRE(x, t) => PRE(y, t)         %(Ax1_2_2)%
+
+
+forall x : NPED; y : AQ
+. SD(x, y)
+  <=> (exists t : T . PRE(x, t))
+      /\ forall t : T . PRE(x, t) => PRE(y, t)     %(Ax1_2_1_2_1)%
+
+forall x : MOB; y : APO
+. SD(x, y)
+  <=> (exists t : T . PRE(x, t))
+      /\ forall t : T . PRE(x, t) => PRE(y, t)       %(Ax1_2_2_1)%
+
+
+					
+%%---------------------------------------------------------		
+		
+
+forall x : T . P(x, x) 															%(reflexivity)% %implied
+
+forall x, y : T . P(x, y) /\ P(y, x) => x = y 									%(antisymmetry)% %implied
+
+forall x, y, z : T . P(x, y) /\ P(y, z) => P(x, z) 								%(transitivity)% %implied
+
+forall x : T; y : T . PP(x, y) <=> P(x, y) /\ not P(y, x) %(Dd14)% %implied 
+
+forall x : T; y : T
+. Ov(x, y) <=> exists z : T . P(z, x) /\ P(z, y)   						        %(Dd15)% %implied
+
+forall x : T . At(x) <=> not exists y : T . PP(y, x)  							%(Dd16)% %implied
+
+forall x : T; y : T . AtP(x, y) <=> P(x, y) /\ At(x)						    %(Dd17)% %implied
+
+
+forall x : NPED; t : T . not K(x, x, t) %(Td1_1)% %implied
+
+forall x1 : PD; x2 : PD; t1, t2 : T
+. K(x1, x2, t1) /\ P(t2, t1) => K(x1, x2, t2)            %(Ax1_8)% %implied
+
+forall x1 : PD; x2 : PD; t : T
+. K(x1, x2, t) => PRE(x1, t) /\ PRE(x2, t)           %(Ax1_2_1_3)% %implied
+
+forall x, y : PD; t : T . K(x, y, t) => not K(y, x, t) %(Ax1_3_3)% %implied
+
+forall x, y, z : PD; t : T . K(x, y, t) /\ K(y, z, t) => K(x, z, t)
+                                                         %(Ax2_5)% %implied
+
+forall x : PD; t : T . PRE(x, t) => tP(x, x, t) %(Ax1_2_1_1_3)% %implied
+
+forall x, y, z : PD; t : T
+. tP(x, y, t) /\ tP(y, z, t) => tP(x, z, t)            %(Ax2_2_2)% %implied
+
+forall x1 : PD; x2 : PD; t1, t2 : T
+. tP(x1, x2, t1) /\ P(t2, t1) => tP(x1, x2, t2)      %(Ax1_3_1_2)% %implied
+
+forall x1 : PD; x2 : PD; t : T
+. tP(x1, x2, t) => PRE(x1, t) /\ PRE(x2, t)      %(Ax1_2_1_1_1_2)% %implied
+
+forall x : PD; y : PD; t : T
+. tPP(x, y, t) <=> tP(x, y, t) /\ not tP(y, x, t)      %(Ax1_4_2)% %implied
+
+forall x : PD; y : PD; t : T
+. tOv(x, y, t) <=> exists z : PD . tP(z, x, t) /\ tP(z, y, t)
+                                                       %(Ax2_1_2)% %implied
+
+forall z : PD; x : PD; y : PD
+. tSum(z, x, y)
+  <=> forall w : PD; t : T
+      . tOv(w, z, t) <=> tOv(w, x, t) \/ tOv(w, y, t)    %(Ax3_2)% %implied
+
+forall z : PD; x : PD; y : PD
+. tDif(z, x, y)
+  <=> forall w : PD; t : T
+      . tP(w, z, t) <=> tP(w, x, t) \/ not tOv(w, y, t)  %(Ax4_2)% %implied
+
+forall x, y : PD; t : T
+. PRE(x, t) /\ PRE(y, t) /\ not tP(x, y, t)
+  => exists z : PD . tP(z, x, t) /\ not tOv(z, y, t)   %(Ax5_1_2)% %implied
+
+forall x, y : PD . exists z : PD . tSum(z, x, y)
+                                    %(Existence of the sum_1_1_2)% %implied
+
+forall x, y, y1 : PD; t : T
+. K(x, y, t) /\ tP(y1, y, t)
+  => exists x1 : PD . tP(x1, x, t) /\ K(x1, y1, t)     %(Ax1_5_2)% %implied
+
+forall x : PD; t : T . not K(x, x, t) %(Td1_2)% %implied
+
+forall x : NAPO . exists t : T . PRE(x, t) %(Ax1_6)% %implied
+
+forall x : NAPO; t : T
+. At(t) /\ PRE(x, t) => exists y : M . K(y, x, t)      %(Ax2_3_2)% %implied
+
+forall x : APO . exists t : T . PRE(x, t) %(Ax1_6_1)% %implied
+
+forall x : APO; t : T
+. At(t) /\ PRE(x, t) => exists y : NAPO . K(y, x, t)   %(Ax2_3_1)% %implied
+
+forall x : SC . exists t : T . PRE(x, t) %(Ax1_6_1_1)% %implied
+
+forall x : SC; t : T
+. At(t) /\ PRE(x, t) => exists y : SAG . K(y, x, t)  %(Ax2_3_1_1)% %implied
+
+end
