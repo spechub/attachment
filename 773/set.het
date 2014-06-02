@@ -1,0 +1,7 @@
+library set
+
+spec GenerateSet [sort Elem] = %mono
+  generated type Set[Elem] ::= empty
+end
+
+spec setofs = GenerateSet[sort S]
