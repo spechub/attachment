@@ -1,0 +1,20 @@
+--- configure.old	2008-03-02 00:19:36.000000000 +0100
++++ configure	2008-03-02 00:17:42.000000000 +0100
+@@ -4025,11 +4025,14 @@
+ 
+ 
+ # test for HaXml package
+-HAXMLVERSION=`$GHCPKG field HaXml version`
+-if test "$HAXMLVERSION" = "version: 1.13.2"; then
++HAXMLVERSION=`$GHCPKG field HaXml version | awk '{print $2}'`
++HAXMLVERSION_INT=${HAXMLVERSION//./}
++HAXMLVERSION_MINIMUM="1.13.2"
++HAXMLVERSION_MINIMUM_INT=${HAXMLVERSION_MINIMUM//./}
++if test "$HAXMLVERSION_INT" -ge "$HAXMLVERSION_MINIMUM_INT"; then
+    echo $HAXMLVERSION of HaXml found
+ else
+-   echo Without HaXml-1.13.2 you cannot compile UniForM.
++   echo "Without HaXml >= $HAXMLVERSION_MINIMUM you cannot compile UniForM."
+    GOAHEAD=NO
+ fi
+ 
