@@ -1,0 +1,1226 @@
+\documentclass[oribibl]{llncs}
+
+%%% Base Packages
+\usepackage[latin1]{inputenc} 
+%%\usepackage[active]{srcltx}
+\usepackage{stmaryrd,mathbbol,mathrsfs}
+\usepackage{amsmath,amstext,amssymb,amsopn}
+\usepackage{exscale,calc,ifthen,array}
+\usepackage{float}
+\usepackage{url}
+\usepackage[sectionbib,numbers]{natbib}
+%%\bibliographystyle{apalike}
+\bibliographystyle{abbrvnat}
+\renewcommand{\refname}{References}
+\renewcommand{\bibname}{References}
+
+%%% sjw Packages
+\usepackage{casl-cosit}
+
+\usepackage{xspace}
+\newcommand{\CASL}{\textsc{Casl}\xspace }
+\newcommand{\CoFI}{\textmd{\textsc{CoFI}}\xspace }
+\newcommand{\HetCASL}{\textmd{\textsc{HetCasl}}\xspace }
+\newcommand{\ModalCASL}{\textmd{\textsc{ModalCasl}}\xspace }
+\newcommand{\HasCASL}{\textsc{HasCasl}\xspace }
+\newcommand{\Hets}{\textmd{\textsc{Hets}}\xspace }
+
+
+\usepackage{listings}
+\lstset{stringstyle=\rmfamily,
+  showstringspaces=false,
+  flexiblecolumns,
+  mathescape=true,
+  basicstyle=\small,
+  keywords={and,end,fit,forall,free,hide,library,logic,op,ops,pred,preds,
+    reveal,sort,spec,then,to,type,version,view,with,local,within},
+  otherkeywords={\%implies,\%def,\%mono,\%cons},
+  emph={AlgebraOfBinaryRelations,AllenIA,AtomicBooleanAlgebra,AtomicRelationAlgebra,
+    BaseRelations,BinaryRelations,BooleanAlgebra,BooleanAlgebraWithCompl,
+    CompositionTable,
+    EuclideanPlane,
+    ExtBooleanAlgebra,ExtBooleanAlgebraByPartialOrder,ExtRelationAlgebraByPartialOrder,
+    FullAlgebraOfBinaryRelations,
+    CompClosedBaseRelModel,
+    ConstructRelationAlgebra,
+    ConstructPreModelFromBaseRelModel,RelationsFromBaseRelModel,ConstructModel,
+    GoodCompositionTable,
+    HasCASL,
+    JEPDBaseRelModel,
+    MetricSpace,
+    PartialOrder,PreOrder,AntisymmetricRelation,
+    RelationAlgebra,RCC5,RCC5BaseRelations,RCC5CompositionTable,
+    RCC5OpenDiscModel,RCC5OpenDiscBaseRelModel,
+    Set,SetRepresentationOfRelations,SetAlgebraOfBinaryRelations},
+  emphstyle=\sc,
+  escapechar=\@,
+  linewidth=\floatwidth,
+  xleftmargin=2em,
+  xrightmargin=-2em}
+
+\def\SpecName#1{\text{\sc{#1}}}
+\def\cmps{\mathbin{\circ}}
+\let\eps\in
+\let\isIn\in
+\def\compl{-}
+\def\inv#1{#1^{\smallsmile}}
+\def\casldot{\;{\scriptstyle\bullet}\;}
+\def\name#1{\text{\it #1}}
+\def\OPdr{\name{dr}}
+\def\OPec{\name{ec}}
+\def\OPdc{\name{dc}}
+\def\OPpo{\name{po}}
+\def\OPpp{\name{pp}}
+\def\OPppi{\name{ppi}}
+\def\OPtpp{\name{tpp}}
+\def\OPtppi{\name{tppi}}
+\def\OPntpp{\name{ntpp}}
+\def\OPntppi{\name{ntppi}}
+\def\OPeq{\name{eq}}
+\def\OPb{\name{b}}
+\def\OPbi{\name{bi}}
+\def\OPm{\name{m}}
+\def\OPmi{\name{mi}}
+\def\OPo{\name{o}}
+\def\OPoi{\name{oi}}
+\def\OPs{\name{s}}
+\def\OPsi{\name{si}}
+\def\OPf{\name{f}}
+\def\OPfi{\name{fi}}
+\def\OPd{\name{d}}
+\def\OPdi{\name{di}}
+\def\OPe{\name{e}}
+\def\OPrep{\name{rep}}
+\def\OPid{\name{id}}
+\def\OPBaseRel{\name{BaseRel}}
+\def\OPRel{\name{Rel}}
+\def\OPRelation{\name{Relation}}
+\def\OPElem{\name{Elem}}
+\def\OPAtomElem{\name{AtomElem}}
+\def\OPAtomRel{\name{AtomRel}}
+\def\OPdrRel{\name{drRel}}
+\def\OPpoRel{\name{poRel}}
+\def\OPeqRel{\name{eqRel}}
+\def\OPppRel{\name{ppRel}}
+\def\OPppiRel{\name{ppiRel}}
+
+
+%%\def\union{\mathbin{union}}
+%%\def\intersection{\mathbin{intersection}}
+%%\def\ssubset{\mathbin{subset}}
+\let\union\cup
+\let\intersection\cap
+\let\ssubset\sqsubset
+\let\emptySet\emptyset
+\newif\ifextended
+\extendedfalse
+
+%%% PDF switch 
+\newif\ifpdf
+  \ifx\pdfoutput\undefined
+  \pdffalse    % we are not running PDFLaTeX
+  \else
+  \pdfoutput=1    % we are running PDFLaTeX
+  \pdftrue
+\fi
+
+%%% graphics
+
+\ifpdf 
+   \usepackage[pdftex]{graphicx}
+\else
+   \usepackage{graphicx}
+\fi
+
+
+
+%%% fonts  
+\usepackage{pslatex}
+
+
+\newcommand{\pp}[2][2.5em]{\parbox{#1}{\centering #2}}
+\renewcommand{\P}{{\sf P}} 
+\newcommand{\NP}{{\sf NP}} 
+\newcommand{\EXPTIME}{{\sf EXPTIME}} 
+
+
+
+
+\begin{document}
+
+%%%
+\title{%
+  \CASL Specifications of Qualitative Calculi}
+\author{Stefan W\"olfl\inst{1}\and Till Mossakowski\inst{2}}
+\institute{Department of Computer Science, University of Freiburg,
+  Georges-K\"ohler-Allee, 79110~Freiburg, Germany, \email{woelfl@informatik.uni-freiburg.de}
+  \and 
+  Department of Computer Science, University of Bremen, P.O. Box 330440,\\ 28334~Bremen, Germany,
+  \email{till@tzi.de}
+}
+
+
+\maketitle
+
+
+\begin{abstract}
+  In AI a large number of calculi for efficient reasoning about
+  spatial and temporal entities have been developed.  The most
+  prominent temporal calculi are the point algebra of linear time and
+  Allen's interval calculus.  Examples of spatial calculi include
+  mereotopological calculi, Frank's cardinal direction calculus,
+  Freksa's double cross calculus, Egenhofer and Franzosa's
+  intersection calculi, and Randell, Cui, and Cohn's region connection
+  calculi.
+
+  These calculi are designed for modeling specific aspects of space or
+  time, respectively, to the effect that the class of intended models
+  may vary widely with the calculus at hand. But from a formal point
+  of view these calculi are often closely related to each other.
+%%, even across the border of the space-time dichotomy. 
+  For example, the spatial region connection calculus RCC5 may be
+  considered a coarsening of Allen's (temporal) interval calculus. And
+  vice versa, intervals can be used to represent spatial objects that
+  feature an internal direction.
+
+  The central question of this paper is how these calculi as well as
+  their mutual dependencies can be axiomatized by algebraic
+  specifications. This question will be investigated within the
+  framework of the \emph{Common Algebraic Specification Language}
+  (\CASL), a specification language developed by the \emph{Common
+    Framework Initiative for algebraic specification and development}
+  (\CoFI). We explain scope and expressiveness of \CASL by discussing
+  the specifications of some of the calculi mentioned before.
+\end{abstract}
+
+
+\section{Introduction: Calculemus!} 
+  
+In the past 25 years qualitative spatial and temporal reasoning has
+evolved to a discipline in its own right within AI. Qualitative
+reasoning aims at describing the common-sense background knowledge on
+which our human perspective on the physical reality is based. The
+calculi, that is, formal languages and reasoning techniques, developed
+in this research area are of special interest for all application
+fields that rely on human-machine interaction in static or dynamically
+changing spatial environments.  For example, some of these calculi may
+be implemented for handling spatial GIS queries efficiently and some
+may be used for navigating, and communicating with, a mobile robot.
+
+One will hardly find an exact definition of the notion of qualitative
+reasoning, but the whole research area has been very much inspired by
+Hayes' na\"ive manifesto \citep{hayes-a:78-naive}. In fact, in
+different areas of mathematics and physics very expressive formalisms
+for reasoning about space and time have been developed. But from a
+computer scientist's point of view most of these formalisms are too
+expressive. Since there is an inevitable trade-off between the
+expressiveness of a language and the computational costs for reasoning
+with its formulae, expressiveness can get a crucial point when these
+calculi are to be integrated in applications. Thus the fundamental
+idea of qualitative reasoning is to restrict the vocabulary of rich
+mathematical theories in such a way that diversified aspects of these
+theories are treated within distinguished decidable fragments with
+simple qualitative (\ie\ non-metrical) languages.
+
+From this starting point a large number of calculi for efficient
+reasoning about spatial and temporal entities have been proposed in
+the literature.  The most prominent temporal calculi are the so-called
+point algebra, which deals with instants of a given linear flow of
+time, and Allen's interval algebra \citep{allen-a:83-maintaining},
+which describes possible relations between intervals in linear
+flows of time (cf.~Fig.~\ref{fig:AllenRelations}).  Analogous calculi
+have been proposed for more general classes of models such as
+branching flows of time \citep[e.\,g.,][]{broxvall-a:01-point} or even
+structures, where flows of time are just required to satisfy the
+conditions of a partial order
+\citep[e.\,g.,][]{broxvall-a:99-towards}. Despite these one-sorted
+calculi, also many-sorted calculi have been proposed.  For example,
+Vilain's point-interval calculus \citep{vilain-a:82-system} deals with
+instants and intervals in linear flows of time and may be considered a
+combination of the point algebra and the interval algebra.
+\begin{figure}
+\begin{center}
+  \includegraphics[width=80mm]{graphics/allen}
+\end{center}
+\caption{Allen's interval relations}
+\label{fig:AllenRelations}
+\end{figure}
+
+%% In this paper we will mainly focus on \emph{spatial} qualitative
+%% calculi.  
+Examples of spatial calculi include mereotopological calculi (e.\,g.,
+\citep{bennett-b:97-logical}), Frank's cardinal direction calculus
+\citep{frank-a:91-qualitative}, Freksa's double cross calculus
+\citep{freksa-a:92-using}, Egenhofer and Franzosa's 4- and
+9-intersection calculi
+\citep{egenhofer-a:91-reasoning,egenhofer-a:91-point}, Ligozat's
+flip-flop calculus \citep{ligozat-a:93-qualitative}, and various
+region connection calculi proposed by
+\citet{randell-a:92-spatial,cohn-a:97-rcc},
+\citet{duentsch-a:99-relation}, and \citet{gerevini-a:98-combining}.
+It is interesting to see that even these few calculi employ concepts
+from a wide range of mathematical theories. Some of them are based on
+geometrical notions such as lines, half-planes, and angels, some
+describe relations between physical objects in terms of point set
+topology, and some include qualitative size information.
+
+Interestingly, some spatial calculi are closely related to the
+temporal calculi mentioned previously.  For example, the \emph{2-point
+  calculus} describes points of the plane and their relationships in
+terms of the point-to-point relations between their coordinates. This
+means, that one considers for each dimension one of the three possible
+point-to-point relations $<$, $=$, and $>$ between the point
+coordinates. The relation $(=,>)$, for instance, expresses the relation
+``north-to'', $(>,>)$ corresponds to ``north-east-to'', etc. For this
+reason the 2-point calculus is often referred to as \emph{cardinal
+  direction calculus} in the literature.
+\begin{figure}[ht]
+  \begin{equation*}
+    \includegraphics[width=35mm]{graphics/cardinaldirection}
+    \qquad\qquad \includegraphics[width=45mm]{graphics/rectangle-gray}
+  \end{equation*}
+  \caption{Spatial calculi derivable from temporal algebras: The cardinal 
+    direction calculus and the rectangle calculus}
+  \label{fig:CardinalDirectionCalculus}
+\end{figure}
+Analogously, the \emph{rectangle calculus} describes possible
+relations between rectangles in the plane by comparing their 
+coordinate projections in terms of the interval algebra.
+
+
+\smallskip
+
+
+To sum up this little discussion, researchers in the domain of
+qualitative reasoning face a vast, still increasing amount of calculi
+(much more than the rather incomplete list of calculi previously
+mentioned can indicate). On the other hand, many of these calculi are
+closely related to each other: some are simple extensions of others,
+some show similarities on the syntactic level, some have related
+classes of intended models, \ie\ they are based on more or less the
+same background theory. Thus the guiding question of this paper is how
+to present qualitative calculi within a common framework in such a way
+that the mutual dependencies between them and their respective
+background theories becomes more transparent.  In fact, transparency
+is an important issue for both avoiding redundancies and ensuring
+reusability of these calculi.
+
+In our opinion, a naïve ontological classification system of
+qualitative or other calculi will not be able to fulfill these
+requirements in an adequate manner. A calculus classified as, say,
+``temporal'' will always be a calculus about \emph{temporal entities}
+such as instants or intervals, and can hardly be subsumed under the
+term ``spatial calculus''. Moreover, connections between temporal and
+spatial calculi like the ones previously mentioned seem inexpressible
+in any ontology of such calculi.  For this reason we propose to
+present qualitative calculi by means of algebraic specification, as
+was already suggested by \citet{frank-a:99-one}.  More exactly, we
+explain how to develop such specifications within the \emph{Common
+  Algebraic Specification Language} (\CASL).
+%, a specification
+% language developed by the \emph{Common Framework Initiative for
+%  algebraic specification and development (\CoFI)}.
+
+
+\smallskip
+
+The paper is organized as follows: In section~2 we briefly
+explain fundamental notions related to qualitative reasoning in more
+detail.  Section~3 provides a short introduction into \CASL and its
+extension \HasCASL.  Then in section~4 we discuss algebraic
+specifications of the concepts introduced in section~2 in an informal
+manner.
+
+
+  
+\section{Qualitative Calculi}
+
+To exemplify the most fundamental ideas of qualitative reasoning, let
+us discuss the point algebra for linear time in more detail.  From a
+model-theoretical perspective this point algebra aims at describing
+the class of \emph{linear flows of time}, \ie\ first order structures
+$\FoT=\tupel{T,<}$ that are models of the following
+axioms:%
+%%\footnote{Here and it what follows we will not sharply distinguish the
+%%  symbols used in the object language from those in the meta language,
+%%   as far as is this is well understood from the context.}
+\begin{description}
+\item[Irreflexivity:] $\fa x\, x\not<x$
+\item[Transitivity:] $\fa xyz (x<y\lu y<z \li x< z)$
+\item[Linearity:] $\fa xy (x<y \lo x=y \lo y<x)$
+\end{description}
+From an ontological point of view, the point algebra takes instants of
+time as \emph{primary objects}, and states that these entities are
+linearly ordered. If we shift consideration from these primary
+objects towards the relations between them, we can state the following
+observations: From $<$ being irreflexive and transitive, it follows
+that the relations $<$, $=$, and $>$ (where $>$ is just defined as the
+converse of relation $<$) are pairwise disjoint.  Linearity guarantees
+that these relations are jointly exhaustive, \ie\ for each pair of
+instants $t$ and $t'$, one of the relations $t<t'$, $t=t'$, or $t>t'$
+holds.  Speaking algebraically, the set $\{<,=,>\}$ forms a 
+jointly exhaustive and pairwise disjoint (JEPD)
+system of relations. 
+
+
+Often temporal or spatial information is imprecise, for example, when
+we only have the information that instant $t$ is not before instant
+$t'$, or that instants $t$ and $t'$ are distinct. In this situation it
+becomes interesting to consider not only the \emph{base relations}
+$<$, $=$, and $>$, but also arbitrary unions of them.  Obviously, the
+system of unions of base relations defines an atomic Boolean
+algebra with the base relations as atoms. By the way,
+since the system of base relations is JEPD, unions of base relations
+may also be represented as \emph{sets} of base relations.
+
+Reasoning problems, then, are usually formulated as constraint
+satisfaction problems.  A constraint network is a finite set of
+constraints where each constraint is a formula of the form $x\, R\, y$
+with variables $x$ and $y$ (taking values in given domains $D_x$ and
+$D_y$) and a relation $R$ (a set of base relation) defined between
+the domains of $x$ and $y$. Typical reasoning tasks are then to
+determine whether a constraint set is satisfiable, to check that some
+constraint is entailed by a constraint network, and to compute an
+equivalent minimal constraint set\,---\,it is not hard to see that all
+these reasoning tasks are equivalent under Turing reductions.
+
+A crucial aspect for developing efficient algorithms for qualitative
+spatial and temporal reasoning is the fact that the underlying model
+classes usually contain infinite models. Hence, in order to test
+satisfiability of constraint networks, it is not feasible to enumerate
+all models until one finds a satisfying model. For this reason other
+techniques (such as path-consistency algorithms) must be applied for
+testing satisfiability. Many of these techniques, in turn, rely on
+semantically verified composition tables that list which relations are
+consistent when two base relations are composed.  For example,
+Table~\ref{tbl:comp-PAlin} presents the composition table of the point
+algebra for linear time.%
+\footnote{%
+  Note that there are (at least) two ways of reading such composition
+  tables, the \emph{extensional} and the \emph{consistency-based}
+  reading \citep[cf.][]{bennett-a:97-when}.  Following, we will only
+  use the extensional reading, which means that the algebraic function
+  of composing relations (as used, for example, in relation algebras)
+  coincides with its set-theoretical characterization. In the case of
+  the point algebra, for example, the consistency-based reading is
+  correct for the class of linear flows of time, while the extensional
+  reading is only correct for the class of dense linear flows of
+  time without endpoints.}
+\begin{table}[ht]
+  \small
+  \caption{The composition table of the point algebra for 
+    linear time}
+  \label{tbl:comp-PAlin}
+  \begin{equation*}
+\begin{array}{c|ccc}
+    & \enskip{<} \enskip\strut& \enskip >\enskip\strut &\enskip =\enskip\strut \\\cline{1-4}\\[-1ex]
+\enskip{<}\enskip\strut   & < & <,=,> & < \\[1ex]
+>   &\, <,=,> & > & > \\[1ex]
+=   & < & > & =
+\end{array}
+\end{equation*}
+%%\begin{legende}[90mm] 
+%%   The symbol 1 is used to denote the set/union of all base relations.
+%%\end{legende}
+\end{table}
+But a set of base relations together with a composition table
+satisfying some minimal conditions defines a \emph{relation algebra}
+on the set of all unions of base relations. For this reason studying
+relation algebras has become a central aspect in the field of
+qualitative reasoning.
+
+
+
+
+
+\section{\CASL and Friends}
+\label{sec:CaslAndFriends}
+
+%%\subsection{\CASL}
+%%\label{sec:casl}
+
+The Common Algebraic Specification Language (\CASL) is a specification
+language, which was developed by the \emph{Common Framework Initiative
+  for Algebraic Specification and Development} (\CoFI).  \CASL allows
+for writing algebraic specifications that can be expressed in a
+many-sorted first order language with partial function symbols.  Basic
+\CASL specifications consist of signature declarations and axioms
+characterizing the models to be described.  These axioms, in turn, are
+first-order formulae 
+%% built from equations 
+or assertions regarding the
+definedness of partial function symbols.  Going beyond first-order
+logic, \CASL also provides constructs to state induction principles
+(called sort generation constraints) and datatype declarations.
+Furthermore, specifications may contain subsort declarations, whereby
+subsort inclusions are treated as embeddings.  Finally, \CASL also
+provides constructs for structured specifications, namely,
+translations, reductions, unions, and extensions of specifications.
+
+In the sequel we will explain these concepts in more detail (for a full
+discussion see %\citet{astesiano-a:02-casl} and
+\citet{bidoit-b:04-casl} and \citet{CASL-RM}).
+
+
+\subsection{Constructing Specifications}
+
+
+To start with, let us briefly explain the formal underpinnings of
+\CASL specifications.  As said before, \CASL allows for specifying
+first order theories with partial function symbols. More precisely,
+\CASL accepts languages with \emph{(many-sorted) signatures} $\Sigma =
+\tupel{S,T\!F,P\!F,R}$ such that:
+\begin{itemize}
+\item $S$ is a (finite) set of sorts.
+\item For each $(w,s)\in S^*\times S$, $T\!F_{w,s}$ and $P\!F_{w,s}$
+  are disjoint sets of total and partial function symbols,
+  respectively (tuples $w\in S^*$ are referred to as \emph{sort
+    profiles}).
+\item For each $w\in S^*$, $R_w$ is a set of relation symbols. 
+\end{itemize}
+As usual, individual symbols can be introduced as 0-ary total function
+symbols. Accordingly, models of such signatures are many-sorted
+partial first-order structures: Given a signature $\Sigma$, a
+\emph{$\Sigma$-model} is a structure consisting of non-empty carrier
+sets $s^M$ (for each sort $s\in S$), partial and total functions
+$\klAbbb{f^M}{w^M}{s^M}$ (for each function symbol $f\in P\!F_{w,s}$
+or $f\in T\!F_{w,s}$, respectively), and relations $r^M \subset w^M$
+(for each relation symbol $r\in R_w$).
+
+
+The most fundamental notion related to extensions, unions, and
+translations of specifications is that of a signature morphism. To
+explain this notion, let $\Sigma=\tupel{S,T\!F,P\!F,R}$ and
+$\Sigma'=\tupel{S',T\!F',P\!F',R'}$ be signatures.  Then a
+\emph{signature morphism} ${\Sigma}\rightarrow{\Sigma'}$ is a 4-tuple
+$\sigma=\tupel{\sigma^{\rm s},\sigma^{\rm t},\sigma^{\rm
+    p},\sigma^{\rm r}}$ consisting of maps (families of maps, resp.):
+\begin{itemize}
+\item $\klAbbb{\sigma^{\rm s}}{S}{S'}$,
+\item $\klAbbb{\sigma^{\rm t}_{w,s}}{T\!F_{w,s}}{T\!F'_{\sigma^{\rm s}(w),\sigma^{\rm s}(s)}}$,
+\item $\klAbbb{\sigma^{\rm
+      p}_{w,s}}{P\!F_{w,s}}{T\!F'_{\sigma^{\rm s}(w),\sigma^{\rm s}(s)} \cup
+    P\!F'_{\sigma^{\rm s}(w),\sigma^{\rm s}(s)}}$, and
+\item $\klAbbb{\sigma^{\rm r}_{w}}{R_{w}}{R'_{\sigma^{\rm s}(w)}}$.
+\end{itemize}
+That is, partial function symbols may be mapped to total function
+symbols, but not vice versa. 
+
+  
+On the semantic level, signature morphisms inherit models from the
+target to the source signature.  To see this, let
+$\klAbbb{\sigma}{\Sigma}{\Sigma'}$ be a signature morphism, and let
+$M'$ be a $\Sigma'$-model. Then $\sigma$ defines a $\Sigma$-model
+$M'|_{\sigma}$ (the \emph{$\sigma$-reduct} of $M'$) by
+\begin{equation*}
+  s^{M'|_{\sigma}} := \sigma^{\rm s}(s)^{M'}, \quad
+  f^{M'|_{\sigma}} := \sigma^{\rm t/p}(f)^{M'}, \quad\text{and}\quad 
+  r^{M'|_{\sigma}} := \sigma^{\rm r}(r)^{M'}. 
+\end{equation*}
+%%If $M=M'|_{\sigma}$, then $M'$ is called an \emph{expansion} of $M$,
+%%and said to \emph{extend} $M$.
+
+%%\smallskip
+
+We are now ready to explain some fundamental notions in more detail. 
+  
+\paragraph{Basic specification.}
+The most simple kind of \CASL specifications, called \emph{basic
+  specifications}, are asserted by the keyword \textbf{spec} and have the
+form
+\begin{equation*}
+  \textbf{spec}\ \textit{SpecName} = \text{Spec}
+\end{equation*}
+where \textit{SpecName} is the name of the specification and \text{Spec}
+is a list of signature declarations and first order axioms. 
+
+\paragraph{Extension.}
+\emph{Extensions} have the form
+\begin{equation*}
+  \textit{Spec1}\ \textbf{then}\ \textit{Spec2}
+\end{equation*}
+where \textit{Spec1} is a specification or a specification name, and
+\textit{Spec2} is a specification that extends the signature of
+\textit{Spec1} and/or adds additional axioms.  
+%% \textit{Spec2} will be referred to as the \emph{specification 
+%% fragment} of an extension specification.  
+\CASL allows to indicate the type of the extension: \emph{Definitional
+  extensions} are introduced by annotating the keyword \textbf{then}
+with \textbf{\%def}.  From a model-theoretical point of view,
+definitional extensions are justified when each model of
+\textit{Spec1} can be uniquely extended to a model of the
+specification \textit{Spec1-then-Spec2}.  
+%%\emph{Conservative
+%%  extensions} are indicated by \textbf{then \%cons}, which means that
+%%each model of \textit{Spec1} can be extended to a model of
+%%\textit{Spec1-then-Spec2}.  To put it another way, conservative
+%%extensions preserve satisfiability of the original specification.
+\emph{Implied extensions} state some theorems of the original
+specification, \ie\ \textit{Spec1} and \textit{Spec1-then-Spec2} have
+the same model class.  This kind of extension is introduced by the
+annotated keyword \textbf{then \%implies} and is considered
+well-formed only if \textit{Spec1} and \textit{Spec1-then-Spec2} have
+the same signature. 
+  
+\paragraph{Union.} 
+It is possible to join two specifications, \ie\ to build their
+\emph{union}.  The signature of a union of specifications
+\textit{Spec1} and \textit{Spec2} is just the union of the signatures
+of \textit{Spec1} and \textit{Spec2}. The models of the union are
+exactly those models of the union signature whose reducts are models
+of \textit{Spec1} and \textit{Spec2}, respectively.  Unions of
+specifications obey the ``same name, same thing'' principle, which
+means that each symbol contained in both signatures has a single
+interpretation in each model of their union. Unions are declared by
+\begin{equation*}
+\textit{Spec1} \textbf{ and } \textit{Spec2}.
+\end{equation*}
+
+\paragraph{Translations.}
+\emph{Translations} are renamings of sort symbols and/or signature
+symbols and thus provide a signature morphism from the source
+specification into the specification resulting from the translation.
+The models of the translation are exactly those models of the result
+specification whose reducts along the morphism are models of the
+source specification.  Translations are declared by
+\begin{equation*}
+\textit{Spec} \textbf{ with } \text{SymbolMappings}.
+\end{equation*}
+
+\paragraph{Reductions.}  \CASL also provides constructs to restrict the
+signature of a given specification. It is possible to hide symbols or,
+alternatively, declare the symbols that are revealed.  Reductions can
+be declared by 
+\begin{equation*}
+\textit{Spec} \textbf{ hide } \text{Symbols}\quad \text{and}\quad
+\textit{Spec} \textbf{ reveal } \text{SymbolMappings}.
+\end{equation*}
+
+
+
+\paragraph{Parameterization and instantiations.}
+\CASL also allows parameterized specifications, which are written as:
+\begin{equation*}
+\textbf{spec} \textit{ Spec1}[\textit{Spec2}]\dots[\textit{SpecN}] = \text{ Spec}.
+\end{equation*}
+Sometimes it is necessary to instantiate a previously declared
+specification via a symbol mapping before it is used in a parameterized
+specification. This can be obtained by
+\begin{equation*}
+\textit{Spec1}[ Spec2 \textbf{ fit } \text{SymbolMappings} ].
+\end{equation*}
+
+
+\paragraph{Views.}  A \emph{view} provides a signature morphism (defined by a symbol
+mapping)
+between two specifications. Actually, it is required to be a
+\emph{theory morphism} (or \emph{interpretation of theories}), which
+means that each model of the target specification induces (when reduced
+via the signature morphism) a model of
+the source specification. Views are declared by
+\begin{equation*}
+  \textbf{view} \textit{ View } \textbf{:} \textit{ Spec1 } \textbf{ to }
+  \textit{ Spec2 } \textbf{=} \text{ SymbolMapping}.
+\end{equation*}
+The possibility of specifying views is one of the distinguished features of \CASL.
+
+
+
+
+\subsection{\HasCASL}
+
+\HasCASL (see \cite{HasCASL02}) is a higher-order extension of \CASL based on the partial
+$\lambda$-calculus. The user declared sorts are used to generate
+\emph{higher types} by closing the set of types under
+total and partial function spaces (written by $t_1\rightarrow t_2$ 
+and $t_1\rightarrow ? t_2$, resp.). Predicates (written $Pred ~t$)
+are coded as partial functions into a singleton type (\ie\ only
+the domain provides relevant information).
+In fact, we often will need \HasCASL for specifying the model classes of 
+qualitative calculi (e.\,g., for the real numbers, for metric and 
+topological spaces).
+\CASL's structuring constructs (union, translation, hiding, etc.) are
+independent of the underlying logical system and hence can be used
+for \HasCASL as well. 
+
+
+
+\subsection{Tools}
+
+
+\paragraph{\Hets.}
+The \emph{Heterogeneous Tool Set (\Hets)} \citep{Hets}, which is
+developed at the University of Bremen, Germany, is the main analysis
+tool for \CASL and its extensions.  \Hets integrates a parser and a
+type-checker for heterogeneous specifications.  A graphical interface
+allows for presenting the development graph (showing the specification
+structure) of \CASL specifications as well as the logic graph
+presenting the underlying logic(s). It is possible to translate a
+\CASL specification into XML-, \LaTeX-, and other formats. \Hets also
+provides an interface to translate \CASL specifications into Isabelle
+theory files. Of course, \Hets also supports \HasCASL specifications.
+
+
+
+
+\paragraph{Isabelle.}
+Isabelle is a generic proof assistant, which is developed by
+L.~C.~Paulson (University of Cambridge, UK) and T.~Nipkow (Technical
+University of Munich, Germany). Isabelle provides a rich language for
+expressing mathematical formulae and contains tools for proving these
+formulae in a logical calculus. Its main application fields are the
+formalization of mathematical proofs and the formal verification of
+computer languages, protocols, computer hardware, and software
+specifications.
+
+A main feature of Isabelle is that it is not restricted to a single
+formal calculus since it supports higher-order logic, axiomatic set
+theory, etc. We use Isabelle/HOL, the coding of higher-order logic in Isabelle.
+%% Isabelle proofs can be written in two different ways: A
+%% proof may consist of a sequence of proof commands (rule
+%% applications), or can be written in a traditional mathematical proof
+%% style (ISAR). 
+%% Isabelle comes with a classical reasoner that 
+%% enables tableau based reasoning in first order logic and with a
+%% simplifier that solves equations by term rewriting. A user interface
+%% to Isabelle is provided by (X)Emacs/Proof General. 
+For a more comprehensive introduction we refer to \citet{nipkow-b:02-isabelle}.
+
+% There exists a large number of axiomatized Isabelle theories and
+% proofs from different mathematical fields such as elementary number
+% theory, analysis (basic properties of limits, derivatives and
+% integrals), algebra (Sylow's theorem), and set theory (the relative
+% consistency of the Axiom of Choice). 
+
+
+\section{Specifications of Qualitative Calculi}
+
+\subsection{Relation Algebras}
+
+To start with, let us first discuss some specifications related to
+relation algebras.  A \emph{relation algebra} is a Boolean algebra
+with complement (its elements are referred to as \emph{relations})
+and with a distinguished element $\OPid$ (the \emph{identity
+  relation}), a unary total function $\inv{}$ assigning to each
+relation its converse relation (algebraically, its \emph{involution}),
+and a binary total function $\cmps$ assigning to each pair of
+relations their composition. Note that here the term ``relation'' is
+used in an abstract manner, \ie\ independently of its usual
+set-theoretical interpretation. Rather, these functions are
+characterized implicitly by the axioms listed in the following
+specification.
+\begin{lstlisting}
+spec RelationAlgebra  =
+     BooleanAlgebraWithCompl with sort $\OPElem \mapsto \OPRel$ 
+then
+     ops $\OPid$ : $\OPRel$;
+         __$\inv{}$ : $\OPRel \rightarrow \OPRel$;
+         __$\cmps$__ : $\OPRel \times \OPRel \rightarrow \OPRel$, assoc, unit $\OPid$;
+     $\forall x,y,z:\,\OPRel$
+     $\casldot$ $\inv{(\inv x)} = x$                                             @\hfill@ %(inv_idempot)%
+     $\casldot$ $\inv{(x\sqcup y)} = \inv x\sqcup \inv y$                           @\hfill@ %(inv_cup)%
+     $\casldot$ $\inv{(\compl x)} = \compl{\inv x}$                              @\hfill@ %(inv_compl)%
+     $\casldot$ $\inv{(x\cmps y)} = \inv y\cmps \inv x$                         @\hfill@ %(inv_cmps)%
+     $\casldot$ $(x\cmps y)\sqcap\inv z = 0 \Rightarrow (y\cmps z)\sqcap \inv x = 0$ @\hfill@ %(triangle)% 
+then %implies
+     $\forall x,y,z:\, \OPRel$
+     $\casldot$ $(x\sqcup y)\cmps z = (x\cmps z)\sqcup (y\cmps z)$          @\hfill@ %(cmps_cup_rdistrib)%
+     $\casldot$ $z\cmps (x\sqcup y) = (z\cmps x)\sqcup (z\cmps y)$          @\hfill@ %(cmps_cup_ldistrib)%
+     $\casldot$ $(\inv x\cmps \compl{(x\cmps y)})\sqcap y = 0$   @\hfill@ %(RelAlg)%
+end
+\end{lstlisting}
+
+We may define a partial order on a relation algebra in exactly the
+same way as we could introduce it for arbitrary Boolean algebras. This
+gives us some nice corollaries, which can easily be proven by
+Isabelle. For example, the composition of relations behaves
+monotonic with respect to the canonical partial order.
+
+\begin{lstlisting}
+spec ExtRelationAlgebraByPartialOrder[RelationAlgebra] = %def
+     ExtBooleanAlgebraByPartialOrder[BooleanAlgebra] 
+     with sort $\OPElem \mapsto \OPRel$
+then %implies
+     $\forall x,y,x',y':\, \OPRel$
+     $\casldot$ $x \leq x' \land y \leq y' \Rightarrow x\cmps y \leq x'\cmps y'$                @\hfill@ %(cmps_monotonic)%
+     $\casldot$ $x \leq \OPid \Rightarrow \inv x = x$                                     @\hfill@ %(inv_below_id)%
+end
+\end{lstlisting}
+
+In the following, we will be mainly interested in \emph{atomic relation
+  algebras}. An \emph{atom} of a Boolean algebra is a non-zero element
+$x$ such that the zero element is the only element $y$ with $y<x$.
+A relation algebra (or Boolean algebra) is said to be \emph{atomic} if 
+for each non-zero element $x$, there exists an atom $a$ with
+$a\leq x$.  Hence the unary predicate ``Atom'' defines a genuine
+subsort.
+
+\begin{lstlisting}
+spec AtomicRelationAlgebra =  
+     RelationAlgebra 
+and  AtomicBooleanAlgebra with sort $\OPElem \mapsto \OPRel$, $\OPAtomElem \mapsto \OPAtomRel$
+end
+\end{lstlisting}
+
+As explained in section~2, often an (abstract) atomic relation algebra
+can be constructed from a set of base relations and a composition
+table.  In \CASL this procedure can be reconstructed as follows: First
+we define relations (\ie\ sort $\OPRel$) as arbitrary sets of base
+relations such that base relations correspond to singleton sets of
+base relations.
+
+\bigbreak
+
+\begin{lstlisting}
+spec SetRepresentationOfRelations [sort $\OPBaseRel$] = %def
+local { Set [sort $\OPBaseRel$ fit $\OPElem$ $\mapsto$ $\OPBaseRel$] 
+        with __$\union$__ $\mapsto$ __$\sqcup$__, __$\intersection$__ $\mapsto$ __$\sqcap$__, __$\subset$__ $\mapsto$ __$\sqsubset$__ }
+within
+     free type $\OPRel$ ::= sort $Set[\OPBaseRel]$ 
+     sort $\OPBaseRel < \OPRel$
+     ops  $0,1$ : $\OPRel$;
+          $\compl$   : $\OPRel\rightarrow \OPRel$;        
+          __$\sqcup$__, __$\sqcap$__: $\OPRel \times \OPRel \rightarrow \OPRel$    
+     preds __$\eps$__: $\OPBaseRel \times \OPRel$;
+          __$\sqsubset$__ : $\OPRel \times \OPRel$
+     $\forall x\,:\,\OPBaseRel;\; r\,:\,\OPRel$
+     $\casldot$ $x = \{x\}$
+     $\casldot$ $x\eps 1 \land \neg x\eps 0$
+     $\casldot$ $x\eps\compl{r} \Leftrightarrow \neg x \eps r$
+then %implies
+     $\dots$
+end
+
+view $\SpecName{SetRepresentation\_as\_AtomicBooleanAlgebra}$ [sort $\OPBaseRel$] :
+     AtomicBooleanAlgebra 
+to   SetRepresentationOfRelations [sort $\OPBaseRel$]
+=    $\OPElem \mapsto \OPRel$, $\OPAtomElem \mapsto \OPBaseRel$
+end
+\end{lstlisting}
+
+In a second step we generate a relation algebra-like structure by
+extending the functions ``composition'' and ``involution'' (as defined
+for base relations) to total functions on all relations.  In fact, not
+each composition table defines a relation algebra since many such
+constructed structures violate the associativity axiom of relation
+algebras \citep[see, e.\,g.,][]{ligozatR-a:04-what}. The view
+contained in the following small library states that we obtain a
+genuine relation algebra if the composition table satisfies certain
+conditions. For the sake of simplicity, our specification of
+composition tables includes both the the composition
+function and the involution function for base relations.
+
+
+\begin{lstlisting}
+spec CompositionTable = 
+     sorts $\OPBaseRel < \OPRel$
+     ops $\OPid$ : $\OPBaseRel$;
+         $0,1$ : $\OPRel$;          
+         __$\inv{}$ : $\OPBaseRel \rightarrow \OPBaseRel$;
+         __$\cmps$__ : $\OPBaseRel \times \OPBaseRel \rightarrow \OPRel$;
+         $\compl$__  : $\OPRel \rightarrow \OPRel$;   
+         __$\sqcup$__ : $\OPRel \times \OPRel \rightarrow \OPRel$, assoc, idem, comm, unit 1
+     $\forall x:\,\OPBaseRel$
+     $\casldot$ $x \cmps \OPid = x \;\land\; \OPid \cmps x = x$
+     $\casldot$ $\inv{\OPid} = \OPid$
+     $\casldot$ $\inv{(\inv{x})} = x$ 
+end
+\end{lstlisting}
+
+\bigbreak\bigbreak
+
+\begin{lstlisting}
+spec ConstructRelationAlgebra [sort $\OPBaseRel$] [CompositionTable] = %def
+     SetRepresentationOfRelations [sort $\OPBaseRel$]
+then %def
+     ops $\OPid$ : $\OPRel$;
+         __$\inv{}$ : $\OPRel \rightarrow \OPRel$;
+         __$\cmps$__ : $\OPRel \times \OPRel \rightarrow \OPRel$;
+     $\forall x,y:\,\OPBaseRel;\, r,s:\,\OPRel$
+     $\casldot$ $x \eps \inv{r} \Leftrightarrow \inv{x} \eps r$
+     $\casldot$ $x \eps (r \cmps s) \Leftrightarrow \exists y,z:\OPBaseRel \casldot y \eps r \land z \eps s \land x \eps (y \cmps z)$
+then %implies
+     op __$\cmps$__ : $\OPRel \times \OPRel \rightarrow \OPRel$, unit $\OPid$;       
+end
+\end{lstlisting}
+
+
+\begin{lstlisting}
+view $\SpecName{ConstructedRelationAlgebra\_as\_AtomicRelationAlgebra}$ 
+            [sort $\OPBaseRel$] [GoodCompositionTable]:
+     AtomicRelationAlgebra 
+to   ConstructRelationAlgebra [sort $\OPBaseRel$] [GoodCompositionTable] 
+=    $\OPRel \mapsto \OPRel$, $\OPAtomRel \mapsto \OPBaseRel$
+end
+\end{lstlisting}
+
+
+
+Let us now turn to the semantic level. First we define the concept
+\emph{algebra of binary relations (BRA)}.  Given a set $X$, an algebra
+of binary relations is a Boolean subalgebra of the set algebra of all
+binary relations on $X$ that contains the identity relation and is
+closed with respect to involution and composition (in their
+usual set-theoretical meaning). Of course, each algebra of binary
+relations is a relation algebra. But contrary to Boolean algebras
+(cf.\ Stone's representation theorem), it is in general not the case
+that each relation algebra can be represented as an algebra of binary
+relations.
+\begin{lstlisting}
+logic HasCASL
+
+spec BinaryRelations [sort $\OPElem$] = %mono 
+     Set        
+then %mono 
+     type $\OPRelation$ ::= abs$(\OPrep:Set(\OPElem\times \OPElem))$
+end
+
+spec SetAlgebraOfBinaryRelations =
+     BinaryRelations [sort $\OPElem$]
+then
+     type $\OPRel < \OPRelation$
+     ops $0,1$ : $\OPRel$;
+         $\compl$ : $\OPRel \rightarrow \OPRel$;
+         __$\sqcup$__, __$\sqcap$__ : $\OPRel \times \OPRel \rightarrow \OPRel$
+     $\forall r,s:\,\OPRel$
+     $\casldot$ $\OPrep(0) = \emptySet$
+     $\casldot$ $\OPrep(1) = \name{allSet}$
+     $\casldot$ $\OPrep(r \sqcup s) = \OPrep(r) \union \OPrep(s)$
+     $\casldot$ $\OPrep(r \sqcap s) = \OPrep(r) \intersection \OPrep(s)$
+     $\casldot$ $\OPrep(\compl r) = \OPrep(1) \setminus \OPrep(r)$
+end
+\end{lstlisting}
+
+\bigbreak
+
+\begin{lstlisting}
+spec AlgebraOfBinaryRelations  =
+     SetAlgebraOfBinaryRelations 
+then
+     ops $\OPid$ : $\OPRel$;
+         __$\inv{}$ : $\OPRel \rightarrow \OPRel$;
+         __$\cmps$__ : $\OPRel \times \OPRel \rightarrow \OPRel$;
+     $\forall r,s:\,\OPRel;\; x,y:\,\OPElem$
+     $\casldot$ $(x,y)\isIn \OPrep(r \cmps s) \Leftrightarrow \exists z:\,\OPElem \casldot (x,z)\isIn \OPrep(r) \land (z,y)\isIn \OPrep(s)$ 
+     $\casldot$ $(x,y)\isIn \OPrep(\inv r) \Leftrightarrow (y,x)\isIn \OPrep(r)$
+     $\casldot$ $(x,y)\isIn \OPrep(\OPid) \Leftrightarrow x = y$
+then %implies 
+     ops __$\cmps$__ : $\OPRel\times \OPRel \rightarrow \OPRel$, assoc, unit $\OPid$
+end
+\end{lstlisting}
+
+\begin{lstlisting}
+spec FullAlgebraOfBinaryRelations [sort $\OPElem$] = %def  
+     { AlgebraOfBinaryRelations with type $\OPRel \mapsto \OPRelation$ }
+end
+\end{lstlisting}
+
+\begin{lstlisting}
+view $\SpecName{AlgebraOfBinaryRelations\_as\_RelationAlgebra}$:
+     RelationAlgebra to AlgebraOfBinaryRelations 
+end
+\end{lstlisting}
+
+In the following, we decribe how a strong representation of an (abstract)
+atomic relation algebra can be constructed from a concrete
+interpretation of its atoms, \ie\ its base relations. For this assume
+that we have a model for the base relations of the relation algebra,
+that is, a JEPD system of relations on a non-void set $\OPElem$. Of
+course, we want to extend this model in a canonical manner to a model
+of all relations.  Relations are here exactly those binary relations
+on $\OPElem$ that can be written as a (set-theoretical) union of base
+relations. In order to be a strong representation, the model we aim at
+must be an algebra of binary relations. But the fact that the system
+of relations is JEPD ensures only that the set of all unions of base
+relations forms a set algebra. This set algebra need not be an algebra
+of binary relations since, in general, it need not contain the identity
+relation, be closed with respect to involution, or closed with respect
+to composition.  But if it does\,---\,a base relation model satisfying
+these conditions will be referred to as \emph{closed for
+  composition}\,---\,the canonical extension of the base relation
+model defines an atomic algebra of binary relations. In fact, the
+final view in the following list of specifications states that the
+concrete relation algebra defined in this way provides a strong
+representation of the abstract algebra.
+
+\begin{lstlisting}
+spec JEPDBaseRelModel =
+     BinaryRelations [sort $\OPElem$]       
+then 
+     type $\OPBaseRel < \OPRelation$
+     $\forall x,y:\,\OPElem;\; r,s:\,\OPBaseRel$
+     $\casldot$ $\exists r:\OPBaseRel \casldot (x,y) \isIn \OPrep(r)$        @\hfill@ %(JointlyExhaustive)%
+     $\casldot$ $\neg r = s \Rightarrow \OPrep(r) \intersection \OPrep(s) = \emptySet$ @\hfill@ %(PairwiseDisjoint)%
+end
+\end{lstlisting}
+
+\bigbreak
+
+\begin{lstlisting}
+spec RelationsFromBaseRelModel [JEPDBaseRelModel] = %def
+     type $\OPRel$ = $\{x:\OPRelation \casldot \exists X:Set(\OPBaseRel) \casldot $  
+         $(\forall y,z:\OPElem \casldot (y,z) \isIn \OPrep(x)\Leftrightarrow  (\exists r:\,\OPBaseRel \casldot r \isIn X \land (y,z) \isIn \OPrep(r)))\}$
+end
+\end{lstlisting}
+
+\begin{lstlisting}
+spec ConstructModel [CompClosedBaseRelModel] = %def
+     RelationsFromBaseRelModel [JEPDBaseRelModel] 
+and  AlgebraOfBinaryRelations
+then %def 
+     preds __$\eps$__ : $\OPBaseRel * \OPRel$;
+           __$\sqsubset$__ : $\OPRel * \OPRel$
+     $\forall x\,:\,\OPBaseRel;\, r,r'\,:\,\OPRel$
+     $\casldot$ $x \eps r \Leftrightarrow \OPrep(x) \subset \OPrep(r)$
+     $\casldot$ $r \sqsubset r' \Leftrightarrow \OPrep(r) \subset \OPrep(r')$
+end
+\end{lstlisting}
+
+\begin{lstlisting}
+view $\SpecName{RelationAlgebra\_from\_BaseRelModel}$ [CompClosedBaseRelModel] :
+     RelationAlgebra 
+to   ConstructModel [CompClosedBaseRelModel]
+end
+\end{lstlisting}
+
+
+\subsection{RCC5, RCC8, and Allen's Interval Algebra}
+
+We are now ready to explain how spatial and temporal calculi (more
+exactly, their respective relation algebras) can be incorporated into
+the framework provided by the specifications presented in the previous
+section. Let us start with the region connection calculi RCC5 and
+RCC8.  Both calculi describe relations between \emph{regions}, which
+may be thought of as non-void, regular open (or alternatively, regular
+closed) subsets of a topological space.  In RCC5 the following
+relations count as base relations: $\rccDR$ (``discrete''), $\rccPO$
+(``partially overlap''), $\rccPP$ (``proper part''), $\rccPPi$
+(the converse of $\rccPP$), and $\rccEQ$ (``equal'').  The set of RCC8
+base relations is more fine-grained: $\rccDR$ splits into the
+relations $\rccDC$ (``disconnected'') and $\rccEC$ (``externally
+connected'') and $\rccPP$ into the relations $\rccTPP$ (``tangential
+proper part'') and $\rccNTPP$ (``non-tangential proper part'').  These
+relations can be defined in terms of the topological closure
+operation: the relation $\rccDC$ holds between regular open sets $X$
+and $Y$ if their closures do not intersect, $X\, \rccNTPP\,\,Y$ holds if
+the closure of $X$ is contained in $Y$, etc.
+
+\smallskip
+
+The following library %%presented in Spec.~\ref{spec:RCC5}
+shows how the (abstract) relation algebra of RCC5 can be defined via
+\CASL\ specifications:
+%%\begin{spec}[p]
+\begin{lstlisting}
+spec RCC5BaseRelations = %mono
+     free type $\OPBaseRel$ ::= $\OPdr\mid \OPpo\mid \OPpp\mid \OPppi\mid \OPeq$
+end
+\end{lstlisting}
+
+\begin{lstlisting}
+spec RCC5CompositionTable =
+     sort $\OPBaseRel$
+     ops $\OPdr,\OPpo,\OPpp,\OPppi,\OPeq$: $\OPBaseRel$
+and  CompositionTable with op $\OPid \mapsto \OPeq$
+then
+     $\casldot$ $\inv{\OPdr} = \OPdr$                                @\hfill@ %(sym_dr)%
+     $\casldot$ $\inv{\OPpo} = \OPpo$                                @\hfill@ %(sym_po)%
+     $\casldot$ $\inv{\OPpp} = \OPppi$                               @\hfill@ %(inv_pp)%
+     $\casldot$ $\inv{\OPppi} = \OPpp$                               @\hfill@ %(inv_ppi)%
+     $\casldot$ $\OPpp \cmps \OPpp  = \OPpp$                         @\hfill@ %(cmps_pppp)%  
+     $\casldot$ $\OPpp \cmps \OPppi = 1$                             @\hfill@ %(cmps_ppppi)%
+     $\casldot$ $\OPpp \cmps \OPpo  = \OPpp \sqcup \OPpo \sqcup \OPdr$  @\hfill@ %(cmps_pppo)%
+     $\casldot$ $\OPpp \cmps \OPdr  = \OPdr$                         @\hfill@ %(cmps_ppdr)%
+     $\casldot$ $\OPppi \cmps \OPpp  = \compl{\OPdr}$                @\hfill@ %(cmps_ppipp)% 
+     $\casldot$ $\OPppi \cmps \OPppi = \OPppi$                       @\hfill@ %(cmps_ppippi)%
+     $\;\dots$
+end
+\end{lstlisting}
+
+\begin{lstlisting}
+spec RCC5 = 
+     ConstructRelationAlgebra [RCC5BaseRelations]
+        [RCC5CompositionTable fit op $\OPid$:$\OPBaseRel \rightarrow  \OPeq$]
+end
+\end{lstlisting}
+
+\begin{lstlisting}
+view $\SpecName{RCC5\_as\_AtomicRelationAlgebra}$ :
+     AtomicRelationAlgebra to RCC5      
+=    $\OPAtomRel \mapsto \OPBaseRel$
+end
+\end{lstlisting}
+%% \caption{The specification of RCC5}
+%% \label{spec:RCC5}
+%% \end{spec}
+%% The main step is done in the specification
+%% \textsc{RCC5CompositionTable}, in which we encode both the
+%% composition table of RCC5 and the involution function restricted to base
+%% relations.  
+
+Obviously, the relation algebras of other qualitative
+calculi (such as RCC8 or Allen's interval algebra) can be specified in
+the very same manner. Moreover, we can declare natural views between
+these calculi as follows:
+ 
+\begin{lstlisting}
+view $\SpecName{RCC5\_to\_RCC8}$ :
+     RCC5 
+to   { RCC8 then %def
+       ops $\OPdr,\OPpp,\OPppi$ : $\OPRel$
+       $\casldot$ $\OPdr = \OPdc \sqcup \OPec$
+       $\casldot$ $\OPpp = \OPtpp \sqcup \OPntpp$
+       $\casldot$ $\OPppi = \OPtppi \sqcup \OPntppi$ }
+=    sort $\OPBaseRel \mapsto \OPRel$ 
+end
+\end{lstlisting}
+
+\begin{lstlisting}
+view $\SpecName{RCC5\_to\_AllenIA}$ :
+     RCC5 
+to   { AllenIA then %def
+       ops $\OPdr,\OPpo,\OPpp,\OPppi,\OPeq$ : $\OPRel$
+       $\casldot$ $\OPdr = \OPb \sqcup \OPbi \sqcup \OPm \sqcup \OPmi$  @\hfill@ %[ Allen relations are denoted by the first ]%
+       $\casldot$ $\OPpo = \OPo \sqcup \OPoi$        @\hfill@ %[ letter of their names (cf. Fig. 1), i.e., ]%
+       $\casldot$ $\OPpp = \OPd \sqcup\OPs \sqcup \OPf$        @\hfill@ %[ b: before, bi: before involuted, etc.    ]%         
+       $\casldot$ $\OPppi = \OPdi\sqcup\OPsi \sqcup \OPfi$
+       $\casldot$ $\OPeq = \OPe$ }
+=    sort $\OPBaseRel \mapsto \OPRel$ 
+end
+\end{lstlisting}
+
+It is worth mentioning that a corresponding view from
+$\SpecName{RCC8}$ to $\SpecName{AllenIA}$ is not valid: The function
+$\OPdc \mapsto \OPb \sqcup \OPbi$, $\OPec \mapsto \OPm \sqcup \OPmi$,
+$\OPpo \mapsto \OPo \sqcup \OPoi$, $\OPtpp \mapsto \OPs \sqcup \OPf$,
+$\OPntpp \mapsto \OPd$, etc., only defies a view from RCC8 to Allen's
+interval algebra \emph{as} Boolean algebras, but not as relation
+algebras. To put it another way, RCC8 does not form a subalgebra of
+Allen's interval algebra. 
+
+\smallskip
+
+
+Let us now illustrate how the semantic level of such relation algebras
+can be presented via \CASL\ specifications. The following library
+describes a specific class of RCC5 models, which is definable for the
+Euclidean plane (interpreted as a metric space).  Its final view says
+that one obtains a model of RCC5 if we interpret the RCC5 base
+relations over open discs in the Euclidean plane. More precisely, it
+states that the canonical interpretation of RCC5 over open discs in
+the Euclidean plane provides a strong representation of RCC5.%
+\footnote{%
+  \emph{Weak} representations of abstract
+  relation algebras could be presented as \CASL specifications as
+  well, but not in terms of \CASL views.}
+
+\begin{lstlisting}
+logic HasCASL
+
+view $\SpecName{EuclideanPlane\_as\_MetricSpace}$ :
+     MetricSpace to EuclideanPlane
+     $\dots$
+end
+\end{lstlisting}
+
+\begin{lstlisting}
+spec RCC5OpenDiscBaseRelModel[MetricSpace] = 
+     Set
+then op $\name{openDisc}(r:\name{Real};x:\name{Elem})$ : $\name{Set}\,\,\name{Elem} = \lambda y:\name{Elem} \casldot \name{dist}(x,y)<r$
+     type $\name{OpenDisc} = \{X:\,\name{Set}\, \name{Elem} \casldot \exists r:\,\name{Real};\ x:\,\name{Elem} \casldot X=\name{openDisc}(r,x)\}$
+then BinaryRelations [sort $\name{OpenDisc}$] 
+then %def
+     ops $\OPdrRel,\OPpoRel,\OPppRel,\OPppiRel,\OPeqRel:\OPRelation$ 
+     type $\OPBaseRel$ ::= $\OPppRel\mid \OPppiRel\mid \OPpoRel\mid \OPdrRel\mid \OPeqRel$ 
+     $\forall x,y:\,\name{OpenDisc}$
+     $\casldot$ $(x,y)\isIn \OPrep(\OPdrRel) \Leftrightarrow x~ \name{disjoint}~ y $
+     $\casldot$ $(x,y)\isIn \OPrep(\OPpoRel) \Leftrightarrow \neg \, x \subset y \land \neg y \subset x \land \neg\, x~ \name{disjoint}~ y$
+     $\casldot$ $(x,y)\isIn \OPrep(\OPppRel) \Leftrightarrow x \subset y \land \neg x = y$
+     $\casldot$ $(x,y)\isIn \OPrep(\OPppiRel) \Leftrightarrow y \subset x \land \neg x = y$
+     $\casldot$ $ (x,y)\isIn \OPrep(\OPeqRel) \Leftrightarrow x = y$
+end
+\end{lstlisting}
+
+\begin{lstlisting}
+spec RCC5OpenDiscModel[EuclideanPlane] = %def
+     ConstructModel [RCC5OpenDiscBaseRelModel [
+          view $\SpecName{EuclideanPlane\_as\_MetricSpace}$] 
+        fit sort $\OPElem \mapsto \name{OpenDisc}$] 
+end
+\end{lstlisting}
+
+\begin{lstlisting}
+view $\SpecName{MetricSpace\_induces\_RCC5OpenDiscModel}$ :
+     RCC5 
+to   RCC5OpenDiscModel [EuclideanPlane]
+=    ops $\OPpp\mapsto \OPppRel$, $\OPppi\mapsto \OPppiRel$, $\OPpo\mapsto \OPpoRel$, $\OPdr\mapsto \OPdrRel$, $\OPeq\mapsto \OPeqRel$ 
+end
+\end{lstlisting}
+
+The development graph of these libraries, as output by \Hets\ (a subgraph
+of it is depicted in Fig.~\ref{fig:hetsOutput}), 
+\begin{figure}[ht!]
+  \begin{center}
+    \includegraphics[width=122mm,height=75mm]{graphics/graph2}
+  \end{center}
+  \caption{Development graph of RCC5, RCC8, and Allen's interval algebra}
+  \label{fig:hetsOutput}
+\end{figure}
+exhibits the mutual dependencies between the presented specifications.
+Dark arrows denote inclusions of theories (a double arrow denotes
+that such an inclusion is across different logics); light arrows denote proof
+obligations (theory morphisms) generated by views.
+The complete set of specifications is available under \url{http://www.cofi.info/Libraries}.
+
+
+
+
+  
+\section{Summary and Outlook}
+
+In this paper we discussed how qualitative calculi can be described
+via \CASL specifications. We saw that \CASL allows for an elegant
+representation of such calculi. Moreover, since the specifications
+presented here are built up in a modular way, we provide an easy
+interface for embedding other calculi into the \CASL framework.
+Finally, \CASL specifications ensure a high visibility of the mutual
+dependencies between qualitative calculi on both the syntactic and the
+semantic level, and hence may be considered superior to ontologies of
+such systems.
+
+Because of lack of space, we could not show how these \CASL
+specifications connect to theorem provers such as Isabelle.
+Furthermore, in this paper we could only explain a small fraction of
+algebraic theories related to spatial and temporal calculi. For
+example, the first-order theories of these calculi and Stell's
+Boolean connection algebras \citep{stell-a:00-boolean} should be
+integrated into \CASL as well.  Future work will also deal with the CSP
+languages of these qualitative calculi. In particular, we will
+investigate how these languages can be translated into \ModalCASL, a
+sublanguage of \CASL designed for specifying multi modal fragments of
+first order logic.  Such translations would be particularly
+interesting for automated verifications of composition tables of the
+calculi mentioned in this paper.
+
+\section*{Acknowledgments}
+
+This work was partially supported by the Deutsche
+Forschungsgemeinschaft (DFG) as part of the Transregional
+Collaborative Research Center SFB/TR\,8 Spatial Cognition.  We would
+like to thank Klaus Lüttich and Bernhard Nebel for helpful
+discussions. We also gratefully acknowledge the reviewers' critical
+comments, as well as their hints and suggestions.
+
+
+{\small
+\bibliography{references}}
+
+ 
+\end{document}
+
+
+
+%%% Local Variables: 
+%%% mode: PDF Latex
+%%% TeX-master: t
+%%% End: 
