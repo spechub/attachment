@@ -1,0 +1,30 @@
+library Gum/GUMwithDCC_example_house_tree
+version 0.1
+
+from Gum/GUM_withoutDL_withDCC get GUM_withoutDL_withDCC
+
+spec GUMwithDCC_example_house_tree =
+	GUM_withoutDL_withDCC
+then
+	ops
+		sl           : SpatialLocating;
+		house, tree  : SimpleThing;
+		gl           : GeneralizedLocation;
+		lp           : LeftProjection;
+		u, v, w      : Arrow
+
+	. referenceOfModality(lp) = relative
+	. locatum(sl, tree)
+	. placement(sl, gl)
+	. relatum(gl, house)
+	. hasSpatialModality(gl, lp)
+
+	. v = simpleThingToLocation(me) --> simpleThingToLocation(house)
+	. w = simpleThingToLocation(house) --> simpleThingToLocation(tree)
+	. u = simpleThingToLocation(me) --> simpleThingToLocation(tree)
+
+then %implies
+	.  (v|w=leftBack  /\ v|u=leftFront)
+	\/ (v|w=left      /\ v|u=leftFront)
+	\/ (v|w=leftFront /\ v|u=leftFront)
+end
