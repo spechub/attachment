@@ -1,0 +1,13 @@
+Index: PGIP/ProveCommands.hs
+===================================================================
+--- PGIP/ProveCommands.hs	(revision 9995)
++++ PGIP/ProveCommands.hs	(working copy)
+@@ -711,7 +711,7 @@
+  = case proveState state of
+     Nothing -> return $ genErrorMsg "Nothing selected" state
+     Just ps ->
+-     case checkIntString input of
++     case checkIntString (trim input) of
+        False -> return $ genErrorMsg "Please insert a number of seconds" state
+        True ->
+         do
