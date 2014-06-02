@@ -1,0 +1,9 @@
+logic DL
+
+spec test =
+  Class: test
+       SubclassOf: Nothing
+  Class: test
+       SubclassOf: not test %implied
+
+end
