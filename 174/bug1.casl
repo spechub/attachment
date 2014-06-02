@@ -1,0 +1,4 @@
+from Basic/StructuredDatatypes get List
+
+spec sp = List[sorts a,b]
+end
