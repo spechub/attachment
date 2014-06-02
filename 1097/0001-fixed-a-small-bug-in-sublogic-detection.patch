@@ -1,0 +1,25 @@
+From f166465d461291c83f0a4e37dceb3c9ca0058f9d Mon Sep 17 00:00:00 2001
+From: Jonathan von Schroeder <jonathan.von_schroeder@dfki.de>
+Date: Mon, 24 Dec 2012 06:43:51 -0800
+Subject: [PATCH] fixed a small bug in sublogic detection
+
+---
+ HasCASL/Sublogic.hs |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/HasCASL/Sublogic.hs b/HasCASL/Sublogic.hs
+index 96c5560..4694e16 100644
+--- a/HasCASL/Sublogic.hs
++++ b/HasCASL/Sublogic.hs
+@@ -280,7 +280,7 @@ sublogic_min = sublogic_join min min min
+ 
+ -- | compute union sublogic from a list of sublogics
+ comp_list :: [Sublogic] -> Sublogic
+-comp_list = foldl sublogic_max bottom
++comp_list = foldl sublogic_min bottom
+ 
+ -- Functions to analyse formulae
+ 
+-- 
+1.7.5.4
+
