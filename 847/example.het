@@ -1,0 +1,7 @@
+logic QBF
+
+spec testProver2 =
+     prop a, b
+     . a
+     . not b
+     . (exists p . p <=> a) /\ (exists p . p <=> b) %implied
