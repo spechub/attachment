@@ -1,0 +1,152 @@
+logic CommonLogic.FirstOrder
+
+%{
+
+discourseNames:  finer, glb, inclusion, lub, meets, moment, ncdf,
+                 overlaps, precedence, precedes, underlaps
+
+nondiscourseNames:
+
+sequenceMarkers:
+
+}%
+
+. (cl-text periods (cl-imports periods_root)
+                   (cl-imports periods_def) (cl-comment "MON-2")
+                   (forall (x y z) (if (and (precedence x y)
+                                            (inclusion z y)) (precedence x z)))
+                   (cl-comment "CONJ")
+                   (forall (x y) (if (overlaps x y) (exists (z) (glb x y z)))))
+                                              %(periods)% %implied
+
+. (cl-text periods_root (cl-comment "Precedence TRANS")
+                        (forall (x y z) (if (and (precedence x y)
+                                                 (precedence y z)) (precedence x
+                                                                               z)))
+                        (cl-comment "Precedence IREFF")
+                        (forall (x) (not (precedence x x)))
+                        (cl-comment "Inclusion TRANS")
+                        (forall (x y z) (if (and (inclusion x y)
+                                                 (inclusion y z)) (inclusion x
+                                                                             z)))
+                        (cl-comment "Inclusion REF")
+                        (forall (x) (inclusion x x))
+                        (cl-comment "Inclusion ANTIS")
+                        (forall (x y) (if (and (inclusion x y)
+                                               (inclusion y x)) (= x y)))
+                        (cl-comment "MON-1")
+                        (forall (x y z) (if (and (precedence x y)
+                                                 (inclusion z x)) (precedence z
+                                                                              y)))
+                        (forall (x y) (if (inclusion x y) (not (precedence x
+                                                                           y)))))
+                                         %(periods_root)% %implied
+
+. (cl-text periods_def (cl-imports periods_root)
+                       (cl-comment "Overlaps")
+                       (forall (x y) (iff (overlaps x
+                                                    y) (exists (z) (and (inclusion z
+                                                                                   x)
+                                                                        (inclusion z
+                                                                                   y)))))
+                       (cl-comment "Greatest Lower Bound")
+                       (forall (x y z) (iff (glb x y z) (and (inclusion z x)
+                                                             (inclusion z y)
+                                                             (forall (u) (if (and (inclusion u
+                                                                                             x)
+                                                                                  (inclusion u
+                                                                                             y)) (inclusion u
+                                                                                                            z))))))
+                       (cl-comment "Underlaps")
+                       (forall (x y) (iff (underlaps x
+                                                     y) (exists (z) (and (inclusion x
+                                                                                    z)
+                                                                         (inclusion y
+                                                                                    z)))))
+                       (cl-comment "Lower Upper Bound")
+                       (forall (x y z) (iff (lub x y z) (and (inclusion x z)
+                                                             (inclusion y z)
+                                                             (forall (u) (if (and (inclusion x
+                                                                                             u)
+                                                                                  (inclusion y
+                                                                                             u)) (inclusion z
+                                                                                                            u)))))))
+                                          %(periods_def)% %implied
+
+. (cl-text approximate_point (cl-imports ap_def)
+                             (forall (x y z) (if (and (precedes x y)
+                                                      (precedes y
+                                                                z)) (precedes x
+                                                                              z)))
+                             (forall (x y z) (if (and (finer x y)
+                                                      (finer y z)) (finer x z)))
+                             (forall (x y) (if (and (finer x y)
+                                                    (finer y x)) (= x y)))
+                             (forall (x) (not (precedes x x)))
+                             (forall (x) (finer x x))
+                             (forall (x y) (or (ncdf x y) (precedes x y)
+                                               (precedes y x)))
+                             (forall (x y) (if (finer x y) (not (precedes x
+                                                                          y))))
+                             (forall (x y z) (if (and (finer x y)
+                                                      (precedes y
+                                                                z)) (precedes x
+                                                                              z)))
+                             (forall (x) (exists (y) (precedes y x)))
+                             (forall (x) (exists (y) (precedes x y)))
+                             (forall (x y) (exists (z) (and (finer x z)
+                                                            (finer y z)))))
+                                             %(approximate_point)%
+
+. (cl-text ap_def (cl-imports ap_root)
+                  (forall (x y) (iff (ncdf x y) (exists (z) (and (finer z x)
+                                                                 (finer z y)))))
+                  (forall (x y) (iff (meets x y) (and (precedes x y)
+                                                      (not (exists (z) (and (precedes x
+                                                                                      z)
+                                                                            (precedes z
+                                                                                      y)))))))
+                  (forall (x) (iff (moment x) (not (exists (y) (and (finer y x)
+                                                                    (not (= x y))))))))
+                                                        %(ap_def)%
+
+. (cl-text ap_root (forall (x y z) (if (and (precedes x y)
+                                            (precedes y z)) (precedes x z)))
+                   (forall (x y z) (if (and (finer x y) (finer y z)) (finer x
+                                                                            z)))
+                   (forall (x y) (if (and (finer x y) (finer y x)) (= x y)))
+                   (forall (x) (not (precedes x x))) (forall (x) (finer x x))
+                   (forall (x y) (if (finer x y) (not (precedes x y))))
+                   (forall (x y z) (if (and (finer x y)
+                                            (precedes y z)) (precedes x z))))
+                                                       %(ap_root)%
+
+. (cl-text approximate2periods (forall (x y) (iff (precedence x
+                                                              y) (precedes x
+                                                                           y)))
+                               (forall (x y) (iff (inclusion x y) (finer x y)))
+                               (forall (x y) (iff (overlaps x
+                                                            y) (exists (z) (and (finer z
+                                                                                       x)
+                                                                                (finer z
+                                                                                       y)))))
+                               (forall (x y z) (iff (glb x y z) (and (finer z x)
+                                                                     (finer z y)
+                                                                     (forall (u) (if (and (finer u
+                                                                                                 x)
+                                                                                          (finer u
+                                                                                                 y)) (finer u
+                                                                                                            z))))))
+                               (forall (x y) (iff (underlaps x
+                                                             y) (exists (z) (and (finer x
+                                                                                        z)
+                                                                                 (finer y
+                                                                                        z)))))
+                               (forall (x y z) (iff (lub x y z) (and (finer x z)
+                                                                     (finer y z)
+                                                                     (forall (u) (if (and (finer x
+                                                                                                 u)
+                                                                                          (finer y
+                                                                                                 u)) (finer z
+                                                                                                            u)))))))
+                                           %(approximate2periods)%
