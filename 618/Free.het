@@ -1,0 +1,14 @@
+logic Propositional
+spec Liar =
+  prop mary
+then 
+  free {
+    props harry, john
+    . harry => john
+    . john => not harry
+   }
+then . not harry
+then %implies
+  . not harry %(Harry)%
+  . not john  %(John)%
+end
