@@ -1,0 +1,2492 @@
+logic OWL.ALC
+
+spec Tags =
+
+Namespace: unamed <http://www.dfki.de/sks/hets/ontology/unamed#>
+Namespace: rdfs <http://www.w3.org/2000/01/rdf-schema#>
+Namespace: owl2xml <http://www.w3.org/2006/12/owl2-xml#>
+Namespace: owl <http://www.w3.org/2002/07/owl#>
+Namespace: xsd <http://www.w3.org/2001/XMLSchema#>
+Namespace: rdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+
+
+Ontology: <http://www.dfki.de/sks/hets/ontology/unamed>
+
+ObjectProperty: hasCuisine
+
+    Domain: 
+        Places_to_eat
+    
+    Range: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_beverages
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_chemist
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_doctors
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_artwork
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_department_store
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_gymnastics
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_golf_course
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_fishing
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: Wellness
+
+    EquivalentTo: 
+        v_massage
+        or v_sauna
+    
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_smoking:outside
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_hairdresser
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_table_tennis
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: k_addr:city
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_school
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: k_fuel:electricity
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_common
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: k_addr:housenumber
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_chinese
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_clothes
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_coffee_shop
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_car_rental
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_smokefree
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_bar
+
+    SubClassOf: 
+        Places_to_eat
+    
+    
+
+
+
+Class: v_beauty
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_laundry
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_dance
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_wayside_cross
+
+    SubClassOf: 
+        k_historic
+    
+    
+
+
+
+Class: k_highway
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_picnic_table
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_bench
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_opera
+
+    SubClassOf: 
+        v_theatre
+    
+    
+
+Class: GermanRestaurant
+
+    EquivalentTo: 
+        hasCuisine some v_german
+    
+    SubClassOf: 
+        v_restaurant
+
+
+Class: IndianRestaurant
+
+    EquivalentTo: 
+        hasCuisine some v_indian
+    
+    SubClassOf: 
+        v_restaurant
+    
+    
+
+
+
+Class: v_recreation_ground
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_fish
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_travel_agency
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_arts_centre
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_bicycle
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_jewelry
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: k_amenity
+
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_nature_reserve
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_biergarten
+
+    SubClassOf: 
+        Places_to_eat
+    
+    
+
+
+
+Class: v_baseball
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_pub
+
+    SubClassOf: 
+        Places_to_eat
+    
+    
+
+
+
+Class: v_shelter
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_theme_park
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_computer
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_town_hall
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_football
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_car_wash
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_chalet
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_hardware
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_no
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: FrenchRestaurant
+
+    EquivalentTo: 
+        hasCuisine some v_french
+    
+    SubClassOf: 
+        v_restaurant
+    
+    
+
+
+
+Class: v_vegetarian
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_basketball
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_dedicated
+
+    SubClassOf: 
+        smoking
+    
+    
+
+
+
+Class: v_international
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_asian
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_multi
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_soccer
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_memorial
+
+    SubClassOf: 
+        k_historic
+    
+    
+
+
+
+Class: v_coastline
+
+    SubClassOf: 
+        k_natural
+    
+    
+
+
+
+Class: v_cafe
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_airport
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: k_name
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_renewable
+
+    SubClassOf: 
+        v_charging_station
+    
+    
+
+
+
+Class: v_police
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_drinking_water
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_fast_food
+
+    SubClassOf: 
+        Places_to_eat
+    
+    
+
+
+
+Class: v_smoking_hours
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_equestrian
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_arena
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: FreeTimePlaces
+
+    EquivalentTo: 
+        v_cinema
+        or v_museum
+        or v_theatre
+    
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_dog_park
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_archaeological_site
+
+    SubClassOf: 
+        k_historic
+    
+    
+
+
+
+Class: v_japanese
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_station
+
+    SubClassOf: 
+        k_railway
+    
+    
+
+
+
+Class: v_shoes
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_mall
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_outdoor
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_electronics
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: k_addr:street
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_toilets
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_tram_stop
+
+    SubClassOf: 
+        k_railway
+    
+    
+
+
+
+Class: v_bay
+
+    SubClassOf: 
+        k_natural
+    
+    
+
+
+
+Class: v_greek
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_fire_station
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_dry_cleaning
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_video
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_supermarket
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: GreekRestaurant
+
+    EquivalentTo: 
+        hasCuisine some v_greek
+    
+    SubClassOf: 
+        v_restaurant
+    
+    
+
+
+
+Class: v_courthouse
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_thai
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_kiosk
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_caravan_site
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_german
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_smoking
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: ThaiRestaurant
+
+    EquivalentTo: 
+        hasCuisine some v_thai
+    
+    SubClassOf: 
+        v_restaurant
+    
+    
+
+
+
+Class: v_sauna
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_hockey
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_pharmacy
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_american
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_shed
+
+    SubClassOf: 
+        v_bicycle_parking
+    
+    
+
+
+
+Class: v_pitch
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_water_park
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_viewpoint
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: Address
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_arabic
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: Bildungseinrichtungen
+
+    EquivalentTo: 
+        v_school
+        or v_university
+        or v_vhs
+    
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: Oeffentliche_Verkehrsmittel
+
+    EquivalentTo: 
+        v_bicycle_rental
+        or v_bus_stop
+        or v_car_sharing
+        or v_parking
+        or v_station
+        or v_subway
+        or v_tram_stop
+    
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_fuel
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_swimming_pool
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_community_centre
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_ice_rink
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_phone
+
+    SubClassOf: 
+        k_emergency
+    
+    
+
+
+
+Class: v_french
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_car
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_post_office
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_capacity
+
+    SubClassOf: 
+        v_bicycle_rental
+    
+    
+
+
+
+Class: NonRegenerativeEnergy
+
+    EquivalentTo: 
+        v_charging_station
+        and (not (v_renewable))
+    
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_regional
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_museum
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_bicycle_parking
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_car_repair
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_information
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_recycling
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: k_opening_hours
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_yes
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_stationery
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_burger
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: k_route
+
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: k_tourism
+
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_organic
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_hostel
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: k_leisure
+
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_motel
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_optician
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_sushi
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: k_addr:country
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v:theatre
+
+    
+
+
+
+Class: v_bowls
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_restaurant
+
+    SubClassOf: 
+        Places_to_eat
+    
+    
+
+
+
+Class: non_activity_tags
+
+    
+
+
+
+Class: v_mtb
+
+    SubClassOf: 
+        k_route
+    
+    
+
+
+
+Class: v_atm
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_separated
+
+    SubClassOf: 
+        smoking
+    
+    
+
+
+
+Class: ChineseRestaurant
+
+    EquivalentTo: 
+        hasCuisine some v_chinese
+    
+    SubClassOf: 
+        v_restaurant
+    
+    
+
+
+
+Class: v_track
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_ferry_terminal
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_veterinary
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_athletics
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_subway
+
+    SubClassOf: 
+        v_station
+    
+    
+
+
+
+Class: v_bakery
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_marsh
+
+    SubClassOf: 
+        k_natural
+    
+    
+
+
+
+Class: v_convenience
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_deli
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_swimming
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: k_emergency
+
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: AsianRestaurant
+
+    EquivalentTo: 
+        hasCuisine some v_asian
+    
+    SubClassOf: 
+        v_restaurant
+    
+    
+
+
+
+Class: v_charging_station
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_bicycle_rental
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_telephone
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_ruins
+
+    SubClassOf: 
+        k_historic
+    
+    
+
+
+
+Class: v_library
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_spanish
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_indian
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: k_sports_centre
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_monument
+
+    SubClassOf: 
+        k_historic
+    
+    
+
+
+
+Class: v_ski
+
+    SubClassOf: 
+        k_route
+    
+    
+
+
+
+Class: v_guest_house
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_emergency_phone
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: k_sports
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_toys
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_skating
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_books
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_marina
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_kindergarten
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_network
+
+    SubClassOf: 
+        v_bicycle_rental
+    
+    
+
+
+
+Class: v_fuel:electricity
+
+    SubClassOf: 
+        v_fuel
+    
+    
+
+
+
+Class: v_skiing
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: Health
+
+    EquivalentTo: 
+        v_dentist
+        or v_doctors
+        or v_hospital
+        or v_pharmacy
+    
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_doityourself
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_food_court
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_post_box
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_castle
+
+    SubClassOf: 
+        k_historic
+    
+    
+
+
+
+Class: v_fitness_station
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_college
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_massage
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_taxi
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_beach
+
+    SubClassOf: 
+        k_natural
+    
+    
+
+
+
+Class: v_place_of_worship
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_zoo
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: Freizeit
+
+    EquivalentTo: 
+        FreeTimePlaces
+        or SwimmingPool
+        or Wellness
+        or k_leisure
+    
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: k_sport
+
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: ItalianRestaurant
+
+    EquivalentTo: 
+        hasCuisine some v_italian
+    
+    SubClassOf: 
+        v_restaurant
+    
+    
+
+
+
+Class: v_butcher
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_pizza
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: k_natural
+
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_park
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: activity_tags
+
+    
+
+
+
+Class: v_grave_yard
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: k_railway
+
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_camp_site
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_swimming_pool2
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: TramStop
+
+    EquivalentTo: 
+        (v_station
+        or v_tram_stop)
+        and (not (v_subway))
+    
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_bus_station
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_marketplace
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: Lebensmittel
+
+    EquivalentTo: 
+        v_bakery
+        or v_butcher
+        or v_deli
+        or v_seafood
+    
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_cinema
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_ballet
+
+    SubClassOf: 
+        v:theatre
+    
+    
+
+
+
+Class: v_theatre
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: SwimmingPool
+
+    EquivalentTo: 
+        v_swimming_pool
+        or v_swimming_pool2
+        or v_water_park
+    
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_turkish
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_vhs
+
+    SubClassOf: 
+        v_college
+    
+    
+
+
+
+Class: v_bank
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: ArabicRestaurant
+
+    EquivalentTo: 
+        hasCuisine some v_arabic
+    
+    SubClassOf: 
+        v_restaurant
+    
+    
+
+
+
+Class: smoking
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_dentist
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_boundary_stone
+
+    SubClassOf: 
+        k_historic
+    
+    
+
+
+
+Class: v_university
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_water
+
+    SubClassOf: 
+        k_natural
+    
+    
+
+
+
+Class: Places_to_eat
+
+    EquivalentTo: 
+        v_bar
+        or v_biergarten
+        or v_cafe
+        or v_fast_food
+        or v_pub
+        or v_restaurant
+    
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: SpanishRestaurant
+
+    EquivalentTo: 
+        hasCuisine some v_spanish
+    
+    SubClassOf: 
+        v_restaurant
+    
+    
+
+
+
+Class: v_waste_basket
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_garden
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_stadium
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_tennis
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_mexican
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: k_addr:postcode
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_attraction
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_wayside_shrine
+
+    SubClassOf: 
+        k_historic
+    
+    
+
+
+
+Class: v_golf
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_miniature_golf
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_volcano
+
+    SubClassOf: 
+        k_natural
+    
+    
+
+
+
+Class: v_bureau_de_change
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: k_shop
+
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_parking
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_picnic_site
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_hiking
+
+    SubClassOf: 
+        k_route
+    
+    
+
+
+
+Class: v_slipway
+
+    SubClassOf: 
+        k_leisure
+    
+    
+
+
+
+Class: v_furniture
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_bus_stop
+
+    SubClassOf: 
+        k_highway
+    
+    
+
+
+
+Class: v_hospital
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_contact:homepage
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_nightclub
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: k_cuisine
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_seafood
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: v_skateboard
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_operator
+
+    SubClassOf: 
+        non_activity_tags
+    
+    
+
+
+
+Class: ChargingStation
+
+    EquivalentTo: 
+        k_fuel:electricity
+        or v_charging_station
+    
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_italian
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_sports_centre
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_kebap
+
+    SubClassOf: 
+        k_cuisine
+    
+    
+
+
+
+Class: v_alpine_hut
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_fountain
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_isolated
+
+    SubClassOf: 
+        smoking
+    
+    
+
+
+
+Class: v_garden_centre
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: k_historic
+
+    SubClassOf: 
+        activity_tags
+    
+    
+
+
+
+Class: v_hotel
+
+    SubClassOf: 
+        k_tourism
+    
+    
+
+
+
+Class: v_florist
+
+    SubClassOf: 
+        k_shop
+    
+    
+
+
+
+Class: v_car_sharing
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_climbing
+
+    SubClassOf: 
+        k_sport
+    
+    
+
+
+
+Class: v_casino
+
+    SubClassOf: 
+        k_amenity
+    
+    
+
+
+
+Class: v_playground
+
+    SubClassOf: 
+        k_leisure
+    
+    
