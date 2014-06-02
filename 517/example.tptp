@@ -1,0 +1,772 @@
+%------------------------------------------------------------------------------
+% File     : ALG220+4 : TPTP v3.4.1. Released v3.4.0.
+% Domain   : General Algebra
+% Problem  : Linear Independence in Right Module over Domain T16
+% Version  : [<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=BibTeX&amp;File=Urb08">Urb08</a>] axioms : Especial.
+% English  :
+
+% Refs     : [<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=BibTeX&amp;File=Urb07">Urb07</a>] Urban (2007), MPTP 0.2: Design, Implementation, and In
+%          : [<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=BibTeX&amp;File=Urb08">Urb08</a>] Urban (2006), Email to G. Sutcliffe
+% Source   : [<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=BibTeX&amp;File=Urb08">Urb08</a>]
+% Names    : t16_rmod_5 [<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=BibTeX&amp;File=Urb08">Urb08</a>]
+
+% Status   : Theorem
+% Rating   : 1.00 v3.4.0
+% Syntax   : Number of formulae    : 24516 (5038 unit)
+%            Number of atoms       : 156160 (20253 equality)
+%            Maximal formula depth :  150 (   8 average)
+%            Number of connectives : 154419 (22775 ~  ;2180  |;70599  &amp;)
+%                                         (3710 &lt;=&gt;;55155 =&gt;;   0 &lt;=)
+%                                         (   0 &lt;~&gt;;   0 ~|;   0 ~&amp;)
+%            Number of predicates  : 1216 (   3 propositional; 0-8 arity)
+%            Number of functors    : 3008 ( 764 constant; 0-10 arity)
+%            Number of variables   : 64670 (   9 singleton;61598 !;3072 ?)
+%            Maximal term depth    :   11 (   1 average)
+
+% Comments : Chainy large version: includes all preceding MML articles.
+%          : Translated by MPTP from the Mizar Mathematical Library 4.48.930.
+%          : The problem encoding is based on set theory.
+%------------------------------------------------------------------------------
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+0.ax">SET007+0.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+1.ax">SET007+1.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+2.ax">SET007+2.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+3.ax">SET007+3.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+4.ax">SET007+4.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+5.ax">SET007+5.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+6.ax">SET007+6.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+7.ax">SET007+7.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+8.ax">SET007+8.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+9.ax">SET007+9.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+10.ax">SET007+10.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+11.ax">SET007+11.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+12.ax">SET007+12.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+13.ax">SET007+13.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+14.ax">SET007+14.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+15.ax">SET007+15.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+16.ax">SET007+16.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+17.ax">SET007+17.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+18.ax">SET007+18.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+19.ax">SET007+19.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+20.ax">SET007+20.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+21.ax">SET007+21.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+22.ax">SET007+22.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+23.ax">SET007+23.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+24.ax">SET007+24.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+25.ax">SET007+25.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+26.ax">SET007+26.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+27.ax">SET007+27.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+28.ax">SET007+28.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+29.ax">SET007+29.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+30.ax">SET007+30.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+31.ax">SET007+31.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+32.ax">SET007+32.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+33.ax">SET007+33.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+34.ax">SET007+34.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+35.ax">SET007+35.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+36.ax">SET007+36.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+37.ax">SET007+37.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+38.ax">SET007+38.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+39.ax">SET007+39.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+40.ax">SET007+40.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+41.ax">SET007+41.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+42.ax">SET007+42.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+43.ax">SET007+43.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+44.ax">SET007+44.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+45.ax">SET007+45.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+46.ax">SET007+46.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+47.ax">SET007+47.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+48.ax">SET007+48.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+49.ax">SET007+49.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+50.ax">SET007+50.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+51.ax">SET007+51.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+52.ax">SET007+52.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+53.ax">SET007+53.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+54.ax">SET007+54.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+55.ax">SET007+55.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+56.ax">SET007+56.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+57.ax">SET007+57.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+58.ax">SET007+58.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+59.ax">SET007+59.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+60.ax">SET007+60.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+61.ax">SET007+61.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+62.ax">SET007+62.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+63.ax">SET007+63.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+64.ax">SET007+64.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+65.ax">SET007+65.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+66.ax">SET007+66.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+67.ax">SET007+67.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+68.ax">SET007+68.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+69.ax">SET007+69.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+70.ax">SET007+70.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+71.ax">SET007+71.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+72.ax">SET007+72.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+73.ax">SET007+73.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+74.ax">SET007+74.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+75.ax">SET007+75.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+76.ax">SET007+76.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+77.ax">SET007+77.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+78.ax">SET007+78.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+79.ax">SET007+79.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+80.ax">SET007+80.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+81.ax">SET007+81.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+82.ax">SET007+82.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+83.ax">SET007+83.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+84.ax">SET007+84.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+85.ax">SET007+85.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+86.ax">SET007+86.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+87.ax">SET007+87.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+88.ax">SET007+88.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+89.ax">SET007+89.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+90.ax">SET007+90.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+91.ax">SET007+91.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+92.ax">SET007+92.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+93.ax">SET007+93.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+94.ax">SET007+94.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+95.ax">SET007+95.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+96.ax">SET007+96.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+97.ax">SET007+97.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+98.ax">SET007+98.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+99.ax">SET007+99.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+100.ax">SET007+100.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+101.ax">SET007+101.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+102.ax">SET007+102.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+103.ax">SET007+103.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+104.ax">SET007+104.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+105.ax">SET007+105.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+106.ax">SET007+106.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+107.ax">SET007+107.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+108.ax">SET007+108.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+109.ax">SET007+109.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+110.ax">SET007+110.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+111.ax">SET007+111.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+112.ax">SET007+112.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+113.ax">SET007+113.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+114.ax">SET007+114.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+115.ax">SET007+115.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+116.ax">SET007+116.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+117.ax">SET007+117.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+118.ax">SET007+118.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+119.ax">SET007+119.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+120.ax">SET007+120.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+121.ax">SET007+121.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+122.ax">SET007+122.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+123.ax">SET007+123.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+124.ax">SET007+124.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+125.ax">SET007+125.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+126.ax">SET007+126.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+127.ax">SET007+127.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+128.ax">SET007+128.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+129.ax">SET007+129.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+130.ax">SET007+130.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+131.ax">SET007+131.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+132.ax">SET007+132.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+133.ax">SET007+133.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+134.ax">SET007+134.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+135.ax">SET007+135.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+136.ax">SET007+136.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+137.ax">SET007+137.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+138.ax">SET007+138.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+139.ax">SET007+139.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+140.ax">SET007+140.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+141.ax">SET007+141.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+142.ax">SET007+142.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+143.ax">SET007+143.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+144.ax">SET007+144.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+145.ax">SET007+145.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+146.ax">SET007+146.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+147.ax">SET007+147.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+148.ax">SET007+148.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+149.ax">SET007+149.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+150.ax">SET007+150.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+151.ax">SET007+151.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+152.ax">SET007+152.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+153.ax">SET007+153.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+154.ax">SET007+154.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+155.ax">SET007+155.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+156.ax">SET007+156.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+157.ax">SET007+157.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+158.ax">SET007+158.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+159.ax">SET007+159.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+160.ax">SET007+160.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+161.ax">SET007+161.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+162.ax">SET007+162.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+163.ax">SET007+163.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+164.ax">SET007+164.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+165.ax">SET007+165.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+166.ax">SET007+166.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+167.ax">SET007+167.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+168.ax">SET007+168.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+169.ax">SET007+169.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+170.ax">SET007+170.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+171.ax">SET007+171.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+172.ax">SET007+172.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+173.ax">SET007+173.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+174.ax">SET007+174.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+175.ax">SET007+175.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+176.ax">SET007+176.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+177.ax">SET007+177.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+178.ax">SET007+178.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+179.ax">SET007+179.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+180.ax">SET007+180.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+181.ax">SET007+181.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+182.ax">SET007+182.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+183.ax">SET007+183.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+184.ax">SET007+184.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+185.ax">SET007+185.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+186.ax">SET007+186.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+187.ax">SET007+187.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+188.ax">SET007+188.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+189.ax">SET007+189.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+190.ax">SET007+190.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+191.ax">SET007+191.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+192.ax">SET007+192.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+193.ax">SET007+193.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+194.ax">SET007+194.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+195.ax">SET007+195.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+196.ax">SET007+196.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+197.ax">SET007+197.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+198.ax">SET007+198.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+199.ax">SET007+199.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+200.ax">SET007+200.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+201.ax">SET007+201.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+202.ax">SET007+202.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+203.ax">SET007+203.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+204.ax">SET007+204.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+205.ax">SET007+205.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+206.ax">SET007+206.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+207.ax">SET007+207.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+208.ax">SET007+208.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+209.ax">SET007+209.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+210.ax">SET007+210.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+211.ax">SET007+211.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+212.ax">SET007+212.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+213.ax">SET007+213.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+214.ax">SET007+214.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+215.ax">SET007+215.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+216.ax">SET007+216.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+217.ax">SET007+217.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+218.ax">SET007+218.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+219.ax">SET007+219.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+220.ax">SET007+220.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+221.ax">SET007+221.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+222.ax">SET007+222.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+223.ax">SET007+223.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+224.ax">SET007+224.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+225.ax">SET007+225.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+226.ax">SET007+226.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+227.ax">SET007+227.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+228.ax">SET007+228.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+229.ax">SET007+229.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+230.ax">SET007+230.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+231.ax">SET007+231.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+232.ax">SET007+232.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+233.ax">SET007+233.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+234.ax">SET007+234.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+235.ax">SET007+235.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+236.ax">SET007+236.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+237.ax">SET007+237.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+238.ax">SET007+238.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+239.ax">SET007+239.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+240.ax">SET007+240.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+241.ax">SET007+241.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+242.ax">SET007+242.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+243.ax">SET007+243.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+244.ax">SET007+244.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+245.ax">SET007+245.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+246.ax">SET007+246.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+247.ax">SET007+247.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+248.ax">SET007+248.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+249.ax">SET007+249.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+250.ax">SET007+250.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+251.ax">SET007+251.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+252.ax">SET007+252.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+253.ax">SET007+253.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+254.ax">SET007+254.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+255.ax">SET007+255.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+256.ax">SET007+256.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+257.ax">SET007+257.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+258.ax">SET007+258.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+259.ax">SET007+259.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+260.ax">SET007+260.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+261.ax">SET007+261.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+262.ax">SET007+262.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+263.ax">SET007+263.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+264.ax">SET007+264.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+265.ax">SET007+265.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+266.ax">SET007+266.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+267.ax">SET007+267.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+268.ax">SET007+268.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+269.ax">SET007+269.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+270.ax">SET007+270.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+271.ax">SET007+271.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+272.ax">SET007+272.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+273.ax">SET007+273.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+274.ax">SET007+274.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+275.ax">SET007+275.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+276.ax">SET007+276.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+277.ax">SET007+277.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+278.ax">SET007+278.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+279.ax">SET007+279.ax</a>').
+include('Axioms/SET007/<a href="http://www.cs.miami.edu/%7Etptp/cgi-bin/DVTPTP2WWW/view_file.pl?Category=Axioms&amp;File=SET007+280.ax">SET007+280.ax</a>').
+%------------------------------------------------------------------------------
+fof(dt_k1_rmod_5,axiom,(
+    ! [A,B,C] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v7_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; ~ v10_vectsp_1(A)
+        &amp; v2_vectsp_2(A)
+        &amp; l3_vectsp_1(A)
+        &amp; ~ v3_struct_0(B)
+        &amp; v3_rlvect_1(B)
+        &amp; v4_rlvect_1(B)
+        &amp; v5_rlvect_1(B)
+        &amp; v6_rlvect_1(B)
+        &amp; v5_vectsp_2(B,A)
+        &amp; l1_vectsp_2(B,A)
+        &amp; m1_subset_1(C,k1_zfmisc_1(u1_struct_0(B))) )
+     =&gt; ( v3_vectsp_2(k1_rmod_5(A,B,C),A)
+        &amp; m1_rmod_2(k1_rmod_5(A,B,C),A,B) ) ) )).
+
+fof(d1_rmod_5,axiom,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; ! [C] : 
+              ( m1_subset_1(C,k1_zfmisc_1(u1_struct_0(B)))
+             =&gt; ( v1_rmod_5(C,A,B)
+              &lt;=&gt; ! [D] : 
+                    ( m2_rmod_4(D,A,B,C)
+                   =&gt; ( k5_rmod_4(A,B,D) = k1_rlvect_1(B)
+                     =&gt; k2_rmod_4(A,B,D) = k1_xboole_0 ) ) ) ) ) ) )).
+
+fof(t1_rmod_5,axiom,(
+    $true )).
+
+fof(t2_rmod_5,axiom,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; ! [C] : 
+              ( m1_subset_1(C,k1_zfmisc_1(u1_struct_0(B)))
+             =&gt; ! [D] : 
+                  ( m1_subset_1(D,k1_zfmisc_1(u1_struct_0(B)))
+                 =&gt; ( ( r1_tarski(C,D)
+                      &amp; v1_rmod_5(D,A,B) )
+                   =&gt; v1_rmod_5(C,A,B) ) ) ) ) ) )).
+
+fof(t3_rmod_5,axiom,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; ! [C] : 
+              ( m1_subset_1(C,k1_zfmisc_1(u1_struct_0(B)))
+             =&gt; ~ ( k1_rlvect_1(A) != k2_group_1(A)
+                  &amp; v1_rmod_5(C,A,B)
+                  &amp; r2_hidden(k1_rlvect_1(B),C) ) ) ) ) )).
+
+fof(t4_rmod_5,axiom,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; v1_rmod_5(k1_subset_1(u1_struct_0(B)),A,B) ) ) )).
+
+fof(t5_rmod_5,axiom,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; ! [C] : 
+              ( m1_subset_1(C,u1_struct_0(B))
+             =&gt; ! [D] : 
+                  ( m1_subset_1(D,u1_struct_0(B))
+                 =&gt; ( v1_rmod_5(k8_rlvect_2(B,C,D),A,B)
+                   =&gt; ( k1_rlvect_1(A) = k2_group_1(A)
+                      | ( C != k1_rlvect_1(B)
+                        &amp; D != k1_rlvect_1(B) ) ) ) ) ) ) ) )).
+
+fof(t6_rmod_5,axiom,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; ! [C] : 
+              ( m1_subset_1(C,u1_struct_0(B))
+             =&gt; ( k1_rlvect_1(A) != k2_group_1(A)
+               =&gt; ( ~ v1_rmod_5(k8_rlvect_2(B,C,k1_rlvect_1(B)),A,B)
+                  &amp; ~ v1_rmod_5(k8_rlvect_2(B,k1_rlvect_1(B),C),A,B) ) ) ) ) ) )).
+
+fof(d2_rmod_5,axiom,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v7_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; ~ v10_vectsp_1(A)
+        &amp; v2_vectsp_2(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; ! [C] : 
+              ( m1_subset_1(C,k1_zfmisc_1(u1_struct_0(B)))
+             =&gt; ! [D] : 
+                  ( ( v3_vectsp_2(D,A)
+                    &amp; m1_rmod_2(D,A,B) )
+                 =&gt; ( D = k1_rmod_5(A,B,C)
+                  &lt;=&gt; u1_struct_0(D) = a_3_0_rmod_5(A,B,C) ) ) ) ) ) )).
+
+fof(t7_rmod_5,axiom,(
+    $true )).
+
+fof(t8_rmod_5,axiom,(
+    $true )).
+
+fof(t9_rmod_5,axiom,(
+    ! [A,B] : 
+      ( ( ~ v3_struct_0(B)
+        &amp; v3_rlvect_1(B)
+        &amp; v4_rlvect_1(B)
+        &amp; v5_rlvect_1(B)
+        &amp; v6_rlvect_1(B)
+        &amp; v4_group_1(B)
+        &amp; v7_group_1(B)
+        &amp; v6_vectsp_1(B)
+        &amp; v7_vectsp_1(B)
+        &amp; v8_vectsp_1(B)
+        &amp; ~ v10_vectsp_1(B)
+        &amp; v2_vectsp_2(B)
+        &amp; l3_vectsp_1(B) )
+     =&gt; ! [C] : 
+          ( ( ~ v3_struct_0(C)
+            &amp; v3_rlvect_1(C)
+            &amp; v4_rlvect_1(C)
+            &amp; v5_rlvect_1(C)
+            &amp; v6_rlvect_1(C)
+            &amp; v5_vectsp_2(C,B)
+            &amp; l1_vectsp_2(C,B) )
+         =&gt; ! [D] : 
+              ( m1_subset_1(D,k1_zfmisc_1(u1_struct_0(C)))
+             =&gt; ( r1_rlvect_1(k1_rmod_5(B,C,D),A)
+              &lt;=&gt; ? [E] : 
+                    ( m2_rmod_4(E,B,C,D)
+                    &amp; A = k5_rmod_4(B,C,E) ) ) ) ) ) )).
+
+fof(t10_rmod_5,axiom,(
+    ! [A,B] : 
+      ( ( ~ v3_struct_0(B)
+        &amp; v3_rlvect_1(B)
+        &amp; v4_rlvect_1(B)
+        &amp; v5_rlvect_1(B)
+        &amp; v6_rlvect_1(B)
+        &amp; v4_group_1(B)
+        &amp; v7_group_1(B)
+        &amp; v6_vectsp_1(B)
+        &amp; v7_vectsp_1(B)
+        &amp; v8_vectsp_1(B)
+        &amp; ~ v10_vectsp_1(B)
+        &amp; v2_vectsp_2(B)
+        &amp; l3_vectsp_1(B) )
+     =&gt; ! [C] : 
+          ( ( ~ v3_struct_0(C)
+            &amp; v3_rlvect_1(C)
+            &amp; v4_rlvect_1(C)
+            &amp; v5_rlvect_1(C)
+            &amp; v6_rlvect_1(C)
+            &amp; v5_vectsp_2(C,B)
+            &amp; l1_vectsp_2(C,B) )
+         =&gt; ! [D] : 
+              ( m1_subset_1(D,k1_zfmisc_1(u1_struct_0(C)))
+             =&gt; ( r2_hidden(A,D)
+               =&gt; r1_rlvect_1(k1_rmod_5(B,C,D),A) ) ) ) ) )).
+
+fof(t11_rmod_5,axiom,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v7_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; ~ v10_vectsp_1(A)
+        &amp; v2_vectsp_2(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; k1_rmod_5(A,B,k1_subset_1(u1_struct_0(B))) = k1_rmod_2(A,B) ) ) )).
+
+fof(t12_rmod_5,axiom,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v7_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; ~ v10_vectsp_1(A)
+        &amp; v2_vectsp_2(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; ! [C] : 
+              ( m1_subset_1(C,k1_zfmisc_1(u1_struct_0(B)))
+             =&gt; ~ ( k1_rmod_5(A,B,C) = k1_rmod_2(A,B)
+                  &amp; C != k1_xboole_0
+                  &amp; C != k7_rlvect_2(B,k1_rlvect_1(B)) ) ) ) ) )).
+
+fof(t13_rmod_5,axiom,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v7_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; ~ v10_vectsp_1(A)
+        &amp; v2_vectsp_2(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; ! [C] : 
+              ( m1_subset_1(C,k1_zfmisc_1(u1_struct_0(B)))
+             =&gt; ! [D] : 
+                  ( ( v3_vectsp_2(D,A)
+                    &amp; m1_rmod_2(D,A,B) )
+                 =&gt; ( C = u1_struct_0(D)
+                   =&gt; ( k1_rlvect_1(A) = k2_group_1(A)
+                      | k1_rmod_5(A,B,C) = D ) ) ) ) ) ) )).
+
+fof(t14_rmod_5,axiom,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v7_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; ~ v10_vectsp_1(A)
+        &amp; v2_vectsp_2(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v3_vectsp_2(B,A)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; ! [C] : 
+              ( m1_subset_1(C,k1_zfmisc_1(u1_struct_0(B)))
+             =&gt; ( C = u1_struct_0(B)
+               =&gt; ( k1_rlvect_1(A) = k2_group_1(A)
+                  | k1_rmod_5(A,B,C) = B ) ) ) ) ) )).
+
+fof(t15_rmod_5,axiom,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v7_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; ~ v10_vectsp_1(A)
+        &amp; v2_vectsp_2(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; ! [C] : 
+              ( m1_subset_1(C,k1_zfmisc_1(u1_struct_0(B)))
+             =&gt; ! [D] : 
+                  ( m1_subset_1(D,k1_zfmisc_1(u1_struct_0(B)))
+                 =&gt; ( r1_tarski(C,D)
+                   =&gt; m1_rmod_2(k1_rmod_5(A,B,C),A,k1_rmod_5(A,B,D)) ) ) ) ) ) )).
+
+fof(t16_rmod_5,conjecture,(
+    ! [A] : 
+      ( ( ~ v3_struct_0(A)
+        &amp; v3_rlvect_1(A)
+        &amp; v4_rlvect_1(A)
+        &amp; v5_rlvect_1(A)
+        &amp; v6_rlvect_1(A)
+        &amp; v4_group_1(A)
+        &amp; v7_group_1(A)
+        &amp; v6_vectsp_1(A)
+        &amp; v7_vectsp_1(A)
+        &amp; v8_vectsp_1(A)
+        &amp; ~ v10_vectsp_1(A)
+        &amp; v2_vectsp_2(A)
+        &amp; l3_vectsp_1(A) )
+     =&gt; ! [B] : 
+          ( ( ~ v3_struct_0(B)
+            &amp; v3_rlvect_1(B)
+            &amp; v4_rlvect_1(B)
+            &amp; v5_rlvect_1(B)
+            &amp; v6_rlvect_1(B)
+            &amp; v3_vectsp_2(B,A)
+            &amp; v5_vectsp_2(B,A)
+            &amp; l1_vectsp_2(B,A) )
+         =&gt; ! [C] : 
+              ( m1_subset_1(C,k1_zfmisc_1(u1_struct_0(B)))
+             =&gt; ! [D] : 
+                  ( m1_subset_1(D,k1_zfmisc_1(u1_struct_0(B)))
+                 =&gt; ( ( k1_rmod_5(A,B,C) = B
+                      &amp; r1_tarski(C,D) )
+                   =&gt; k1_rmod_5(A,B,D) = B ) ) ) ) ) )).
+%------------------------------------------------------------------------------
