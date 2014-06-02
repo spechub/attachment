@@ -1,0 +1,25 @@
+
+spec Classical_Extensional_Parthood =
+sort s
+pred P:s * s
+forall x,y,z: s
+. P(x,x) %(reflexivity)%
+. P(x,y) /\ P(y,x) => x = y %(antisymmetry)%
+. P(x,y) /\ P(y,z) => P(x,z) %(transitivity)%
+
+preds
+%% Proper Part
+PP(x:s; y:s) <=> P(x, y) /\  not  P(y, x); %(Dd14)%
+
+%% Overlap
+Ov(x:s; y:s) <=> exists z:s. (P(z, x) /\  P(z, y)); %(Dd15)%
+
+%%  Binary Sum
+Sum(z:s; x:s; y:s) <=> forall w:s. (Ov(w,z) <=> (Ov(w, x) \/  Ov(w, y))); %(binary_sum)%
+
+forall x,y:s
+. exists z:s. (Sum(z,x,y)) %(Existence of the sum)%
+
+ops a,b,c:s
+. not P(a,b) /\ Sum(c,a,b) /\ not PP(a,c)
+end
