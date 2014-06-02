@@ -1,0 +1,23 @@
+spec Boolean = free type Boolean ::= False | True
+
+spec V[Boolean] = . not True = False
+
+logic HasCASL
+
+spec S0 = Boolean
+
+spec S1 = Boolean then type s
+
+spec S2 = Boolean with type Boolean |-> Bool
+
+view v1 : Boolean to S1
+
+spec SV = V[view v1]
+
+spec S2b = Boolean with logic -> CoCASL
+
+spec S3[Boolean] = V[Boolean] then type t %%with logic -> HasCASL
+
+spec S4 = S3[S2 fit Boolean |-> Bool]
+
+spec S5 = S3[Boolean] %% then type s
