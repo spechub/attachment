@@ -1,0 +1,1004 @@
+--- ../Hets-lib/CommonLogic/colore/core/cyclic_ordering/asymmetric_cyclic.clif	2012-07-25 11:03:57.927870441 +0200
++++ asymmetric_cyclic.clif	2012-09-25 11:43:31.705232260 +0200
+@@ -1,5 +1,5 @@
+ 
+-(cl-text asymmetric_cyclic)
++(cl-text asymmetric_cyclic
+ 
+ (cl-imports cyclic)
+ 
+--- ../Hets-lib/CommonLogic/colore/complex/combined_time/backwards.clif	2012-07-25 11:03:54.639875043 +0200
++++ backwards.clif	2012-09-25 11:44:14.433173367 +0200
+@@ -7,7 +7,7 @@
+ 	(if	(timeinterval i1)
+ 		(exists (i2)
+ 			(and	(timeinterval i2)
+-				(= (beginof i2) (endof(i1)))
++				(= (beginof i2) (endof i1))
+ 				(= (endof i2) (beginof i1))
+ 				(not (= (beginof i1) (endof i1)))
+ 				(not (= (beginof i2) (endof i2)))))))
+--- ../Hets-lib/CommonLogic/colore/core/tripartite_incidence/boundary_partitioning.clif	2012-07-25 11:03:56.803872014 +0200
++++ boundary_partitioning.clif	2012-09-25 21:03:36.391163257 +0200
+@@ -1,8 +1,8 @@
+-
+ (cl-text boundary_partitioning
+-
+-(cl-imports conn_partitioning)
+-
+-(cl-imports cyclic_boundary)
+-
++//
++//(cl-imports conn_partitioning)
++//
++//(cl-imports cyclic_boundary)
++//
++(and)
+ )
+--- ../Hets-lib/CommonLogic/colore/core/orderings/bounded_dense_linear_order.clif	2012-07-25 11:03:57.571870942 +0200
++++ bounded_dense_linear_order.clif	2012-09-25 21:05:42.075045719 +0200
+@@ -3,6 +3,5 @@
+ 
+ (cl-imports bounded_linear_order)
+ 
+-(cl-imports dense_partial_order)
+-
++//(cl-imports dense_partial_order)
+ )
+--- ../Hets-lib/CommonLogic/colore/core/orderings/bounded_discrete_linear_order.clif	2012-07-25 11:03:57.579870926 +0200
++++ bounded_discrete_linear_order.clif	2012-09-25 21:06:04.707024498 +0200
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports bounded_linear_order)
+ 
+-(cl-imports discrete_partial_order)
++//(cl-imports discrete_partial_order)
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/complex/boxworld/boxworld_border.clif	2012-07-25 11:03:54.675874989 +0200
++++ boxworld_border.clif	2012-09-25 21:07:12.370960509 +0200
+@@ -7,7 +7,7 @@
+         (if     (bbetween e1 e2 e3) (bbetween e2 e3 e1)))
+ 
+ (forall (e1 e2 e3)
+-        (if     (bbetween e1 e2 e3)))
++        (if     (bbetween e1 e2 e3)
+                 (not (bbetween e3 e2 e1))))
+ 
+ (forall (e1 e2 e3 e4)
+--- ../Hets-lib/CommonLogic/colore/complex/boxworld/boxworld.clif	2012-07-25 11:03:54.679874981 +0200
++++ boxworld.clif	2012-09-25 21:08:32.458884440 +0200
+@@ -3,8 +3,8 @@
+ 
+ (cl-imports boxworld_border)
+ (cl-imports boxworld_peak)
+-(cl-imports boxworld_vertex)
+-(cl-imports boxworld_box)
++//(cl-imports boxworld_vertex)
++//(cl-imports boxworld_box)
+ 
+ (forall (x)
+         (or     (point x) (edge x) (surface x) (box x)))
+--- ../Hets-lib/CommonLogic/colore/complex/boxworld/boxworld_peak.clif	2012-07-25 11:03:54.679874981 +0200
++++ boxworld_peak.clif	2012-09-25 21:07:40.490933716 +0200
+@@ -7,7 +7,7 @@
+         (if     (rbetween e1 e2 e3) (rbetween e2 e3 e1)))
+ 
+ (forall (e1 e2 e3)
+-        (if     (rbetween e1 e2 e3)))
++        (if     (rbetween e1 e2 e3)
+                 (not (rbetween e3 e2 e1))))
+ 
+ (forall (e1 e2 e3 e4)
+--- ../Hets-lib/CommonLogic/colore/complex/cardworld/cardworld_outer.clif	2012-07-25 11:03:53.911876060 +0200
++++ cardworld_outer.clif	2012-09-25 21:09:45.142814563 +0200
+@@ -29,7 +29,7 @@
+ 
+ (forall (e1 e2 e3)
+         (if     (sbetween e1 e2 e3)
+-                (or     (exists (e4) (sbetween e1 e4 e2) (not (= e4 e2))))
++                (or     (exists (e4) (and (sbetween e1 e4 e2) (not (= e4 e2))))
+                         (exists (v) (meet e1 e2 v)))))
+ 
+ (forall (e1 e2 e3)
+--- ../Hets-lib/CommonLogic/colore/core/cyclic_geometry/chain-ccg.clif	2012-07-25 11:03:56.015873121 +0200
++++ chain-ccg.clif	2012-09-25 21:10:05.362795639 +0200
+@@ -1,7 +1,7 @@
+ 
+ (cl-text chain_ccg
+ 
+-(cl-imports chain_cyclic)
++//(cl-imports chain_cyclic)
+ 
+ (cl-imports ccg)
+ 
+--- ../Hets-lib/CommonLogic/colore/core/cyclic_geometry/chain_hcg.clif	2012-07-25 11:03:56.011873119 +0200
++++ chain_hcg.clif	2012-09-25 21:10:24.966776732 +0200
+@@ -1,7 +1,7 @@
+ 
+ (cl-text chain_hcg
+ 
+-(cl-imports cyclic_chain)
++//(cl-imports cyclic_chain)
+ 
+ (cl-imports hcg)
+ 
+--- ../Hets-lib/CommonLogic/colore/core/cyclic_geometry/chain_mcg.clif	2012-07-25 11:03:56.011873119 +0200
++++ chain_mcg.clif	2012-09-25 21:10:31.670770629 +0200
+@@ -1,7 +1,7 @@
+ 
+ (cl-text chain_mcg
+ 
+-(cl-imports cyclic_chain)
++//(cl-imports cyclic_chain)
+ 
+ (cl-imports mcg)
+ 
+--- ../Hets-lib/CommonLogic/colore/core/graphs/complete_graph.clif	2012-07-25 11:03:56.419872548 +0200
++++ complete_graph.clif	2012-09-25 21:12:27.926658408 +0200
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports undirected_graph)
+ 
+-(forall x y)
++(forall (x y)
+ 	(adj x y))
+ )
+--- ../Hets-lib/CommonLogic/colore/complex/date_time_vocabulary/date_time_vocabulary20111209.clif	2012-07-25 11:03:54.143875740 +0200
++++ date_time_vocabulary20111209.clif	2012-09-25 21:19:09.214264340 +0200
+@@ -145,11 +145,11 @@
+ 				(= t1 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 starts time interval2" t1 t2)
+ 				(and 	("time interval1 finishes time interval2" t3 t2)
+-					("time interval1 meets time interval2" t1 t3)))))
++					("time interval1 meets time interval2" t1 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+@@ -165,11 +165,11 @@
+ 				(= i 1)))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 finishes time interval2" t1 t2)
+ 				(and 	("time interval1 starts time interval2" t3 t2)
+-					("time interval1 meets time interval2" t3 t1)))))
++					("time interval1 meets time interval2" t3 t1))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+@@ -378,7 +378,7 @@
+ (forall ((part thing) (whole thing)) 
+ 	(if 	(and 	("part of" part whole)
+ 			("part of" whole part))
+-		(= part whole))) 
++		(= part whole)))
+ 
+ (forall ((part thing) (whole thing) (part3 thing))  
+ 	(if 	(and 	("part of" part whole)
+@@ -402,4 +402,4 @@
+ 			(and	("proper part" part2 whole)
+ 				(not (overlaps part2 part1))))))
+ 
+-)
++)
+\ No newline at end of file
+--- ../Hets-lib/CommonLogic/colore/complex/date_time_vocabulary/date_time_vocabulary.clif	2012-07-25 11:03:54.147875724 +0200
++++ date_time_vocabulary.clif	2012-09-25 21:23:58.721974135 +0200
+@@ -141,16 +141,16 @@
+ 				(exists ((t4 "time interval"))
+ 					(and 	("time interval1 meets time interval2" t4 t2)
+ 						("time interval1 meets time interval2" t1 t4)
+-						("time interval1 plus time interval2 is time interval3" t1 t4 t3)))
++						("time interval1 plus time interval2 is time interval3" t1 t4 t3))))
+ 			(and 	("time interval1 meets time interval2" t1 t2)
+-				(= t1 t3))))))
++				(= t1 t3)))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 starts time interval2" t1 t2)
+ 				(and 	("time interval1 finishes time interval2" t3 t2)
+-					("time interval1 meets time interval2" t1 t3)))))
++					("time interval1 meets time interval2" t1 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+@@ -165,11 +165,11 @@
+ 	(= t3 t4)))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 finishes time interval2" t1 t2)
+ 				(and 	("time interval1 starts time interval2" t3 t2)
+-					("time interval1 meets time interval2" t3 t1)))))
++					("time interval1 meets time interval2" t3 t1))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+--- ../Hets-lib/CommonLogic/colore/core/tripartite_incidence/diamond_planar.clif	2012-07-25 11:03:56.803872014 +0200
++++ diamond_planar.clif	2012-09-25 21:26:18.813831970 +0200
+@@ -1,7 +1,7 @@
+ 
+ (cl-text diamond_planar
+ 
+-(cl-imports transitive_tripartite
++(cl-imports transitive_tripartite)
+ 
+ (forall (x y z)
+ 	(if	(and	(point x)
+--- ../Hets-lib/CommonLogic/colore/core/orderings/discrete_forest.clif	2012-07-25 11:03:57.571870942 +0200
++++ discrete_forest.clif	2012-09-25 21:26:45.261804762 +0200
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports forest)
+ 
+-(cl-imports discrete_partial_ordering)
++//(cl-imports discrete_partial_ordering)
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/core/orderings/discrete_linear_order_no_end.clif	2012-07-25 11:03:57.567870951 +0200
++++ discrete_linear_order_no_end.clif	2012-09-25 21:27:21.109796058 +0200
+@@ -5,6 +5,6 @@
+ 
+ (cl-imports nofinal)
+ 
+-(cl-imports discrete_linear_order)
++//(cl-imports discrete_linear_order)
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/core/orderings/discrete_semilinear.clif	2012-07-25 11:03:57.579870926 +0200
++++ discrete_semilinear.clif	2012-09-25 21:27:36.733802375 +0200
+@@ -1,5 +1,5 @@
+ 
+-(cl-text discrete_semilinear)
++(cl-text discrete_semilinear
+ 
+ (cl-imports semilinear_ordering)
+ 
+--- ../Hets-lib/CommonLogic/colore/core/subposet/discrete_uplp_dense_weak_separative.clif	2012-07-25 11:03:58.199870065 +0200
++++ discrete_uplp_dense_weak_separative.clif	2012-09-25 21:28:09.293814932 +0200
+@@ -5,6 +5,6 @@
+ 
+ (cl-imports uplr)
+ 
+-(cl-imports dense_weak_separative)
++//(cl-imports dense_weak_separative)
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/core/bipartite_incidence/double_exist.clif	2012-07-25 11:03:56.643872231 +0200
++++ double_exist.clif	2012-09-25 21:28:31.293824084 +0200
+@@ -1,5 +1,5 @@
+ 
+-(cl-text double_exist)
++(cl-text double_exist
+ 
+ (cl-imports weak_bipartite)
+ 
+--- ../Hets-lib/CommonLogic/colore/complex/date_time_vocabulary/dtv20111209.clif	2012-07-25 11:03:54.143875740 +0200
++++ dtv20111209.clif	2012-09-25 21:31:35.153891640 +0200
+@@ -145,11 +145,11 @@
+ 				(= t1 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 starts time interval2" t1 t2)
+ 				(and 	("time interval1 finishes time interval2" t3 t2)
+-					("time interval1 meets time interval2" t1 t3)))))
++					("time interval1 meets time interval2" t1 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+@@ -165,11 +165,11 @@
+ 				(= i 1)))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 finishes time interval2" t1 t2)
+ 				(and 	("time interval1 starts time interval2" t3 t2)
+-					("time interval1 meets time interval2" t3 t1)))))
++					("time interval1 meets time interval2" t3 t1))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+@@ -421,7 +421,7 @@
+ 
+ (forall (("system of units" "system of units"))        (= (count             ("system of units is for system of quantities"              "system of units"))           1))
+ 
+-(forall ((thing thing)) (iff ("quantity value"(thing))      (or ("atomic quantity value"(thing))          ("compound quantity value"(thing)))))
++(forall ((thing thing)) (iff ("quantity value" thing)      (or ("atomic quantity value" thing)          ("compound quantity value" thing))))
+ 
+ (forall (("atomic quantity value 1" "atomic quantity value")         ("atomic quantity value 2" "atomic quantity value")         ("measurement unit" "measurement unit")) (iff (converted "atomic quantity value 1"                 "atomic quantity value 2"                 "measurement unit")      (exists ((quantity quantity)               ("measurement unit 2" "measurement unit"))        (and ("quantity value has measurement unit"              "atomic quantity value 2"              "measurement unit 2")             (= "measurement unit" "measurement unit 2")             (= "atomic value 1" quantity)             (= "atomic value 2" quantity)))))
+ 
+--- ../Hets-lib/CommonLogic/colore/complex/date_time_vocabulary/dtv_plus/dtv_plus.clif	2012-07-25 11:03:54.051875859 +0200
++++ dtv_plus.clif	2012-09-25 21:33:16.117925374 +0200
+@@ -25,11 +25,11 @@
+ 					(= t4 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 starts time interval2" t1 t2)
+ 				(and 	("time interval1 finishes time interval2" t3 t2)
+-					("time interval1 meets time interval2" t1 t3)))))
++					("time interval1 meets time interval2" t1 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+@@ -44,11 +44,11 @@
+ 	(= t3 t4)))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 finishes time interval2" t1 t2)
+ 				(and 	("time interval1 starts time interval2" t3 t2)
+-					("time interval1 meets time interval2" t3 t1)))))
++					("time interval1 meets time interval2" t3 t1))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+--- ../Hets-lib/CommonLogic/colore/complex/date_time_vocabulary/dtv_plus/dtv_plus_def.clif	2012-07-25 11:03:54.051875859 +0200
++++ dtv_plus_def.clif	2012-09-25 21:33:55.257937446 +0200
+@@ -21,7 +21,7 @@
+ 				(if 	("time interval1 is part of time interval2" t1 t2)
+ 					(= t2 t3))
+ 				(if 	("time interval1 is part of time interval2" t2 t1)
+-					(= t1 t3)))))
++					(= t1 t3))))))
+ 
+ (forall (t1 t2 t3)
+ 	(iff 	("time interval1 to time interval2 specifies time interval3" t1 t2 t3)
+@@ -43,6 +43,6 @@
+ 			("time interval" t3)
+ 			(if 	("time interval1 overlaps time interval2" t1 t2)
+ 				(and 	("time interval1 finishes time interval2" t3 t1)
+-					("time interval1 starts time interval2" t3 t2)))))
++					("time interval1 starts time interval2" t3 t2))))))
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/core/graphs/empty_graph.clif	2012-07-25 11:03:56.415872552 +0200
++++ empty_graph.clif	2012-09-25 21:34:03.917940240 +0200
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports undirected_graph)
+ 
+-(forall x y)
++(forall (x y)
+ 	(not (adj x y)))
+ )
+--- ../Hets-lib/CommonLogic/colore/core/mereology/ex_cm_mereology.clif	2012-07-25 11:03:58.139870147 +0200
++++ ex_cm_mereology.clif	2012-09-25 21:35:20.229963011 +0200
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports cm_mereology)
+ 
+-(cl-imports ex_m_mereology)
++//(cl-imports ex_m_mereology)
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/complex/combined_time/finite_backwards.clif	2012-07-25 11:03:54.639875043 +0200
++++ finite_backwards.clif	2012-09-25 21:35:53.677972365 +0200
+@@ -7,7 +7,7 @@
+ 	(if	(timeinterval i1)
+ 		(exists (i2)
+ 			(and	(timeinterval i2)
+-				(= (beginof i2) (endof(i1)))
++				(= (beginof i2) (endof i1))
+ 				(= (endof i2) (beginof i1))))))
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/complex/combined_time/finite_no_backwards.clif	2012-07-25 11:03:54.635875040 +0200
++++ finite_no_backwards.clif	2012-09-25 21:36:31.321982926 +0200
+@@ -7,7 +7,7 @@
+ 	(if	(timeinterval i1)
+ 		(not (exists (i2)
+ 			(and	(timeinterval i2)
+-				(= (beginof i2) (endof(i1)))
++				(= (beginof i2) (endof i1))
+ 				(= (endof i2) (beginof i1)))))))
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/complex/combined_time/finite_sim_vc_end.clif	2012-07-25 11:03:54.635875040 +0200
++++ finite_sim_vc_end.clif	2012-09-25 21:36:10.981977264 +0200
+@@ -24,7 +24,7 @@
+ (forall (p q)
+         (if     (before p q)
+                 (and    (= p (beginof (between p q)))
+-                        (= q (endof (between p q)))))
++                        (= q (endof (between p q))))))
+ 
+ (forall (i j)
+ (iff	(meets i j)
+--- ../Hets-lib/CommonLogic/colore/complex/combined_time/finite_vc.clif	2012-07-25 11:03:54.635875040 +0200
++++ finite_vc.clif	2012-09-25 21:36:51.733988428 +0200
+@@ -26,7 +26,7 @@
+         (if     (and    (timepoint p)
+                         (timepoint q))
+                 (and    (= p (beginof (between p q)))
+-                        (= q (endof (between p q)))))
++                        (= q (endof (between p q))))))
+ 
+ (forall (i j)
+ (iff	(meets i j)
+--- ../Hets-lib/CommonLogic/colore/core/graphs/graph_def.clif	2012-07-25 11:03:56.415872552 +0200
++++ graph_def.clif	2012-09-25 11:47:23.568911080 +0200
+@@ -22,19 +22,20 @@
+ 		(and	(adj x y)
+ 			(adj y z))))
+ 
+-(forall (x y ...)
+-	(odd_cycle x ... y)
+-	(and	(even_path x ... y)
+-		(adj x y))))
+-
+-(forall (x y ...)
+-	(even_cycle x ... y)
+-	(and	(odd_path x ... y)
+-		(adj x y))))
++// ???
++// (forall (x y ...)
++// 	(odd_cycle x ... y)
++// 	(and	(even_path x ... y)
++// 		(adj x y))))
++// 
++// (forall (x y ...)
++// 	(even_cycle x ... y)
++// 	(and	(odd_path x ... y)
++// 		(adj x y))))
+ 
+-(even_path )
++// (even_path )
+ 
+-(not (odd_path ))
++// (not (odd_path ))
+ 
+ (forall (x)
+ 	(not (even_path x)))
+@@ -71,19 +72,19 @@
+ 		(and	(not (adj x y))
+ 			(not (adj y z)))))
+ 
+-(forall (x y ...)
+-	(complement_odd_cycle x ... y)
+-	(and	(complement_even_path x ... y)
+-		(not (adj x y)))))
+-
+-(forall (x y ...)
+-	(complement_even_cycle x ... y)
+-	(and	(complement_odd_path x ... y)
+-		(not (adj x y)))))
++// (forall (x y ...)
++// 	(complement_odd_cycle x ... y)
++// 	(and	(complement_even_path x ... y)
++// 		(not (adj x y)))))
++// 
++// (forall (x y ...)
++// 	(complement_even_cycle x ... y)
++// 	(and	(complement_odd_path x ... y)
++// 		(not (adj x y)))))
+ 
+-(complement_even_path )
++//(complement_even_path )
+ 
+-(not (complement_odd_path ))
++//(not (complement_odd_path ))
+ 
+ (forall (x)
+ 	(not (complement_even_path x)))
+--- ../Hets-lib/CommonLogic/colore/core/between/hashimotoB0.clif	2012-07-25 11:03:57.107871586 +0200
++++ hashimotoB0.clif	2012-09-25 21:37:11.953994117 +0200
+@@ -27,7 +27,7 @@
+ 		(or	(between a b c)
+ 			(between a c b))))
+ 
+-(forall a x b y c d)
++(forall (a x b y c d)
+ 	(if	(and	(between a x b)
+ 			(between a y b)
+ 			(between c x d)
+--- ../Hets-lib/CommonLogic/colore/core/between/hashimotoB1.clif	2012-07-25 11:03:57.115871569 +0200
++++ hashimotoB1.clif	2012-09-25 21:38:00.642006341 +0200
+@@ -27,7 +27,7 @@
+ 		(or	(between a b c)
+ 			(between a c b))))
+ 
+-(forall a x b y c d)
++(forall (a x b y c d)
+ 	(if	(and	(between a x b)
+ 			(between a y b)
+ 			(between c x d)
+--- ../Hets-lib/CommonLogic/colore/core/between/hashimotoB2.clif	2012-07-25 11:03:57.107871586 +0200
++++ hashimotoB2.clif	2012-09-25 21:38:09.366008118 +0200
+@@ -26,7 +26,7 @@
+ 		(or	(between a b c)
+ 			(between a c b))))
+ 
+-(forall a x b y c d)
++(forall (a x b y c d)
+ 	(if	(and	(between a x b)
+ 			(between a y b)
+ 			(between c x d)
+--- ../Hets-lib/CommonLogic/colore/complex/combined_time/hayes_vector_continuum.clif	2012-07-25 11:03:54.635875040 +0200
++++ hayes_vector_continuum.clif	2012-09-25 21:38:23.738012144 +0200
+@@ -12,7 +12,7 @@
+         (if     (and    (timepoint p)
+                         (timepoint q))
+                 (and    (= p (beginof (between p q)))
+-                        (= q (endof (between p q)))))
++                        (= q (endof (between p q))))))
+ 
+ (forall (i j)
+ (iff	(meets i j)
+--- ../Hets-lib/CommonLogic/colore/core/bipartite_incidence/helly.clif	2012-07-25 11:03:56.643872231 +0200
++++ helly.clif	2012-09-25 21:11:34.122710270 +0200
+@@ -10,13 +10,13 @@
+ 		(exists (w)
+ 			(and	(point w)
+ 				(forall (l)
+-					(if	(and	(line(l)
++					(if	(and	(linel)
+ 							(or	(in x l)
+ 								(in y l))
+ 							(or	(in x l)
+ 								(in z l))
+ 							(or	(in y l)
+-								(in z l))))
++								(in z l)))
+ 						(in w l)))))))
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/complex/interval_meeting/im_def.clif	2012-07-25 11:03:54.475875275 +0200
++++ im_def.clif	2012-09-25 21:24:53.773918398 +0200
+@@ -9,9 +9,9 @@
+ 		(and	(meets i n)
+ 			(meets n m)
+ 			(not (exists (j k)
+-				(meets i j)
+-				(meets j k)
+-				(meets k m)))))))
++				(and (meets i j)
++				     (meets j k)
++				     (meets k m))))))))
+ 
+ (forall (i j)
+ (iff	(precedes i j)
+--- ../Hets-lib/CommonLogic/colore/complex/mereotopology/inch_calculus.clif	2012-07-25 11:03:54.995874538 +0200
++++ inch_calculus.clif	2012-09-25 21:40:03.758035649 +0200
+@@ -136,7 +136,7 @@
+ 	)
+ )
+ 
+-(cl-comment 'PA2: extensionality of inch)
++(cl-comment 'PA2: extensionality of inch')
+ 
+ (forall (x y)
+ 	(iff
+--- ../Hets-lib/CommonLogic/colore/complex/vision_cardworld/inda.clif	2012-07-25 11:03:55.651873633 +0200
++++ inda.clif	2012-09-25 21:40:18.966038982 +0200
+@@ -10,7 +10,7 @@
+ 
+ (cl-text inda
+ 
+-(cl-imports interior_depict)
++//(cl-imports interior_depict)
+ 
+ (forall (r s t)
+ 	(if	(and	(depict r s)
+--- ../Hets-lib/CommonLogic/colore/core/orderings/join_semilattice_ordering.clif	2012-07-25 11:03:57.579870926 +0200
++++ join_semilattice_ordering.clif	2012-09-25 21:46:31.138140091 +0200
+@@ -1,5 +1,5 @@
+ 
+-(cl_text join_semilattice_ordering
++(cl-text join_semilattice_ordering
+ 
+ (cl-imports partial_ordering)
+ 
+--- ../Hets-lib/CommonLogic/colore/core/orderings/lattice_ordering.clif	2012-07-25 11:03:57.579870926 +0200
++++ lattice_ordering.clif	2012-09-25 21:46:42.478142302 +0200
+@@ -1,5 +1,5 @@
+ 
+-(cl_text lattice_ordering
++(cl-text lattice_ordering
+ 
+ (cl-imports partial_ordering)
+ 
+--- ../Hets-lib/CommonLogic/colore/complex/mapsee/mapsee.clif	2012-07-25 11:03:55.719873522 +0200
++++ mapsee.clif	2012-09-25 21:47:48.778154997 +0200
+@@ -184,7 +184,7 @@
+ 			(beside s1 s2))))
+ 
+ (forall (i s)
+-	(if	(and	(depicts i s)
++	(if	(depicts i s)
+ 		(iff	(closed i)
+ 			(loop s))))
+ 
+--- ../Hets-lib/CommonLogic/colore/core/orderings/meet_semilattice_ordering.clif	2012-07-25 11:03:57.567870951 +0200
++++ meet_semilattice_ordering.clif	2012-09-25 21:47:58.770156747 +0200
+@@ -1,5 +1,5 @@
+ 
+-(cl_text meet_semilattice_ordering
++(cl-text meet_semilattice_ordering
+ 
+ (cl-imports partial_ordering)
+ 
+--- ../Hets-lib/CommonLogic/colore/complex/tarski_geometry/neutral_tarski.clif	2012-07-25 11:03:55.235874212 +0200
++++ neutral_tarski.clif	2012-09-25 21:12:01.030684056 +0200
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports continuity_tarski)
+ 
+-(cl-imports congruence_tarski)
++//(cl-imports congruence_tarski)
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/complex/combined_time/no_backwards.clif	2012-07-25 11:03:54.635875040 +0200
++++ no_backwards.clif	2012-09-25 21:48:12.382159089 +0200
+@@ -7,7 +7,7 @@
+ 	(if	(timeinterval i1)
+ 		(not (exists (i2)
+ 			(and	(timeinterval i2)
+-				(= (beginof i2) (endof(i1)))
++				(= (beginof i2) (endof i1))
+ 				(= (endof i2) (beginof i1))
+                                 (= (beginof i1) (endof i1))
+                                 (= (beginof i2) (endof i2)))))))
+--- ../Hets-lib/CommonLogic/colore/complex/vision_cardworld/occludes.clif	2012-07-25 11:03:55.655873619 +0200
++++ occludes.clif	2012-09-25 21:09:00.134858057 +0200
+@@ -12,7 +12,7 @@
+ 
+ (cl-imports obscures)
+ 
+-(cl-imports interior_depicts)
++//(cl-imports interior_depicts)
+ 
+ (forall (p q s t) 
+ 	(if 	(and 	(point p) 
+--- ../Hets-lib/CommonLogic/colore/complex/owltime/owltime_eventuality/mappings/owltime_eventuality_reduction.clif	2012-07-25 11:03:53.711876336 +0200
++++ owltime_eventuality_reduction.clif	2012-09-25 21:49:25.074171734 +0200
+@@ -23,7 +23,7 @@
+ 		(or	(point x)
+ 			(line x))))
+ 
+-forall (x y)
++(forall (x y)
+ 	(iff	(begins x y)
+ 		(and	(point x)
+ 			(line y)
+@@ -31,12 +31,12 @@
+ 			(forall (z)
+ 				(if	(and	(point z)
+ 						(in z y))
+-					(leq x z))))
++					(leq x z)))
+                         (and    (point x)
+                                 (= x y)))))
+ 
+ 
+-forall (x y)
++(forall (x y)
+ 	(iff	(ends x y)
+ 		(and	(point x)
+ 			(line y)
+@@ -44,7 +44,7 @@
+ 			(forall (z)
+ 				(if	(and	(point z)
+ 						(in z y))
+-					(leq z x))))
++					(leq z x)))
+                         (and    (point x)
+                                 (= x y)))))
+ 
+--- ../Hets-lib/CommonLogic/colore/complex/owltime/owltime_instants/owltime_instant_l.clif	2012-07-25 11:03:53.311876906 +0200
++++ owltime_instant_l.clif	2012-09-25 21:50:36.726183002 +0200
+@@ -1,7 +1,7 @@
+ 
+ (cl-text owltime_instant_l
+ 
+-(cl-imports ../owltime_instants/owltime_instants)
++(cl-imports owltime_instants)
+ 
+ (forall (t1 t2)
+ 	(if	(and	(Instant t1)
+--- ../Hets-lib/CommonLogic/colore/complex/owltime/owltime_interval/owltime_interval.clif	2012-07-25 11:03:53.699876353 +0200
++++ owltime_interval.clif	2012-09-25 21:34:57.677956277 +0200
+@@ -1,7 +1,7 @@
+ 
+ (cl-text owltime_interval
+ 
+-(cl-imports ../owltime_instants/owltime_instants)
++(cl-imports owltime_instants)
+ 
+ (forall (t)
+ 	(if	(Instant t)
+--- ../Hets-lib/CommonLogic/colore/complex/owltime/owltime_interval/owltime_interval_lemmas.clif	2012-07-25 11:03:53.699876353 +0200
++++ owltime_interval_lemmas.clif	2012-09-25 21:51:16.922188868 +0200
+@@ -1,7 +1,7 @@
+ 
+ (cl-text owltime_interval_lemmas
+ 
+-(cl-imports owltime_interval
++(cl-imports owltime_interval)
+ 
+ (cl-comment "colore/verification/owltime/owltime_interval/entailment/owltime_interval_lemmas/ex314-1")
+ 
+--- ../Hets-lib/CommonLogic/colore/complex/owltime/owltime_interval/owltime_linear.clif	2012-07-25 11:03:53.699876353 +0200
++++ owltime_linear.clif	2012-09-25 21:49:57.458176958 +0200
+@@ -1,8 +1,8 @@
+ 
+-(cl-text owltime/owltime_interval/owltime_linear
++(cl-text owltime_linear
+ 
+ (cl-imports owltime_interval)
+ 
+-(cl-imports ../owltime_instants/owltime_instant_l)
++(cl-imports owltime_instant_l)
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/complex/owltime/owltime_interval/owltime_semilinear.clif	2012-07-25 11:03:53.699876353 +0200
++++ owltime_semilinear.clif	2012-09-25 21:50:16.242180346 +0200
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports owltime_interval)
+ 
+-(cl-imports ../owltime_instants/owltime_instant_s)
++(cl-imports owltime_instant_s)
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/core/orderings/partial_semiorder.clif	2012-07-25 11:03:57.575870933 +0200
++++ partial_semiorder.clif	2012-09-25 21:52:08.582196055 +0200
+@@ -5,7 +5,7 @@
+ 
+ (forall (x a b c)
+ 	(if	(and	(lt a b)
+-			(lt b c))
++			(lt b c)
+ 			(not (lt a x)))
+ 		(lt x c)))
+ 
+--- ../Hets-lib/CommonLogic/colore/core/ordered_geometry/plane_order.clif	2012-07-25 11:03:57.819870591 +0200
++++ plane_order.clif	2012-09-25 21:39:22.254026621 +0200
+@@ -31,10 +31,10 @@
+ 		(point p3)
+ 		(line l)
+ 		(in p1 l)
+-		(in p3 l))
+-	(exists (p2)
+-		(and	(point p2)
+-			(between p1 p2 p3))))
++		(in p3 l)
++		(exists (p2)
++			(and	(point p2)
++				(between p1 p2 p3)))))
+ 
+ (cl-comment "Of any three points situated on a straight line, 
+ there is always one which lies between the other two.")
+--- ../Hets-lib/CommonLogic/colore/complex/time_interval_incidence/point_continuum.clif	2012-07-25 11:03:54.811874797 +0200
++++ point_continuum.clif	2012-09-25 21:52:51.562201686 +0200
+@@ -79,7 +79,7 @@
+ (forall (i p q)
+ 	(if	(and	(= p (beginof i))
+ 			(= q (endof i)))
+-		(= i (between p q)))
++		(= i (between p q))))
+ 
+ )
+ 
+--- ../Hets-lib/CommonLogic/colore/complex/duration/point_duration.clif	2012-07-25 11:03:54.243875599 +0200
++++ point_duration.clif	2012-09-25 21:55:40.966219691 +0200
+@@ -14,7 +14,7 @@
+ (if  (and	(timeduration d1)
+ 		(timeduration d2)
+ 		(timeduration d3))
+-          (= (add (add d1 d2) d3) (add d1 (add d2 d3))))
++          (= (add (add d1 d2) d3) (add d1 (add d2 d3)))))
+ 
+ (forall (d)
+ (if  (timeduration d)
+@@ -24,7 +24,7 @@
+ (if  (timeduration d1)
+           (exists (d2)
+ 		(and 	(timeduration d2)
+-                	(= (add d1 d2) zero))))
++                	(= (add d1 d2) zero)))))
+ 
+ (forall (d1 d2)
+ (if  (and	(timeduration d1)
+@@ -61,16 +61,16 @@
+ (forall (d1 d2 d3)
+ 	(and	(timeduration d1)
+ 		(timeduration d2)
+-		(timeduration d3))
+-        (iff    (lesser d1 d2)
+-                (lesser (add d1 d3) (add d2 d3))))
++		(timeduration d3)
++        	(iff    (lesser d1 d2)
++                	(lesser (add d1 d3) (add d2 d3)))))
+ 
+ (forall (d1 d2 d3)
+ 	(and	(timeduration d1)
+ 		(timeduration d2)
+-		(timeduration d3))
+-        (iff    (= d1 d2)
+-                (= (add d1 d3) (add d2 d3)))))
++		(timeduration d3)
++		        (iff    (= d1 d2)
++ 			        (= (add d1 d3) (add d2 d3)))))
+ 
+ (forall (t1 t2)
+ 	(if  (and	(timepoint t1)
+@@ -88,7 +88,7 @@
+ (if  (and	(timepoint t1)
+ 		(timepoint t2))
+ 	  (iff	(= zero (duration t1 t2))
+-		(= t1 t2)))
++		(= t1 t2))))
+ 
+ (forall (t1 t2)
+ (if  (and	(timepoint t1)
+--- ../Hets-lib/CommonLogic/colore/core/arithmetic/s_arithmetic.clif	2012-07-25 11:03:56.827871978 +0200
++++ s_arithmetic.clif	2012-09-25 21:56:41.210224806 +0200
+@@ -1,8 +1,8 @@
+ 
+-(cl-text successor)
++(cl-text successor
+ 
+ (forall (x)
+-	(not (= (S zero))))
++	(not (= (S x) zero)))
+ 
+ (forall (x y)
+ 	(if	(= (S x) (S y))
+--- ../Hets-lib/CommonLogic/colore/core/orderings/semiorder.clif	2012-07-25 11:03:57.579870926 +0200
++++ semiorder.clif	2012-09-25 21:58:18.606231908 +0200
+@@ -5,7 +5,7 @@
+ 
+ (forall (x a b c)
+ 	(if	(and	(lt a b)
+-			(lt b c))
++			(lt b c)
+ 			(not (lt a x)))
+ 		(lt x c)))
+ 
+--- ../Hets-lib/CommonLogic/colore/core/graphs/star_graph.clif	2012-07-25 11:03:56.419872548 +0200
++++ star_graph.clif	2012-09-25 21:59:32.754236409 +0200
+@@ -4,7 +4,7 @@
+ (cl-imports undirected_graph)
+ 
+ (exists (x)
+-	(forall y)
++	(forall (y)
+ 		(or	(adj x y)
+ 			(= x y))))
+ )
+--- ../Hets-lib/CommonLogic/colore/core/cyclic_ordering/strict_cyclic.clif	2012-07-25 11:03:57.935870430 +0200
++++ strict_cyclic.clif	2012-09-25 21:59:42.770236912 +0200
+@@ -1,5 +1,5 @@
+ 
+-(cl-text strict_cyclic)
++(cl-text strict_cyclic
+ 
+ (cl-imports cyclic)
+ 
+--- ../Hets-lib/CommonLogic/colore/core/subposet/tree_mm_subposet_dense_weak_separative.clif	2012-07-25 11:03:58.199870065 +0200
++++ tree_mm_subposet_dense_weak_separative.clif	2012-09-25 21:28:22.269820567 +0200
+@@ -5,6 +5,6 @@
+ 
+ (cl-imports subposet)
+ 
+-(cl-imports dense_weak_separative)
++//(cl-imports dense_weak_separative)
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/core/tripartite_incidence/tripartite.clif	2012-07-25 11:03:56.803872014 +0200
++++ tripartite.clif	2012-09-25 21:12:46.214640518 +0200
+@@ -3,7 +3,7 @@
+ 
+ (cl-imports bipartite_incidence)
+ 
+-(cl-imports  plane_existence)
++//(cl-imports  plane_existence)
+ 
+ (cl-imports nontrivial_plane)
+ 
+--- ../Hets-lib/CommonLogic/colore/core/between/tschet.clif	2012-07-25 11:03:57.119871579 +0200
++++ tschet.clif	2012-09-25 21:59:56.522237347 +0200
+@@ -9,7 +9,7 @@
+ 	(if	(between a b c)
+ 		(not (between a c b))))
+ 
+-forall (a b c)
++(forall (a b c)
+ 	(if	(between a b c)
+ 		(not (= a c))))
+ 
+--- ../Hets-lib/CommonLogic/colore/core/bipartite_incidence/twin_lines.clif	2012-07-25 11:03:56.639872248 +0200
++++ twin_lines.clif	2012-09-25 21:28:39.649827372 +0200
+@@ -1,5 +1,5 @@
+ 
+-(cl-text twin_lines)
++(cl-text twin_lines
+ 
+ (cl-imports weak_bipartite)
+ 
+--- ../Hets-lib/CommonLogic/colore/complex/vision_cardworld/urda.clif	2012-07-25 11:03:55.651873633 +0200
++++ urda.clif	2012-09-25 22:00:11.946238032 +0200
+@@ -8,7 +8,7 @@
+  *    Michael Gruninger - initial implementation
+  *******************************************************************************/
+ 
+-(cl-urda urda
++(cl-text urda
+ 
+ (cl-imports kernel)
+ 
+--- ../Hets-lib/CommonLogic/colore/core/between/veblen.clif	2012-07-25 11:03:57.115871569 +0200
++++ veblen.clif	2012-09-25 22:00:47.834239443 +0200
+@@ -3,14 +3,14 @@
+ 
+ (cl-imports infinite_bet)
+ 
+-(cl-imports pasch)
++//(cl-imports pasch)
+ 
+ (exists (p1 p2)
+ 	(not	(= p1 p2)))
+ 	
+ (forall (a b c)
+ 	(if	(between a b c)
+-		(between c b a)
++		(between c b a)))
+ 		
+ (forall (a b c)
+ 	(if	(between a b c)
+--- ../Hets-lib/CommonLogic/colore/complex/combined_time/vector_continuum.clif	2012-07-25 11:03:54.635875040 +0200
++++ vector_continuum.clif	2012-09-25 22:01:10.986240263 +0200
+@@ -27,7 +27,7 @@
+         (if     (and    (timepoint p)
+                         (timepoint q))
+                 (and    (= p (beginof (between p q)))
+-                        (= q (endof (between p q)))))
++                        (= q (endof (between p q))))))
+ 
+ 
+ )
+--- ../Hets-lib/CommonLogic/colore/complex/owltime/owltime_interval/vila.clif	2012-07-25 11:03:53.699876353 +0200
++++ vila.clif	2012-09-25 22:01:50.554243318 +0200
+@@ -1,7 +1,7 @@
+ 
+ (cl-text vila
+ 
+-(cl-imports owltime_instants_l)
++(cl-imports owltime_instant_l)
+ 
+ (cl-imports owltime_instants_infinite)
+ 
+--- ../Hets-lib/CommonLogic/colore/complex/tarski_geometry/weak_tarski.clif	2012-07-25 11:03:55.235874212 +0200
++++ weak_tarski.clif	2012-09-25 21:12:06.562678746 +0200
+@@ -1,7 +1,7 @@
+ 
+ (cl-text weak_tarski
+ 
+-(cl-imports congruence_tarski)
++//(cl-imports congruence_tarski)
+ 
+ (cl-comment "Given any angle  and any point v in its interior, there exists a line segment including v, with an endpoint on each side of the angle.")
+ (forall (x y z u v)
