@@ -1,0 +1,263 @@
+%% TEKS Aufgabe 2
+%% Version 0.15
+%% by Dennis Chong
+
+from Basic/Numbers get Nat
+from Basic/SimpleDatatypes get Boolean
+from Basic/StructuredDatatypes get List
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Anforderungsspezifikation für den einfachen Scheduler
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+spec SCHEDULER_REQ = Nat then
+  sorts ProcList; Process; Time = Nat;
+
+  ops procs: Time -> ProcList;
+      current: Time -> Process;
+
+  preds waits: Process * Time;
+        __?__: Process * ProcList;
+
+  . forall p:Process;t:Time. (p ? procs(t) /\ waits(p, t) => 
+      exists s:Time. (s > t) /\ (current(s) = p \/ not waits(p, s)));
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Anforderungsspezifikation für den priorisierten Scheduler
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+spec PRIORITYSCHEDULER_REQ = Nat then
+  sorts ProcList; Process; Priority; Time = Nat;
+
+  ops procs: Time -> ProcList;
+      current: Time -> Process;
+      prior: Process -> Priority;
+      count: Process * Time * Time -> Nat;
+
+  preds waits: Process * Time;
+        __?__: Process * ProcList;
+        __>__: Priority * Priority;
+
+  vars p: Process;
+       s: Time;
+       t: Time;
+
+  . count(p, t, t) = 1 when current(t) = p else 0;
+  . t < (s+1) => count(p, t, s+1) = count(p, t, s) + 1 when current(s+1) = p 
+      else count(p, t, s);
+
+  . forall p:Process;t:Time. 
+      (p ? procs(t) /\ waits(p, t) => 
+      exists s:Time. (s > t) /\ (current(t) = p \/ not waits(p, t)));
+
+  . forall p:Process;q:Process;t:Time;s:Time. 
+      (((p ? procs(t)) /\ (q ? procs(t)) /\ (s >= t) /\ prior(p) > prior(q) /\ 
+      forall r:Time. ((r >= t /\ r < s) => waits(p, t))) =>
+      count(p, t, s) >= count(q, t, s));
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Entwurfsspezifikation für den einfachen Scheduler
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+spec POINTER = Nat then
+  sorts Pointer = Nat; 
+end
+
+spec TIME = Nat then
+  sorts Time = Nat;
+end
+
+spec PROCS = TIME then
+  sorts Process;
+
+  preds waits: Process * Time;
+end
+
+spec PROCLIST = POINTER and PROCS and List [sort Process fit Elem |-> Process] then
+  sorts ProcList = List[Process];
+
+  preds __?__: Process * ProcList;
+
+  vars p: Process;
+       l: ProcList;
+
+  . p ? l <=> p eps l;
+end
+
+spec RESULTS [sort Elem] =
+  free type Result ::= some(Elem) | none;
+end
+
+spec SCHEDULER_DES = PROCLIST and RESULTS [sort Pointer] and Boolean then
+  ops check: ProcList * Time -> Boolean;
+      select: ProcList * Time * Pointer -> Result;
+      schedule: ProcList * Time * Pointer -> Pointer;
+
+      procs: Time -> ProcList;
+      running: Time -> Pointer;
+      current: Time -> Process;
+
+  vars x: Pointer; 
+       y: Pointer;
+       t: Time;
+       p: Process;
+       l: ProcList;
+
+  . check([], t) = False;
+  . check(p :: l, t) = True when waits(p, t) else check(l, t);
+
+  . check(l, t) = False =>
+      select(l, t, x) = none;
+  . check(l, t) = True /\ x >= #l =>
+      select(l, t, x) = some(0) when waits(l ! 0, t) 
+      else select(l, t, 0);
+  . check(l, t) = True /\ x < #l =>
+      select(l, t, x) = some(x+1) when waits(l ! (x+1), t) 
+      else select(l, t, x+1);
+
+  . select(l, t, x) = none => schedule(l, t, x) = x;
+  . select(l, t, x) = some(y) => schedule(l, t, x) = y;
+
+%%. procs(0) = [Initiale Prozessliste];
+  . procs(t+1) = procs(t);
+
+  . running(0) = 0;
+  . running(t+1) = schedule(procs(t), t, running(t));
+
+  . current(t) = procs(t) ! running(t);
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Entwurfsspezifikation für den priorisierten Scheduler
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+spec PRIORITIES = 
+  free type Priority ::= High | Medium | Low;
+
+  ops switch: Priority -> Priority;
+
+  preds __>__: Priority * Priority;
+        __>=__: Priority * Priority;
+
+  vars x: Priority;
+       y: Priority;
+
+  . switch(High)= Medium;
+  . switch(Medium) = Low;
+  . switch(Low) = High;
+
+  . not x > High;
+  . x > Medium <=> x = High;
+  . x > Low <=> x = Medium \/ x = High;
+
+  . x >= y <=> x = y \/ x > y;
+end
+
+spec PRIORITYPROCS = PRIORITIES and TIME then
+  sorts Process;
+
+  ops prior: Process -> Priority;
+
+  preds waits: Process * Time;
+end
+
+spec PRIORITYPROCLIST = POINTER and PRIORITYPROCS and List [sort ProcPair fit Elem |-> ProcPair] and Boolean then
+  free type ProcPair ::= procpair(proc: Process; flag: Boolean);
+
+  sorts ProcList = List[ProcPair];
+
+  ops setflag: ProcList * Boolean -> ProcList;
+      setflag: ProcList * Pointer * Boolean -> ProcList;
+
+  preds __?__: Process * ProcList;
+
+  vars p: ProcPair;
+       q: Process;
+       l: ProcList;
+       x: Pointer;
+       f: Boolean;
+
+  . q ? l <=> procpair(q, True) eps l \/ procpair(q, False) eps l;
+
+  . setflag(p :: l, f) = [procpair(proc(p), f)] ++ setflag(l, f);
+
+  . setflag(p :: l, 0, f) = [procpair(proc(p), f)] ++ l;
+  . setflag(p :: l, x+1, f) = [p] ++ setflag(l, x, f);
+end
+
+spec PRIORITYSCHEDULER_DES = PRIORITYPROCLIST and RESULTS [sort Pointer] then
+  ops accept: ProcList * Time * Priority * Pointer -> Boolean;
+      check: ProcList * Time * Priority -> Boolean;
+      select: ProcList * Time * Priority * Pointer -> Result;
+      schedule: ProcList * Time * Priority * Pointer -> Pointer;
+
+      procs: Time -> ProcList;
+      mode: Time -> Priority;
+      running: Time -> Pointer;
+      current: Time -> Process;
+
+  vars x: Pointer; 
+       y: Pointer;
+       t: Time;
+       p: ProcPair;
+       l: ProcList;
+       m: Priority;
+
+  . accept(l, t, m, x) = True when 
+      waits(proc(l ! x), t) /\ 
+      prior(proc(l ! x)) >= m /\
+      flag(l ! x) = False
+      else False;
+
+  . check([], t, m) = False;
+  . check(p :: l, t, m) = True when accept(p :: l, t, m, 0) = True
+      else check(l, t, m);
+
+  . check(l, t, m) = False =>
+      select(l, t, m, x) = none;
+  . check(l, t, m) = True /\ x >= #l =>
+      select(l, t, m, x) = some(0) when accept(l, t, m, 0) = True
+      else select(l, t, m, 0);
+  . check(l, t, m) = True /\ x < #l =>
+      select(l, t, m, x) = some(x+1) when accept(l, t, m, x+1) = True
+      else select(l, t, m, x+1);
+
+  . select(l, t, m, x) = none => schedule(l, t, m, x) = x;
+  . select(l, t, m, x) = some(y) => schedule(l, t, m, x) = y;
+
+%%. procs(0) = [Initiale Prozessliste];
+  . procs(t+1) = setflag(procs(t), False) when select(procs(t), t, mode(t), running(t)) = none
+      else setflag(procs(t), running(t), True);
+
+  . mode(0) = High;
+  . mode(t+1) = switch(mode(t)) when select(procs(t), t, mode(t), running(t)) = none
+      else mode(t);
+
+  . running(0) = 0;
+  . running(t+1) = schedule(procs(t), t, mode(t), running(t));
+
+  . current(t) = proc(procs(t) ! running(t));
+
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Views
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+view SCHEDULER: SCHEDULER_REQ to SCHEDULER_DES
+end 
+
+view PRIORITYSCHEDULER: PRIORITYSCHEDULER_REQ to PRIORITYSCHEDULER_DES
+end 
