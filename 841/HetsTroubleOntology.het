@@ -1,0 +1,27 @@
+library HetsTroubleOntology
+
+logic OWL
+
+spec HetsTroubleOntology =
+
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+
+AnnotationProperty: rdfs:label
+
+Datatype: xsd:boolean
+
+Class: NoProblem
+
+    Individuals:
+        DoesntLikeMe
+
+    Annotations: 
+        rdfs:comment "Hets doesn't like this comment"@
+
+Class: Local
+
+Class: Individual
+
+Class: Library
+
+end
