@@ -1,0 +1,774 @@
+library Vickrey
+
+%{
+$Id: Vickrey.casl 766 2013-03-11 10:26:52Z till $
+
+Auction Theory Toolbox
+
+Authors:
+* Christoph Lange <math.semantic.web@gmail.com>
+* Till Mossakowski <till.mossakowski@dfki.de>
+
+Dually licenced under
+* Creative Commons Attribution (CC-BY) 3.0
+* ISC License (1-clause BSD License)
+See LICENSE file for details
+(Rationale for this dual licence: http://arxiv.org/abs/1107.3212)
+}%
+
+%{
+CL@TM: I'm currently stuck in case_2a of the proof of Vickrey#vickreyA
+}%
+
+%{
+It seems that the only alternative to using sorts/types _properly_ (which we are now trying to do) is a full fallback to raw FOL, where the only advantage of CASL over TPTP would be a little syntactic sugar.
+
+CL@TM: How does casl-mode indentation work?
+}%
+
+%% from Basic/SimpleDatatypes get Boolean
+spec Boolean =
+  free type Boolean ::= True | False
+end
+
+from Basic/RelationsAndOrders get TotalOrder
+%[from Basic/Reals get OrderedField, ExtOrderedField]%
+
+%prec(
+      { __-__ } <
+      { __*__ }
+)%
+
+%left_assoc __ * __
+
+spec Nat =
+    sorts
+        Nat
+    preds
+        __>__: Nat * Nat;
+        __>=__: Nat * Nat;
+    ops
+        0, 1: Nat;
+    forall n:Nat
+    . n > 1 => n > 0 %(gt_one_imp_gt_0)%
+end
+
+%[ TODO CL: reuse Basic/Reals, or ExtOrderedField (with hiding) as explained in http://trac.informatik.uni-bremen.de:8080/hets/ticket/1103.  Or work around the hiding, as suggested by TM: "define MyExtField in the same way as ExtField (but based on ConstructField), etc." ]% 
+spec Real =
+    TotalOrder with Elem |-> Real then
+    %[ExtOrderedField[OrderedField] with Elem |-> Real ]%
+    sort Real; preds __>=__, __>__, __<__: Real * Real; ops 0, 1: Real; __*__, __-__: Real * Real -> Real;
+    %[ First the axioms that we actually need: ]%
+    forall x,y,z:Real
+    . x < y <=> x <= y /\ not x = y %(lt_def)%
+    . x > y <=> not x <= y %(gt_def)%
+    . x >= y <=> y <= x %(ge_def)%
+    . x * 1 = x %(1_mult)%
+    . x * 0 = 0 %(0_mult)%
+    . x - 0 = x %(minus_0)%
+    . x >= y => x - y >= 0 %(x_ge_y)%
+    . (exists r:Real . not r = x) %(exists_different)%
+end
+
+spec NonNegativeReal = Real then
+    sort NonNegativeReal = { x: Real . x >= 0 }
+
+spec PositiveReal = NonNegativeReal then
+    sort PositiveReal = { x: NonNegativeReal . x > 0 }
+
+spec Vectors[sort Elem] given Nat = %[ checked consistency with darwin ]%
+    sorts
+    	Vector[Elem];
+        Index < Nat;
+        Length < Nat;
+    ops
+        __[__]: Vector[Elem] * Index -> Elem; %[ CL: For indices out of scope this is actually a partial function, but we don't model it this way for performance reasons. ]%
+        %% TM: alternative modelling:     sort NonNegativeReal < Thing; ... ; sort Vector; op component: Vector * Nat -> Thing;
+        length: Vector[Elem] -> Length;
+        __[__:=__]: Vector[Elem] * Index * Elem -> Vector[Elem];
+        __[__<-__]: Vector[Elem] * Index * Vector[Elem] -> Vector[Elem];
+    preds
+        inRange: Length * Index; %[ TODO CL: find out whether it's additionally necessary to _define_ this ]%
+    %[ CL@TM: I'm not sure whether the following ones are needed.  I had already taken them out when __[__] was still a partial function, but I think now they are needed even less. ]%
+    %[forall n: Length]%
+    %[. n > 0 <=> (exists v: Vector[Elem] . length(v) = n) %(exists_dimension)%]%
+    %[. n > 0 => (exists i: Index . inRange(n, i)) %(range_not_empty)%]%
+    %[forall v, altV: Vector[Elem]; i: Index; n: Length; e: Elem]%
+    %[. length(v) = n /\ inRange(n, i) => (exists e: Elem . v[i] = e) %(non_empty_vector_has_elements)%]%
+    forall v, altV, dev: Vector[Elem]; alt: Elem; i, j: Index; n: Length
+    . dev = v[i := alt] =>
+      (exists n: Length . length(v) = n /\
+                          inRange(n, i) /\
+                          length(dev) = n) %(deviation_range)%
+    . v[i := alt][i] = alt %(deviation_def_index)%
+    . (not j = i) => v[i := alt][j] = v[j] %(deviation_def_otherwise)%
+    . length(v[i <- altV]) = length(altV) %(deviation_vec_range)% %[ The other range constraints are enforced by deviation_range ]%
+    . v[i <- altV] = v[i := altV[i]] %(deviation_vec_def)%
+    %[ TEST CODE ]%
+    %[forall v, altV: Vector[Elem]; i: Index]%
+    %[. (exists dev: Vector[Elem] . dev = v[i <- altV]) %(test01_dev_exist)% %implied]%
+end
+    
+spec RealVectors = %[ checked consistency with darwin ]%
+  Real then
+  Vectors[sort Real]
+  %[ TEST CODE ]%
+  %[then]%
+  %[forall v, altV: Vector[Real]; i: Index]%
+  %[. (exists altV: Vector[Real]; n: Length .]%
+  %[   length(altV) = n /\]%
+  %[   inRange(n, i) /\]%
+  %[   not altV[i] = v[i]) %(test01_exist_difference_in_elem)% %implied]%
+  %[forall v: Vector[Real];]%
+  %[       n: Length]%
+  %[. n > 1]%
+  %[  => (exists i: Index;]%
+  %[             altV: Vector[Real] .]%
+  %[     length(altV) = n /\]%
+  %[     inRange(n, i) /\]%
+  %[     not altV[i] = v[i]) %(test02)% %implied]%
+end
+
+%% main concepts 
+spec SingleGoodAuction = %[ TODO CL: complete from Isabelle ]%
+Boolean then
+RealVectors then
+  sort  Vector[NonNegativeReal] < Vector[Real];   Vector[PositiveReal] < Vector[Real]
+
+    sorts
+        Participants = Length; %[ cardinal number of participants (variable usually called n) ]%
+        Participant = Index; %[ ordinal number of one participant ]%
+    	Bids < Vector[Real]; %[ actually NonNegativeReal, but then I get typing errors further below.  CL@TM: What's wrong? ]%
+        Allocation; %[ we don't care what this is, as we always access it with allocated() ]%
+        Payments; %[ we don't care what this is, as we always access it with payment() ]%
+        Valuations < Vector[Real]; %[ actually PositiveReal, but then I get typing errors further below.  CL@TM: What's wrong? ]%
+        Valuations < Bids;
+    preds
+        allocation: Bids * Allocation;
+        allocated: Allocation * Bids * Participant;
+        payments: Bids * Payments;
+    ops
+        payment: Payments * Bids * Participant -> Real;
+        payoff: Real %[ actually PositiveReal ]% * Boolean * Real -> Real;
+        payoff: Valuations * Bids * Allocation * Payments * Participant -> Real;
+    forall v: Real; p : Real; x: Boolean
+    . payoff(v, x, p) = v * (1 when x = True else 0) - p %(payoff_def)%
+    forall v:Valuations; b:Bids; x:Allocation; p:Payments; i:Participant
+    . allocation(b, x) => (exists n:Participants .
+                           n = length(b) /\ (exists! k:Participant .
+                                             inRange(n, k) /\
+                                             allocated(x, b, k))) %(allocation_def)%
+    %[ Note that we leave the related predicate payments(b, p) unspecified, as for this type of auction the payments are arbitrary (but for others they might not be). ]%
+    . allocation(b, x) /\
+      payments(b, p) /\
+      length(b) = length(v) %[ speaking of a payoff only makes sense under these preconditions ]%
+      =>
+      payoff(v, b, x, p, i) =
+      payoff(v[i], True when allocated(x, b, i) else False, payment(p, b, i)) %(payoff_vector_def)%
+    forall b:Bids; x:Allocation; n:Participants; winner,other:Participant
+    . allocation(b, x) /\
+      n = length(b) /\
+      inRange(n, winner) /\
+      allocated(x, b, winner) /\
+      inRange(n, other) /\
+      allocated(x, b, other)
+      =>
+      other = winner %(allocation_unique)% %implied
+      %[ LOG fixed bug in allocation_def in r309 (unsatisfiable antecedent; found by closely inspecting SPASS proof) ]%
+      %[ proved with (using axioms …)
+         * SPASS (allocation_def)
+         * darwin-non-fd (allocation_def; requires manual minimisation)
+         * eprover (allocation_def; requires manual minimisation)
+         not yet tested with
+         * MathServe Broker (firewall issue)
+         * Vampire (firewall issue)
+         Note: Isabelle formalisation is slightly more general ]%
+end
+
+%{ It would be more convenient to use Maximum[ExtTotalOrder[TotalOrder]], but in the interest of more efficient and easy reuse we do without >= here and use <= instead. }%
+spec Maximum[TotalOrder] = %[ TODO CL: complete from Isabelle ]%
+Vectors[sort Elem] then
+    preds
+        inArgMaxSet: Vector[Elem] * Index;
+    ops
+        maximum: Vector[Elem] -> Elem;
+        maximumExcept: Vector[Elem] * Index -> Elem;
+    forall b: Vector[Elem];
+           i, j: Index;
+           n: Length;
+           m, alt: Elem
+    . inArgMaxSet(b, i) <=> maximum(b) = b[i] %(arg_max_set_def)%
+    . length(b) = n /\ inRange(n, i)
+      =>
+      b[i] <= maximum(b) %(maximum_is_greater_or_equal)% %[ In Isabelle we proved this by induction ]%
+      %% TM: but this is a definition here! In Iasbelle, this can be proven only on basis of some *other* definition, which is not given here.
+      %% CL@TM: My comments were misleading.  Here and below I meant: In Isabelle (actually in my old version, before Makarius improved it) we defined the maximum differently, and then were able to prove this statement based on the definition.  Here, where we want to avoid induction, we clearly have to define all those properties of the maximum that we need.
+    . length(b) = n /\ n > 0
+      =>
+      exists i: Index . inRange(n, i) /\ maximum(b) = b[i] %(maximum_is_component)% %[ In Isabelle we proved this by induction ]%
+    . length(b) = n /\ n > 0 /\
+      ( forall i: Index . inRange(n, i) => b[i] <= m %[ greater or equal ]% ) /\
+      ( exists i: Index . inRange(n, i) /\ m = b[i] %[ component ]% )
+      =>
+      m = maximum(b) %(maximum_sufficient)% %[ In Isabelle we proved this by induction ]%
+    . length(b) = n /\ n > 1 /\ inRange(n, j) /\
+      inRange(n, i) /\ not i = j
+      =>
+      b[i] <= maximumExcept(b, j) %(maximum_except_is_greater_or_equal)% %[ In Isabelle we proved this using some properties of the natural numbers ]%
+    . length(b) = n /\ n > 1 /\ inRange(n, j)
+      =>
+      ( exists i: Index . inRange(n, i) /\ not i = j /\ maximumExcept(b, j) = b[i] ) %(maximum_except_is_component)%
+    . length(b) = n /\ n > 1 /\ inRange(n, j)
+      => maximumExcept(b, j) <= maximum(b) %(maximum_greater_or_equal_remaining_maximum)% %[ In Isabelle we proved this by induction ]%
+    . length(b) = n /\ n > 1 /\ inRange(n, i)
+      => maximumExcept(b, i) = maximumExcept(b[i := alt], i) %(remaining_maximum_invariant)% %[ In Isabelle we proved this by the definition of maximumExcept ]%
+    %[ The following was for testing what we really need to prove SecondPriceAuction#only_max_bidder_wins, but its presence helps eprover to get the latter proved much faster. ]%
+    . length(b) = n /\ n > 1 /\ inRange(n, i) /\ maximumExcept(b, i) <= b[i] /\ not maximumExcept(b, i) = b[i]
+      => inArgMaxSet(b, i) /\ (forall j:Index . inRange(n, j) /\ not j = i => not inArgMaxSet(b, j)) %(only_one_maximum)% %implied
+end
+
+%[ CL@TM: I'd actually like to speak of NonNegativeReal, but this doesn't work. ]%
+%[ CL@TM: In the neighbourhood of this node there are some red edges in the development graph.  Where do they come from, and how do I get rid of them? ]% %% TM: you need to prove that the reals are a total order %% CL: Actually this comment is obsolete.  Some time ago, I _defined_ Real as TotalOrder.  There is now still one red edge from TotalOrder to Real, but the Auto DG Prover gets rid of this.
+spec MaximumReal =
+  Maximum[Real fit Elem |-> Real]
+end
+
+spec SingleGoodAuctionProperties = %[ TODO CL: complete from Isabelle ]%
+MaximumReal then
+SingleGoodAuction 
+then
+    preds
+        equilibriumWeaklyDominantStrategy: Participants * Valuations * Bids * Allocation * Payments;
+        efficient: Participants * Valuations * Bids * Allocation;
+    forall n: Participants;
+           v: Valuations;
+           b: Bids;
+           x: Allocation;
+           p: Payments
+    . efficient(n, v, b, x) <=>
+        (length(v) = n /\ length(b) = n /\
+         forall i: Participant . inRange(n, i) /\ allocated(x, b, i)
+         => inArgMaxSet(v, i)) %(efficient_def)%
+    . equilibriumWeaklyDominantStrategy(n, v, b, x, p) <=>
+        length(v) = n /\
+        length(b) = n /\
+        allocation(b, x) /\
+        payments(b, p) /\
+        (forall i: Participant . inRange(n, i) =>
+          (forall whateverBid: Bids .
+            not whateverBid[i] = b[i] 
+            =>
+            (exists b: Bids %[ this avoids saying "as Bids" below ]% .
+             b = whateverBid[i <- v] /\
+             payoff(v, b, x, p, i) >=
+             payoff(v, whateverBid, x, p, i)))) %(equilibrium_weakly_dominant_strategy_def)%
+end
+
+spec SecondPriceAuction = %[ TODO CL: complete from Isabelle ]%
+SingleGoodAuction then
+MaximumReal then
+    preds
+        secondPriceAuction: Participants * Allocation * Payments;
+        secondPriceAuctionWinner: Participants * Bids * Allocation * Payments * Participant;
+        secondPriceAuctionLoser: Participants * Bids * Allocation * Payments * Participant;
+    ops
+        secondPriceAuctionWinnersPayment:  Bids * Participant -> Real %[ actually NonNegativeReal ]%;
+    vars b: Bids; winner: Participant
+    . secondPriceAuctionWinnersPayment(b, winner) = maximumExcept(b, winner) %(second_price_auction_winners_payment_def)%
+    forall n: Participants;
+           x: Allocation;
+           p: Payments;
+           v: Valuations;
+           b: Bids;
+           winner, loser, i, maxBidder: Participant
+    . secondPriceAuctionWinner(n, b, x, p, i) <=>
+      inRange(n, i) /\
+      inArgMaxSet(b, i) /\
+      allocated(x, b, i) /\
+      payment(p, b, i) = secondPriceAuctionWinnersPayment(b, i) %(second_price_auction_winner_def)%
+    . secondPriceAuctionLoser(n, b, x, p, i) <=>
+      inRange(n, i) /\
+      not allocated(x, b, i) /\
+      payment(p, b, i) = 0 %(second_price_auction_loser_def)%
+    . secondPriceAuction(n, x, p) <=> %[ (x, p) is the outcome of a second price auction with n participants iff … ]%
+      n > 1 /\
+      (forall b: Bids .
+        length(b) = n
+        =>
+        allocation(b, x) /\
+        payments(b, p) /\
+        (exists i: Participant .
+          inRange(n, i) /\
+          secondPriceAuctionWinner(n, b, x, p, i) /\
+          (forall j: Participant .
+            inRange(n, j) /\
+            not j = i
+            =>
+            secondPriceAuctionLoser(n, b, x, p, j)))) %(second_price_auction_def)%
+    %[ CL@TM: The following lemmas were needed to enable Isabelle to do the proofs in the Vickrey theory.  If a FOL prover can prove the Vickrey theorems automatically, without further support, what's better:
+       * leaving the following lemmas in place and just not proving them with Hets,
+       * factoring them out to a separate theory (to make the original theory valid)
+       * deleting them? ]%
+    %{ not formalising secondPriceAuctionHasOnlyOneWinner for now, as it is not currently needed (see Isabelle) }%
+    %[ CL@TM: If, from here on, we "globally" assume "secondPriceAuction(n, x, p) => ...", can we still name individual axioms in the nested expression?  TM: write a view v : { lhs1 and lhs2-on-the-fly } to { background-theory then rhs-on-the-fly } , where 
+      spec lhs1 = sorts ... ops x:...; p:...; n:...; 
+                 . secondPriceAuction(n, x, p)
+      end ]%
+    . secondPriceAuction(n, x, p) /\
+      n = length(b) /\
+      inRange(n, winner) /\
+      allocated(x, b, winner)
+      =>
+      secondPriceAuctionWinner(n, b, x, p, winner) %(allocated_implies_spa_winner)% %implied
+      %[ LOG fixed bug in r309 ("forall i" instead of "exists i" in second_price_auction_def, and needed to introduce payments_length_eq_bids_length; found after realising that this theorem could be "proved" without taking into account allocation axioms) ]%
+      %[ proved with (using axioms …)
+         * eprover (same as Isabelle; requires manual minimisation; also works without allocation_unique, as this is merely a straightforward consequence of allocation_def)
+         * Vampire
+         * MathServe Broker
+         does not work with
+         * SPASS (timeout)
+         * darwin-non-fd (timeout)
+         Isabelle proof uses second_price_auction_def, allocation_def, allocation_unique, second_price_auction_winner_def
+         LOG It would be great if Isabelle were able to export such dependency information as a graph (or is it actually a tree?)  OMDoc (rather in the RDF encoding than XML) might be suitable for representing such information generically. ]%
+    . secondPriceAuction(n, x, p) /\
+      n = length(b) /\
+      inRange(n, loser) /\
+      not allocated(x, b, loser) %[ LOG fixed bug in r313 (had "winner" instead of "loser": possible "thanks" to global quantification) ]%
+      =>
+      secondPriceAuctionLoser(n, b, x, p, loser) %(not_allocated_implies_spa_loser)% %implied
+      %[ proved with
+         * SPASS (same as Isabelle; as of r519, maximum_except_is_component, deviation_def_index, deviation_def_otherwise can be excluded manually)
+         * eprover (second_price_auction_def, second_price_auction_winner_def; requires manual minimisation; doesn't work with second_price_auction_loser_def instead of second_price_auction_loser_def (says "disproved"; CL@TM: Does this make sense?); before r324 this was vice-versa.)
+         * MathServe Broker
+         * Vampire
+         does not work with
+         * darwin-non-fd (timeout)
+         Isabelle proof (by contradiction) uses second_price_auction_def, second_price_auction_winner_def ]%
+    . secondPriceAuction(n, x, p) /\
+      n = length(b) /\
+      inRange(n, maxBidder) /\
+      b[maxBidder] > maximumExcept(b, maxBidder)
+      => secondPriceAuctionWinner(n, b, x, p, maxBidder) %(only_max_bidder_wins)% %implied
+      %[ proved with
+         * SPASS (as of r519 has strange requirements: allocation_def gt_def second_price_auction_def deviation_def_index maximum_is_greater_or_equal deviation_def_otherwise only_one_maximum – as determined by script) TODO CL: check this!!!
+         * eprover (now takes a lot of time unless Maximum#only_one_maximum is used, therefore didn't minimise; worked before r324 using second_price_auction_winner_def, second_price_auction_def, allocation_def, arg_max_set_def, maximum_is_greater_or_equal, maximum_except_is_greater_or_equal; requires manual minimisation)
+         * Vampire (needs more than 10 seconds)
+         * MathServe Broker
+         does not work with
+         * darwin-non-fd (timeout)
+         not yet tested with
+         Isabelle proof (by contradiction) uses second_price_auction_def, second_price_auction_winner_def, second_price_auction_loser_def, maximum_except_is_greater_or_equal, maximum_is_greater_or_equal, arg_max_set_def ]%
+    . secondPriceAuction(n, x, p) /\
+      n = length(b) /\
+      n = length(v) /\
+      inRange(n, winner) /\
+      allocated(x, b, winner)
+      =>
+      payoff(v, b, x, p, winner) =
+      v[winner] - maximumExcept(b, winner) %(second_price_auction_winner_payoff)% %implied
+    %[ proved with a scripted combination of SPASS and eprover using auxiliary lemmas; see
+       Vickrey-SecondPriceAuction-second_price_auction_winner_payoff.hpf ]%
+    . secondPriceAuction(n, x, p) /\
+      n = length(b) /\
+      n = length(v) /\
+      inRange(n, loser) /\
+      not allocated(x, b, loser)
+      =>
+      payoff(v, b, x, p, loser) =
+      0 %(second_price_auction_loser_payoff)% %implied
+    %[ no longer works as of r519; previously proved with a scripted combination of SPASS and eprover using auxiliary lemmas; see
+       Vickrey-SecondPriceAuction-second_price_auction_loser_payoff.hpf ]%
+    . secondPriceAuction(n, x, p) /\
+      n = length(b) /\
+      n = length(v) /\
+      inRange(n, winner) /\
+      allocated(x, b, winner)
+      =>
+      payoff(v, b, x, p, winner)
+      = v[winner] - maximumExcept(b[winner <- v], winner) %(winners_payoff_on_deviation_from_valuation)% %implied
+    %[ proved with a scripted combination of SPASS and eprover using auxiliary lemmas; see
+       Vickrey-SecondPriceAuction-winners_payoff_on_deviation_from_valuation.hpf ]%
+    %[ TEST CODE ]%
+    preds
+         allocatedImpliesSpaWinnerAnt, allocatedImpliesSpaWinnerCons, notAllocatedImpliesSpaLoserCons: Participants * Bids * Allocation * Payments * Participant;
+    forall b: Bids;
+           n: Participants;
+           p: Payments;
+           v: Valuations;
+           winner, loser, i, maxBidder: Participant;
+           x: Allocation
+    %[. allocatedImpliesSpaWinnerAnt(n, b, x, p, winner) <=>]%
+    %[  secondPriceAuction(n, x, p) /\]%
+    %[  n = length(b) /\]%
+    %[  inRange(n, winner) /\]%
+    %[  allocated(x, b, winner)]%
+    %[  %(allocated_implies_spa_winner_ant)%]%
+    . allocatedImpliesSpaWinnerCons(n, b, x, p, winner) <=>
+      allocation(b, x) /\
+      payments(b, p) /\
+      n = length(b) /\
+      n > 1 /\
+      secondPriceAuctionWinner(n, b, x, p, winner)
+      %(allocated_implies_spa_winner_cons)%
+    . notAllocatedImpliesSpaLoserCons(n, b, x, p, loser) <=>
+      allocation(b, x) /\
+      payments(b, p) /\
+      n = length(b) /\
+      secondPriceAuctionLoser(n, b, x, p, loser)
+      %(not_allocated_implies_spa_loser_cons)%
+    %[. allocatedImpliesSpaWinnerAnt(n, b, x, p, winner) =>]%
+    %[  allocatedImpliesSpaWinnerCons(n, b, x, p, winner)]%
+    %[  %(allocated_implies_spa_winner_variant)% %implied]%
+    . allocatedImpliesSpaWinnerCons(n, b, x, p, winner) /\
+      n = length(v)
+      =>
+      payoff(v, b, x, p, winner) = payoff(v[winner], True, payment(p, b, winner))
+      %(test_spa_winner_payoff_0step)% %implied %[ works with SPASS ]%
+    . notAllocatedImpliesSpaLoserCons(n, b, x, p, loser) /\
+      n = length(v)
+      =>
+      payoff(v, b, x, p, loser) = payoff(v[loser], False, payment(p, b, loser))
+      %(test_spa_loser_payoff_0step)% %implied %[ works with SPASS ]%
+    %[. allocatedImpliesSpaWinnerCons(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  n > 1 %(test_wpdv_pre0)% %implied %\[ SPASS ]\%]%
+    %[. allocatedImpliesSpaWinnerCons(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  length(b) = n /\ n > 1 /\ inRange(n, winner) %(test_wpdv_pre1)% %implied %\[ SPASS ]\%]%
+    %[. length(b) = n /\ n > 1 /\ inRange(n, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  v[winner] - maximumExcept(b, winner) = v[winner] - maximumExcept(b[winner := v[winner]] %(test_wpdv_pre2)% %implied %\[ SPASS ]\%]%
+    %[. allocatedImpliesSpaWinnerCons(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  v[winner] - maximumExcept(b, winner) = v[winner] - maximumExcept(b[winner := v[winner]], winner) %(test_wpdv_0)% %implied %\[ eprover ]\%]%
+    %[. allocatedImpliesSpaWinnerCons(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  v[winner] - maximumExcept(b[winner := v[winner]], winner) = v[winner] - maximumExcept(b[winner <- v], winner) %(test_wpdv_1)% %implied %\[ eprover ]\%]%
+    %[. allocatedImpliesSpaWinnerCons(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  payoff(v, b, x, p, winner) = v[winner] - maximumExcept(b[winner <- v], winner) %(test_wpdv_2)% %implied]%
+    %[. allocatedImpliesSpaWinnerAnt(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  payoff(v, b, x, p, winner) = payoff(v[winner], True, payment(p, b, winner))]%
+    %[  %(test2_spa_winner_payoff_0step)% %implied %\[ works with SPASS ]\%]%
+    %[. allocatedImpliesSpaWinnerCons(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  payoff(v, b, x, p, winner) = payoff(v[winner], True, secondPriceAuctionWinnersPayment(b, winner))]%
+    %[  %(test_spa_winner_payoff_0.5step)% %implied %\[ works with SPASS ]\%]%
+    %[. allocatedImpliesSpaWinnerAnt(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  payoff(v, b, x, p, winner) = payoff(v[winner], True, secondPriceAuctionWinnersPayment(b, winner))]%
+    %[  %(test2_spa_winner_payoff_0.5step)% %implied]%
+    %[. allocatedImpliesSpaWinnerCons(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  payoff(v[winner], True, payment(p, b, winner)) = payoff(v[winner], True, maximumExcept(b, winner))]%
+    %[  %(test_spa_winner_payoff_1step)% %implied]%
+    %[. allocatedImpliesSpaWinnerAnt(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  payoff(v, b, x, p, winner) = payoff(v[winner], True, maximumExcept(b, winner))]%
+    %[  %(test2_spa_winner_payoff_1step)% %implied]%
+    %[. allocatedImpliesSpaWinnerCons(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  payoff(v[winner], True, maximumExcept(b, winner)) = v[winner] - maximumExcept(b, winner)]%
+    %[  %(test_spa_winner_payoff_2step)% %implied]%
+    %[. allocatedImpliesSpaWinnerAnt(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  payoff(v, b, x, p, winner) = v[winner] * 1 - maximumExcept(b, winner)]%
+    %[  %(test2_spa_winner_payoff_2step)% %implied]%
+    . allocatedImpliesSpaWinnerCons(n, b, x, p, winner) /\
+      n = length(v)
+      =>
+      payoff(v, b, x, p, winner) = v[winner] - maximumExcept(b, winner)
+      %(test_spa_winner_payoff_3step)% %implied %[ works with SPASS ]%
+    %[. allocatedImpliesSpaWinnerAnt(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  payoff(v, b, x, p, winner) = v[winner] - maximumExcept(b, winner)]%
+    %[  %(test2_spa_winner_payoff_3step)% %implied]%
+    %[. n = length(v) /\]%
+    %[  inRange(n, winner)]%
+    %[  =>]%
+    %[  exists r: Real . v[winner] = r]%
+    %[  %(test0_spa_win_val_exists)% %implied]%
+    %[. allocatedImpliesSpaWinnerAnt(n, b, x, p, winner) /\]%
+    %[  n = length(v)]%
+    %[  =>]%
+    %[  exists r: Real . v[winner] = r]%
+    %[  %(test1_spa_win_val_exists)% %implied]%
+    %[. (exists r: Real . v[winner] = r) => payoff(v[winner], True, secondPriceAuctionWinnersPayment(b, winner)) = payoff(v[winner], True, maximumExcept(b, winner)) %(test_payoff0_def)% %implied]%
+    %[. (exists r: Real . v[winner] = r) => payoff(v[winner], True, maximumExcept(b, winner)) = v[winner] * 1 - maximumExcept(b, winner) %(test_payoff1_compute)% %implied]%
+    %[. (exists r: Real . v[winner] = r) => v[winner] * 1 - maximumExcept(b, winner) = v[winner] - maximumExcept(b, winner) %(test_payoff2_simplify)% %implied]%
+    %[. (exists r: Real . v[winner] = r) => payoff(v[winner], True, secondPriceAuctionWinnersPayment(b, winner)) = v[winner] - maximumExcept(b, winner) %(test_payoff3_all)% %implied]%
+    %[. allocatedImpliesSpaWinnerCons(n, b, x, p, winner) /\]%
+    %[  n = length(v) /\]%
+    %[  (exists r: Real . v[winner] = r)]%
+    %[  =>]%
+    %[  payoff(v, b, x, p, winner) = v[winner] - maximumExcept(b, winner) %(test_spa_winner_payoff_if_exists)% %implied]%
+end
+
+spec Vickrey =
+SecondPriceAuction then
+SingleGoodAuctionProperties then
+    %[ proved with
+       * eprover (same as Isabelle and really nothing else; requires manual minimisation)
+       does not work with
+       * SPASS (timeout)
+       not yet tested with
+       * darwin-non-fd
+       * Vampire
+       * MathServe Broker
+       Isabelle proof second_price_auction_winner_def, allocated_implies_spa_winner, efficient_def ]%
+    %[ TEST CODE ]%
+    preds spaWithTruthfulOrOtherBid: Participants * Allocation * Payments * Valuations * Bids * Participant * Bids;
+    forall v: Valuations;
+           n: Participants;
+           x: Allocation;
+           p: Payments;
+           i: Participant;
+           whateverBid, iSticksWithValuation: Bids
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) <=>
+      secondPriceAuction(n, x, p) /\
+      length(v) = n /\
+      length(whateverBid) = n /\
+      inRange(n, i) /\
+      not whateverBid[i] = v[i] /\
+      iSticksWithValuation = whateverBid[i <- v] %(i_sticks_with_valuation_def)%
+    %[%\[ TODO CL: clean up once we know what lemmas eprover really needs ]\%]%
+    %[. spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\]%
+    %[  allocated(x, iSticksWithValuation, i)]%
+    %[  =>]%
+    %[  secondPriceAuction(n, x, p) /\ n = length(iSticksWithValuation) /\ n > 1 /\ inRange(n, i) /\ allocated(x, iSticksWithValuation, i) %(case_1_pre00)% %implied %\[ SPASS, eprover ]\%]%
+    %[. spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\]%
+    %[  allocated(x, iSticksWithValuation, i)]%
+    %[  =>]%
+    %[  inArgMaxSet(iSticksWithValuation, i) %(case_1_pre01)% %implied]%
+    %[. spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\]%
+    %[  allocated(x, iSticksWithValuation, i)]%
+    %[  =>]%
+    %[  iSticksWithValuation[i] = maximum(iSticksWithValuation) %(case_1_pre02)% %implied %\[ SPASS, eprover ]\%]%
+    %[. spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\]%
+    %[  allocated(x, iSticksWithValuation, i)]%
+    %[  =>]%
+    %[  length(iSticksWithValuation) = n /\ n > 1 /\ inRange(n, i) %(case_1_pre03)% %implied]%
+    %[. spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\]%
+    %[  allocated(x, iSticksWithValuation, i)]%
+    %[  =>]%
+    %[  maximumExcept(iSticksWithValuation, i) <= maximum(iSticksWithValuation) %(case_1_pre04)% %implied]%
+    %[. spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\]%
+    %[  allocated(x, iSticksWithValuation, i)]%
+    %[  =>]%
+    %[  maximum(iSticksWithValuation) >= maximumExcept(iSticksWithValuation, i) %(case_1_pre05)% %implied]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      allocated(x, iSticksWithValuation, i) %[ i wins by truthful bidding ]%
+      =>
+      iSticksWithValuation[i] >= maximumExcept(iSticksWithValuation, i) %(case_1_pre06)% %implied %[ SPASS, eprover ]%
+    %[. spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\]%
+    %[  allocated(x, iSticksWithValuation, i)]%
+    %[  =>]%
+    %[  secondPriceAuction(n, x, p) /\]%
+    %[  n = length(iSticksWithValuation) /\]%
+    %[  n = length(v) /\]%
+    %[  inRange(n, i) /\]%
+    %[  allocated(x, iSticksWithValuation, i) %(case_1_pre07)% %implied %\[ SPASS ]\%]%
+    %[. spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\]%
+    %[  allocated(x, iSticksWithValuation, i) %\[ i wins by truthful bidding ]\%]%
+    %[  =>]%
+    %[  payoff(v, iSticksWithValuation, x, p, i) = v[i] - maximumExcept(iSticksWithValuation, i) %(case_1_pre08_winners_payoff)% %implied %\[ eprover ]\%]%
+    %[. spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\]%
+    %[  allocated(x, iSticksWithValuation, i) %\[ i wins by truthful bidding ]\%]%
+    %[  =>]%
+    %[  payoff(v, iSticksWithValuation, x, p, i) = iSticksWithValuation[i] - maximumExcept(iSticksWithValuation, i) %(case_1_pre09)% %implied %\[ eprover ]\%]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      allocated(x, iSticksWithValuation, i) %[ i wins by truthful bidding ]%
+      =>
+      payoff(v, iSticksWithValuation, x, p, i) >= 0 %(case_1_pre10)% %implied %[ eprover ]%
+    %[ *** case 1a *** ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      allocated(x, iSticksWithValuation, i) /\ %[ i won by truthful bidding ]%
+      allocated(x, whateverBid, i) %[ i wins with the new, non-truthful bid ]%
+      =>
+      payoff(v, whateverBid, x, p, i) = v[i] - maximumExcept(iSticksWithValuation, i) %(case_1a_00)% %implied %[ eprover ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      allocated(x, iSticksWithValuation, i) /\ %[ i won by truthful bidding ]%
+      allocated(x, whateverBid, i) %[ i wins with the new, non-truthful bid ]%
+      =>
+      payoff(v, whateverBid, x, p, i) = payoff(v, iSticksWithValuation, x, p, i) %(case_1a_01)% %implied %[ eprover (> 10 sec) ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      allocated(x, iSticksWithValuation, i) /\ %[ i won by truthful bidding ]%
+      allocated(x, whateverBid, i) %[ i wins with the new, non-truthful bid ]%
+      =>
+      payoff(v, whateverBid, x, p, i) <= payoff(v, iSticksWithValuation, x, p, i) %(case_1a_02)% %implied %[ eprover (> 10 sec) ]%
+    %[ *** case 1b *** ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      allocated(x, iSticksWithValuation, i) /\ %[ i won by truthful bidding ]%
+      not allocated(x, whateverBid, i) %[ i loses with the new, non-truthful bid ]%
+      =>
+      payoff(v, whateverBid, x, p, i) = 0 %(case_1b_00)% %implied %[ eprover ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      allocated(x, iSticksWithValuation, i) /\ %[ i won by truthful bidding ]%
+      not allocated(x, whateverBid, i) %[ i loses with the new, non-truthful bid ]%
+      =>
+      payoff(v, whateverBid, x, p, i) <= payoff(v, iSticksWithValuation, x, p, i) %(case_1b_01)% %implied %[ eprover ]%
+    %[ *** combined conclusion from cases 1a and 1b *** ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      allocated(x, iSticksWithValuation, i) /\ %[ i won by truthful bidding ]%
+      (allocated(x, whateverBid, i) \/ not allocated(x, whateverBid, i))
+      =>
+      payoff(v, whateverBid, x, p, i) <= payoff(v, iSticksWithValuation, x, p, i) %(case_1z_combined_00)% %implied %[ eprover ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      allocated(x, iSticksWithValuation, i) %[ i won by truthful bidding ]%
+      =>
+      payoff(v, whateverBid, x, p, i) <= payoff(v, iSticksWithValuation, x, p, i) %(case_1z_combined_01)% %implied %[ eprover ]%
+     %[*** case 2 *** ]%
+    forall v: Valuations;
+           n: Participants;
+           x: Allocation;
+           p: Payments;
+           i: Participant;
+           whateverBid, iSticksWithValuation: Bids
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      not allocated(x, iSticksWithValuation, i) %[ i loses by truthful bidding ]%
+      =>
+      payoff(v, iSticksWithValuation, x, p, i) = 0 %(case_2_pre00)% %implied %[ eprover ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      not allocated(x, iSticksWithValuation, i) %[ i loses by truthful bidding ]%
+      =>
+      iSticksWithValuation[i] <= maximumExcept(iSticksWithValuation, i) %(case_2_pre01_i_bid_at_most_second)% %implied %[ eprover; in Isabelle we did this by contradiction using only_max_bidder_wins; here, it works directly. ]%
+     %[*** case 2a *** ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      allocated(x, whateverBid, i)
+      =>
+      secondPriceAuction(n, x, p) /\ n = length(whateverBid) /\ n = length(v) /\ inRange(n, i) /\ allocated(x, whateverBid, i) %(case_2a_pre_00)% %implied
+    . secondPriceAuction(n, x, p) /\ n = length(whateverBid) /\ n = length(v) /\ inRange(n, i) /\ allocated(x, whateverBid, i)
+      =>
+      payoff(v, whateverBid, x, p, i) = v[i] - maximumExcept(whateverBid, i) %(case_2a_pre_01)% %implied
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      allocated(x, whateverBid, i)
+      =>
+      payoff(v, whateverBid, x, p, i) = v[i] - maximumExcept(whateverBid, i) %(case_2a_pre_02)% %implied
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      not allocated(x, iSticksWithValuation, i) /\ %[ i lost by truthful bidding ]%
+      allocated(x, whateverBid, i) %[ i wins with the new, non-truthful bid ]%
+      =>
+      payoff(v, whateverBid, x, p, i) = v[i] - maximumExcept(whateverBid, i) %(case_2a_00)% %implied
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      not allocated(x, iSticksWithValuation, i) /\ %[ i lost by truthful bidding ]%
+      allocated(x, whateverBid, i) %[ i wins with the new, non-truthful bid ]%
+      =>
+      payoff(v, whateverBid, x, p, i) = iSticksWithValuation[i] - maximumExcept(iSticksWithValuation, i) %(case_2a_01)% %implied
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      not allocated(x, iSticksWithValuation, i) /\ %[ i lost by truthful bidding ]%
+      allocated(x, whateverBid, i) %[ i wins with the new, non-truthful bid ]%
+      =>
+      payoff(v, whateverBid, x, p, i) <= 0 %(case_2a_02)% %implied
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      not allocated(x, iSticksWithValuation, i) /\ %[ i lost by truthful bidding ]%
+      allocated(x, whateverBid, i) %[ i wins with the new, non-truthful bid ]%
+      =>
+      payoff(v, whateverBid, x, p, i) = payoff(v, iSticksWithValuation, x, p, i) %(case_2a_03)% %implied
+     %[*** case 2b *** ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      not allocated(x, iSticksWithValuation, i) /\ %[ i lost by truthful bidding ]%
+      not allocated(x, whateverBid, i) %[ i loses with the new, non-truthful bid ]%
+      =>
+      payoff(v, whateverBid, x, p, i) = 0 %(case_2b_00)% %implied
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      not allocated(x, iSticksWithValuation, i) /\ %[ i lost by truthful bidding ]%
+      not allocated(x, whateverBid, i) %[ i loses with the new, non-truthful bid ]%
+      =>
+      payoff(v, whateverBid, x, p, i) = payoff(v, iSticksWithValuation, x, p, i) %(case_2b_01)% %implied
+    %[ *** combined conclusion from cases 2a and 2b *** ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      not allocated(x, iSticksWithValuation, i) /\ %[ i lost by truthful bidding ]%
+      (allocated(x, whateverBid, i) \/ not allocated(x, whateverBid, i))
+      =>
+      payoff(v, whateverBid, x, p, i) = payoff(v, iSticksWithValuation, x, p, i) %(case_2z_combined_00)% %implied %[ eprover ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      not allocated(x, iSticksWithValuation, i) %[ i won by truthful bidding ]%
+      =>
+      payoff(v, whateverBid, x, p, i) = payoff(v, iSticksWithValuation, x, p, i) %(case_2z_combined_01)% %implied %[ eprover ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\
+      not allocated(x, iSticksWithValuation, i) %[ i won by truthful bidding ]%
+      =>
+      payoff(v, whateverBid, x, p, i) <= payoff(v, iSticksWithValuation, x, p, i) %(case_2z_combined_02)% %implied %[ eprover ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation)
+      =>
+      length(v) = n /\
+      allocation(v, x) /\
+      payments(v, p) /\
+      (forall i: Participant . inRange(n, i) =>
+        (forall whateverBid: Bids .
+          not whateverBid[i] = v[i]
+          =>
+         (exists b: Bids %[ this avoids saying "as Bids" below ]% .
+          b = whateverBid[i <- v] /\
+          payoff(v, b, x, p, i) >=
+          payoff(v, whateverBid, x, p, i)))) %(vickreyA_pre00)% %implied %[ eprover ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation)
+      =>
+      (exists b: Bids .
+      b = v /\
+      length(v) = n /\
+      length(b) = n /\
+      allocation(b, x) /\
+      payments(b, p) /\
+      (forall i: Participant . inRange(n, i) =>
+        (forall whateverBid: Bids .
+          not whateverBid[i] = b[i]
+          =>
+          (exists b: Bids %[ this avoids saying "as Bids" below ]% .
+           b = whateverBid[i <- v] /\
+           payoff(v, b, x, p, i) >=
+           payoff(v, whateverBid, x, p, i))))) %(vickreyA_pre01)% %implied %[ eprover ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation)
+      =>
+      (exists b: Bids .
+        b = v /\
+        equilibriumWeaklyDominantStrategy(n, v, b, x, p)) %(vickreyA_pre02)% %implied %[ eprover, but need to restrict "axioms to include" to and equilibrium_weakly_dominant_strategy_def, and "theorems to include if proven" to vickreyA_pre01 ]%
+    . spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation)
+      =>
+      equilibriumWeaklyDominantStrategy(n, v, v, x, p) %(vickreyA_pre03)% %implied %[ eprover, but need to restrict "axioms to include" to and equilibrium_weakly_dominant_strategy_def, and "theorems to include if proven" to vickreyA_pre01 ]%
+    . secondPriceAuction(n, x, p) /\
+      length(v) = n /\
+      length(whateverBid) = n /\
+      inRange(n, i) /\
+      not whateverBid[i] = v[i] /\
+      iSticksWithValuation = whateverBid[i <- v]
+      =>
+      equilibriumWeaklyDominantStrategy(n, v, v, x, p) %(vickreyA_pre04)% %implied
+    %[%\[ TODO CL: strangely I have also been able to prove the following ones, which seem to be wrong: ]\%]%
+    %[. spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\]%
+    %[  not allocated(x, whateverBid, i) %\[ i loses with the new, non-truthful bid ]\%]%
+    %[  => %\[ The following holds when i wins, but should it also hold when i loses? ]\%]%
+    %[  payoff(v, whateverBid, x, p, i) = iSticksWithValuation[i] - maximumExcept(iSticksWithValuation, i) %(test_wins_loses_mixup)% %implied]%
+    %[. spaWithTruthfulOrOtherBid(n, x, p, v, whateverBid, i, iSticksWithValuation) /\]%
+    %[  allocated(x, whateverBid, i) %\[ i wins with the new, non-truthful bid ]\%]%
+    %[  => %\[ I think this is not necessarily the case, if iSticksWithValuation[i] is not a maximum component.  This is 2a without the assumption that i lost with a truthful bid (which means that iSticksWithValuation[i] is not necessarily a maximum component). ]\%]%
+    %[  payoff(v, whateverBid, x, p, i) = iSticksWithValuation[i] - maximumExcept(iSticksWithValuation, i) %(test_equal_payoff_when_non_truthful_wins)% %implied]%
+end
+
+spec Vickrey_proof =
+Vickrey then
+    forall v: Valuations;
+           n: Participants;
+           x: Allocation;
+           p: Payments
+    . secondPriceAuction(n, x, p) /\
+      length(v) = n
+      => equilibriumWeaklyDominantStrategy(n, v, v %[ i.e. b ]%, x, p) %(vickreyA)% %implied
+    . secondPriceAuction(n, x, p) /\
+      length(v) = n
+      => efficient(n, v, v %[ i.e. b ]%, x) %(vickreyB)% %implied
