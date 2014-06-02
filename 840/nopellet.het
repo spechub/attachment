@@ -1,0 +1,98 @@
+logic CASL.FOL=
+sorts DATA, Thing
+op clara : Thing
+op john : Thing
+op mary : Thing
+pred Father : Thing
+pred Female : Thing
+pred Grandmother : Thing
+pred Hybrid : Thing
+pred Man : Thing
+pred Married : Thing
+pred MarriedMother : Thing
+pred Mother : Thing
+pred MotherWithManyChildren : Thing
+pred MotherWithoutDaughter : Thing
+pred Nothing : Thing
+pred Parent : Thing
+pred Person : Thing
+pred Thing : Thing
+pred Wife : Thing
+pred Woman : Thing
+pred hasChild : Thing * Thing
+pred hasHusband : Thing * Thing
+
+forall a : Thing . not Nothing(a) %(nothing in Nothing)%
+
+forall a : Thing . Thing(a) %(thing in Thing)%
+
+forall a : Thing . a = mary => Grandmother(a)
+                  %(Individual:_mary_Types:_Grandmother)% %implied
+
+forall a : Thing . Mother(a) => Parent(a)
+                     %(Class:_Mother_SubClassOf:_Parent)% %implied
+
+forall a : Thing; b : Thing
+. a = john /\ b = clara => hasChild(a, b)
+                               %(Individual:_john_hasChild_clara)%
+
+forall a : Thing . a = john => Father(a)
+                                %(Individual:_john_Types:_Father)%
+
+forall a : Thing; b : Thing
+. a = mary /\ b = john => hasChild(a, b)
+                                %(Individual:_mary_hasChild_john)%
+
+forall a : Thing . a = mary => Mother(a)
+                                %(Individual:_mary_Types:_Mother)%
+
+forall a : Thing . (Hybrid(a) <=> Woman(a) /\ Man(a))
+                     %(Class:_Hybrid_EquivalentTo:_Woman_and_Man)%
+
+forall a : Thing . MarriedMother(a) => Female(a) /\ Person(a)
+            %(Class:_MarriedMother_SubClassOf:_Female_and_Person)%
+
+forall a : Thing . (MarriedMother(a) <=> Mother(a) /\ Married(a))
+         %(Class:_MarriedMother_EquivalentTo:_Mother_and_Married)%
+
+forall a : Thing
+. (Wife(a)
+   <=> Woman(a) /\ forall b : Thing . hasHusband(a, b) => Man(b))
+       %(Class:_Wife_EquivalentTo:_Woman_and_hasHusband_some_Man)%
+
+forall a : Thing
+. (MotherWithoutDaughter(a)
+   <=> Mother(a) /\ exists b : Thing . hasChild(a, b) /\ not Woman(b))
+%(Class:_MotherWithoutDaughter_EquivalentTo:_Mother_and_hasChild_only_(not_Woman))%
+
+forall a : Thing
+. (MotherWithManyChildren(a)
+   <=> Mother(a)
+       /\ exists b : Thing; c : Thing; d : Thing
+          . not b = c /\ not b = d /\ not c = d /\ hasChild(a, b)
+            /\ hasChild(a, c) /\ hasChild(a, d))
+%(Class:_MotherWithManyChildren_EquivalentTo:_Mother_and_hasChild_min_3)%
+
+forall a : Thing
+. (Grandmother(a)
+   <=> Mother(a) /\ forall b : Thing . hasChild(a, b) => Parent(b))
+%(Class:_Grandmother_EquivalentTo:_Mother_and_hasChild_some_Parent)%
+
+forall a : Thing . (Parent(a) <=> Father(a) \/ Mother(a))
+                  %(Class:_Parent_EquivalentTo:_Father_or_Mother)%
+
+forall a : Thing
+. (Father(a)
+   <=> Man(a) /\ forall b : Thing . hasChild(a, b) => Person(b))
+      %(Class:_Father_EquivalentTo:_Man_and_hasChild_some_Person)%
+
+forall a : Thing
+. (Mother(a)
+   <=> Woman(a) /\ forall b : Thing . hasChild(a, b) => Person(b))
+    %(Class:_Mother_EquivalentTo:_Woman_and_hasChild_some_Person)%
+
+forall a : Thing . (Man(a) <=> Person(a) /\ not Woman(a))
+                 %(Class:_Man_EquivalentTo:_Person_and_not_Woman)%
+
+forall a : Thing . (Woman(a) <=> Person(a) /\ Female(a))
+                  %(Class:_Woman_EquivalentTo:_Person_and_Female)%
