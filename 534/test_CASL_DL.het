@@ -1,0 +1,35 @@
+logic CASL
+
+spec spec_casl =
+  sort s
+  pred C:s
+  . forall x:s . C(x)
+then %implies
+  . exists x:s . C(x) 
+end
+
+logic CASL_DL
+
+spec spec_casl_dl =
+  sort s
+  pred C:s
+  . forall x:s . C(x)
+then %implies
+  . exists x:s . C(x) %% %(thegoal)%
+end
+
+spec spec_casl_dl_implied =
+  sort s
+  pred C:s
+  . forall x:s . C(x)
+  . exists x:s . C(x) %implied
+end
+
+logic Modal
+spec spec_modal =
+  sort s
+  pred C:s
+  . forall x:s . C(x)
+then %implies
+  . exists x:s . C(x) 
+end
