@@ -1,0 +1,7 @@
+logic HasCASL
+
+free type T ::= T
+
+free type W ::= W (getT : T)
+
+. getT (W T) = T %implied
