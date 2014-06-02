@@ -1,0 +1,3 @@
+logic THF.THF0
+
+thf(def_hccnot__, axiom, hccnot__ = (^ [A : $o] : ~ (A))).
