@@ -1,0 +1,20 @@
+Index: PGIP/FileInterface.hs
+===================================================================
+--- PGIP/FileInterface.hs	(revision 10808)
++++ PGIP/FileInterface.hs	(working copy)
+@@ -27,6 +27,7 @@
+ import PGIP.DataTypes
+ import PGIP.Commands
+ import PGIP.StdInterface
++import PGIP.Utils (trim, stripComments)
+ 
+ import qualified Control.Exception as Ex
+ 
+@@ -71,6 +72,7 @@
+ fileGetInput :: Handle -> String -> IO (Maybe String)
+ fileGetInput file _ = do
+    x <- hGetLine file
++   if (trim $ stripComments x) /= "" then putStrLn $ "> " ++ x else return ()
+    return (Just x)
+ 
+ 
