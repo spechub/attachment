@@ -1,0 +1,292 @@
+%% First order encoding of the HPAR' specification of PLASTIC BUFFER case study; 
+%% in "Encoding Hybridized Institutions into First  Order Logic" R. Diaconescu & A. Madeira.  
+
+%%
+
+spec PlasticBufferFOL =
+
+sorts
+	ST;
+	mem;
+	elem
+
+ops 
+	fifo:ST;
+	lifo:ST;
+	new:ST -> mem;
+	write:ST * mem * elem -> mem;
+	read: ST * mem -> elem;
+	del: ST * mem -> mem
+
+preds
+	shift: ST * ST;
+	Def_mem : ST * mem;
+	Def_elem : ST * elem;
+	D_mem : ST * mem;	
+	D_elem : ST * elem;
+
+
+forall w : ST . Def_mem(w, new(w)) %(Ax1)%
+
+forall e : elem; w : ST; m : mem
+. Def_mem(w, m) /\ Def_elem(w, e) <=> Def_mem(w, write(w, m, e))
+                                                           %(Ax2)%
+
+forall w : ST; m : mem . Def_mem(w, del(w, m)) => Def_mem(w, m)
+                                                           %(Ax3)%
+
+forall w : ST; m : mem . Def_elem(w, read(w, m)) => Def_mem(w, m)
+                                                           %(Ax4)%
+
+forall w : ST; m : mem . D_mem(w, m) %(Ax5)%
+
+forall e : elem; w : ST . D_elem(w, e) %(Ax6)%
+
+forall w, v : ST . new(w) = new(v) %(Ax7)%
+
+forall e : elem; w, v : ST; m : mem
+. write(w, m, e) = write(v, m, e)                          %(Ax8)%
+
+forall w, v : ST; m : mem
+. Def_mem(w, del(w, m)) <=> Def_mem(v, del(v, m))          %(Ax9)%
+
+forall w, v : ST; m : mem
+. Def_elem(w, read(w, m)) <=> Def_elem(v, read(v, m))     %(Ax10)%
+
+forall e : elem; m : mem
+. Def_mem(lifo, m) /\ Def_elem(lifo, e)
+  => Def_mem(lifo, m) /\ del(lifo, write(lifo, m, e)) = m %(Ax11)%
+
+forall e : elem; m : mem
+. Def_mem(lifo, m) /\ Def_elem(lifo, e)
+  => Def_elem(lifo, e) /\ read(lifo, write(lifo, m, e)) = e
+                                                          %(Ax12)%
+
+forall e : elem
+. Def_elem(fifo, e)
+  => Def_elem(fifo, e) /\ read(fifo, write(fifo, new(fifo), e)) = e
+                                                          %(Ax13)%
+
+forall e : elem
+. Def_elem(fifo, e)
+  => Def_mem(fifo, new(fifo))
+     /\ del(fifo, write(fifo, new(fifo), e)) = new(fifo)  %(Ax14)%
+
+forall e : elem; m : mem
+. Def_mem(fifo, m) /\ Def_elem(fifo, e)
+  => Def_elem(fifo, read(fifo, m)) /\ read(fifo, m) = read(fifo, m)
+     => Def_elem(fifo, read(fifo, m))
+        /\ read(fifo, write(fifo, m, e)) = read(fifo, m)  %(Ax15)%
+
+forall e : elem; m : mem
+. Def_mem(fifo, m) /\ Def_elem(fifo, e)
+  => Def_elem(fifo, read(fifo, m)) /\ read(fifo, m) = read(fifo, m)
+     => Def_mem(fifo, write(fifo, del(fifo, m), e))
+        /\ del(fifo, write(fifo, m, e)) = write(fifo, del(fifo, m), e)
+                                                          %(Ax16)%
+
+. exists y, z : ST
+  . (shift(fifo, y) /\ y = lifo) /\ (shift(lifo, z) /\ z = fifo)
+                                                          %(Ax17)%
+
+%%NO_JUNK 
+forall w:ST .w=fifo \/ w=lifo;	%(no_junk)%
+
+%% we need to consider this sentence to enforce the the totality on the variables
+%%forall m :mem, w: ST . Def_mem(w,m) %(Def-sent)%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% ----- PROPERTIES TO CHECK -----%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%% PROPERTY 1
+%% (forall e,m,m')[shift](m'=write(m,e)) <=> (m'=write(m,e))
+%% we split the verification of the equivalence into its implications
+
+forall e : elem; m, m' : mem; x : ST
+. (forall z : ST
+   . Def_elem(z, e) /\ Def_mem(z, m) /\ Def_mem(z, m') /\ D_elem(z, e)
+     /\ D_mem(z, m) /\ D_mem(z, m'))
+  => ((forall y : ST
+      . shift(x, y)
+        => ((Def_mem(y, m') /\ m' = write(y, m, e))
+           \/ ((not(Def_mem(y, m')) /\ not(Def_mem(y, write(y, m, e)))))))
+      <=> ((Def_mem(x, m') /\ m' = write(x, m, e))
+        \/ ((not(Def_mem(x, m')) /\ not(Def_mem(x, write(x, m, e)))))))
+                                               %(box)% %implied	  
+
+
+
+
+forall e : elem; m, m' : mem; x : ST
+. (forall z : ST
+   . Def_elem(z, e) /\ Def_mem(z, m) /\ Def_mem(z, m') /\ D_elem(z, e)
+     /\ D_mem(z, m) /\ D_mem(z, m'))
+  => ((forall y : ST
+      . shift(x, y)
+        => ((Def_mem(y, m') /\ m' = write(y, m, e))
+           \/ ((not(Def_mem(y, m')) /\ not(Def_mem(y, write(y, m, e)))))))
+      => ((Def_mem(x, m') /\ m' = write(x, m, e))
+        \/ ((not(Def_mem(x, m')) /\ not(Def_mem(x, write(x, m, e)))))))
+                                               %(box lr)% %implied	  
+
+
+
+forall e : elem; m, m' : mem; x : ST
+. (forall z : ST
+   . Def_elem(z, e) /\ Def_mem(z, m) /\ Def_mem(z, m') /\ D_elem(z, e)
+     /\ D_mem(z, m) /\ D_mem(z, m'))
+  => (((Def_mem(x, m') /\ m' = write(x, m, e))
+        \/ ((not(Def_mem(x, m')) /\ not(Def_mem(x, write(x, m, e))))))
+		=>(forall y : ST
+		      . shift(x, y)
+		        => ((Def_mem(y, m') /\ m' = write(y, m, e))
+		           \/ ((not(Def_mem(y, m')) /\ not(Def_mem(y, write(y, m, e)))))))	
+		)                                      %(box rl)% %implied	  
+
+
+
+
+%% RESULTS
+%% with property No_Junk - proved by SPASS
+%% without property No-Junk - NOT proved by SPASS
+%% but is it possible to disprove by Darwin?
+
+
+%% PROPERTY 2
+%% (forall e,m,m')<shift>(m'= write(m,e)) <=> (m' = write(m,e))
+
+forall e : elem; m, m' : mem; x : ST
+. (forall z : ST
+   . Def_elem(z, e) /\ Def_mem(z, m) /\ Def_mem(z, m') /\ D_elem(z, e)
+     /\ D_mem(z, m) /\ D_mem(z, m'))
+  => ((exists y : ST
+      . shift(x, y)
+        /\ ((Def_mem(y, m') /\ m' = write(y, m, e))
+           \/ ((not(Def_mem(y, m')) /\ not(Def_mem(y, write(y, m, e)))))))
+      <=> ((Def_mem(x, m') /\ m' = write(x, m, e))
+        \/ ((not(Def_mem(x, m')) /\ not(Def_mem(x, write(x, m, e)))))))
+                                               %(diamond)% %implied	  
+
+
+
+
+
+forall e : elem; m, m' : mem; x : ST
+. (forall z : ST
+   . Def_elem(z, e) /\ Def_mem(z, m) /\ Def_mem(z, m') /\ D_elem(z, e)
+     /\ D_mem(z, m) /\ D_mem(z, m'))
+  => ((exists y : ST
+      . shift(x, y)
+        /\ ((Def_mem(y, m') /\ m' = write(y, m, e))
+           \/ ((not(Def_mem(y, m')) /\ not(Def_mem(y, write(y, m, e)))))))
+      => ((Def_mem(x, m') /\ m' = write(x, m, e))
+        \/ ((not(Def_mem(x, m')) /\ not(Def_mem(x, write(x, m, e)))))))
+                                               %(diamond lr)% %implied	  
+
+
+
+
+
+forall e : elem; m, m' : mem; x : ST
+. (forall z : ST
+   . Def_elem(z, e) /\ Def_mem(z, m) /\ Def_mem(z, m') /\ D_elem(z, e)
+     /\ D_mem(z, m) /\ D_mem(z, m'))
+  =>  ((Def_mem(x, m') /\ m' = write(x, m, e))
+        \/ ((not(Def_mem(x, m')) /\ not(Def_mem(x, write(x, m, e))))))
+      =>((exists y : ST
+      . shift(x, y)
+        /\ ((Def_mem(y, m') /\ m' = write(y, m, e))
+           \/ ((not(Def_mem(y, m')) /\ not(Def_mem(y, write(y, m, e))))))))
+                                               %(diamond rl)% %implied	  
+
+
+
+
+
+
+%% RESULTS
+%% with property No_Junk - proved by SPASS
+%% without property No_Junk - NOT proved by SPASS
+%% but is it possible to disprove by Darwin?
+
+%% PROPERTY 3
+%% (forall m,m') (exists m1)( (m'=del(m1)) and [shift](m1=del(m)) ) <=>
+%%               (exists m2)( [shift](m'=del(m2)) and (m2=del(m)) )
+
+%% => 
+
+forall m, m' : mem; x : ST
+. (forall z : ST
+   . Def_mem(z, m) /\ Def_mem(z, m') /\ D_mem(z, m) /\ D_mem(z, m'))
+  => ((exists m1 : mem
+       . (forall z : ST . Def_mem(z, m1) /\ D_mem(z, m1))
+         /\ ((Def_mem(x, m') /\ m' = del(x, m1))
+             \/ (not Def_mem(x, m') /\ not Def_mem(x, del(x, m1))))
+         /\ forall y : ST
+            . shift(x, y)
+              => (Def_mem(y, m1) /\ m1 = del(x, m))
+                 \/ (not Def_mem(y, m1) /\ not Def_mem(y, del(y, m))))
+       => exists m2 : mem
+          . (forall z : ST . Def_mem(z, m2) /\ D_mem(z, m2))
+            /\ ((Def_mem(x, m2) /\ m2 = del(x, m))
+                \/ (not Def_mem(x, m2) /\ not Def_mem(x, del(x, m))))
+            /\ forall y : ST
+               . shift(x, y)
+                 => (Def_mem(y, m') /\ m' = del(x, m2))
+                    \/ (not Def_mem(y, m') /\ not Def_mem(y, del(y, m2))))
+                                                %(third lr)% %implied
+            
+%% RESULTS
+%% with property No_Junk -  => proved by SPASS
+%% with property Non-Junk - <=> NOT proved by SPASS
+%% can we disprove <= by Darwin?
+
+
+
+
+
+
+
+
+
+
+
+%% PROPERTY 3'
+%% (forall m,m') (exists m1)( (m'=del(m1)) and [shift](m1=del(m)) ) <=>
+%%               (exists m2)( [shift](m'=del(m2)) and (m2=del(m)) )
+
+%% <= 
+
+forall m, m' : mem; x : ST
+.(exists m2 : mem
+          . (forall z : ST . Def_mem(z, m2) /\ D_mem(z, m2))
+            /\ ((Def_mem(x, m2) /\ m2 = del(x, m))
+                \/ (not Def_mem(x, m2) /\ not Def_mem(x, del(x, m))))
+            /\ forall y : ST
+               . shift(x, y)
+                 => (Def_mem(y, m') /\ m' = del(x, m2))
+                    \/ (not Def_mem(y, m') /\ not Def_mem(y, del(y, m2)))
+=>
+ (forall z : ST
+   . Def_mem(z, m) /\ Def_mem(z, m') /\ D_mem(z, m) /\ D_mem(z, m'))
+  => ((exists m1 : mem
+       . (forall z : ST . Def_mem(z, m1) /\ D_mem(z, m1))
+         /\ ((Def_mem(x, m') /\ m' = del(x, m1))
+             \/ (not Def_mem(x, m') /\ not Def_mem(x, del(x, m1))))
+         /\ forall y : ST
+            . shift(x, y)
+              => (Def_mem(y, m1) /\ m1 = del(x, m))
+                 \/ (not Def_mem(y, m1) /\ not Def_mem(y, del(y, m))))))
+                                                %(third rl)% %implied
+            
+
+
+
+
+end
+		
+		
