@@ -1,0 +1,10 @@
+logic DL
+
+spec test =
+  Class: test
+       SubclassOf: Nothing
+then %implies
+  Class: test
+       SubclassOf: not test
+
+end
