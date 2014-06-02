@@ -1,0 +1,31 @@
+library HasCASL/Real3D/SolidWorks/test
+version 0.1
+
+%author: E. Schulz
+%date: 23-04-2009
+
+logic HasCASL
+
+spec X1 = 
+     types a;
+	   b < a;
+	   c;
+	   d
+end
+
+spec Y1 = X1 then
+     ops A:d -> a;
+	 B:d -> b;
+	 C:d -> c;
+	 D:d -> c;
+	 f:a -> c
+
+     vars x:d
+
+     . A(x) = B(x) as a;    %(ax1)% %% entspricht def_of_SWCylinder
+     . A(x) = B(x);    %(ax1a)% %% entspricht def_of_SWCylinder
+     . C(x) = f(A(x)); %(ax2)% %% entspricht affine_cylinder_constructible_in_SW
+     . D(x) = f(B(x)); %(ax3)%
+     . C(x) = D(x);    %(thm1)% %implied
+end
+
