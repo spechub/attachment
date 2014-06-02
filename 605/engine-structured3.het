@@ -1,0 +1,51 @@
+logic Propositional
+
+spec EngineSymptoms =
+  props black_exhaust,
+	blue_exhaust,
+	low_power,
+	overheat,
+	ping,
+	incorrect_timing,
+	low_compression
+  . overheat              %(symptom_overheat)%
+  . not incorrect_timing  %(symptom_not_incorrect_timing)%
+end
+
+spec EngineDiagnosis = EngineSymptoms
+then %cons
+  props carbon_deposits,
+	clogged_filter,
+	clogged_radiator,
+	defective_carburetor,
+	worn_rings,
+	worn_seals
+  . overheat /\ not incorrect_timing => clogged_radiator
+                          %(diagnosis1)%
+  . ping /\ not incorrect_timing => carbon_deposits
+                          %(diagnosis2)%
+  . low_power /\ not incorrect_timing =>
+                worn_rings \/ defective_carburetor \/ clogged_filter
+                          %(diagnosis3)%
+  . black_exhaust => defective_carburetor \/ clogged_filter
+                          %(diagnosis4)%
+  . blue_exhaust => worn_rings \/ worn_seals
+                          %(diagnosis5)%
+  . low_compression <=> worn_rings
+                          %(diagnosis6)%
+end
+
+spec EngineRepair = EngineDiagnosis
+then %cons
+  props replace_auxiliary,
+	repair_engine,
+	replace_engine
+  . worn_rings => replace_engine
+                          %(rule_replace_engine)%
+  . carbon_deposits \/ defective_carburetor \/ worn_seals =>
+                repair_engine
+                          %(rule_repair_engine)%
+  . clogged_filter \/ clogged_radiator => replace_auxiliary
+                          %(rule_replace_auxiliary)%
+%%  . replace_auxiliary     %(replace_auxiliary)% %implied
+end
