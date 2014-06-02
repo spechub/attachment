@@ -1,0 +1,196 @@
+
+library RouteGraphOnt version 0.1
+
+%author Klaus Luettich <luettich@tzi.de>
+%date 29.06.2004
+%author Bernd Krieg-Brueckner <bkb@tzi.de>
+%date 06.07.2004
+
+from Basic/Numbers get Nat
+
+
+spec GenSequence [sort Elem] given Nat = 
+      sort Sequence[Elem] 
+      op EmptySeq: Sequence[Elem]
+      pred hasElem : Sequence[Elem] * Elem
+      op head : Sequence[Elem] ->? Elem;         
+	 tail : Sequence[Elem] ->? Sequence[Elem];
+         freq : Sequence[Elem] * Elem -> Nat;
+         last : Sequence[Elem] ->? Elem;
+	 __++__ : Sequence[Elem] * Sequence[Elem] -> Sequence[Elem]
+      forall e:Elem
+      . not hasElem(EmptySeq,e)
+      pred atMostOnce(s:Sequence[Elem]) <=> 
+	   (forall e : Elem . freq(s,e) <= 1) %(atMostOnce_def)%
+end
+
+spec GenGraph [sort Kind] =
+     sorts Graph[Kind], Node[Kind], Edge[Kind] 
+     pred hasNode : Graph[Kind] * Node[Kind];
+	  hasEdge : Graph[Kind] * Edge[Kind]
+     op source,target : Edge[Kind] -> Node[Kind];
+     forall e: Edge[Kind]; s,t:Node[Kind]; g : Graph[Kind]
+     . hasEdge(g,e) /\ source(e) = s /\ target(e) = t 
+	=> hasNode(g,s) /\ hasNode(g,t)
+then
+     GenSequence [sort Edge[Kind]
+		  fit Elem |-> Edge[Kind]]
+     with head, tail, EmptySeq, freq, __++__
+then  
+   GenSequence [sort Node[Kind]
+		  fit Elem |-> Node[Kind]]
+     with head, tail, freq,last
+   then
+     op sources,targets : Sequence[Edge[Kind]] -> Sequence[Node[Kind]]
+     forall l: Sequence[Edge[Kind]]
+     . sources(EmptySeq) = EmptySeq
+     . not l = EmptySeq => head(sources(l)) = source(head(l))
+     . not l = EmptySeq => tail(sources(l)) = sources(tail(l))
+     . targets(EmptySeq) = EmptySeq
+     . not l = EmptySeq => head(targets(l)) = target(head(l))
+     . not l = EmptySeq => tail(targets(l)) = targets(tail(l))
+     pred connected(l: Sequence[Edge[Kind]]) <=> 
+       l = EmptySeq 
+	\/ (exists! e1 : Edge[Kind] . hasElem(l,e1))
+	\/ ((forall e1,e2 : Edge[Kind]
+             . head(l) = e1 /\ head(tail(l)) = e2 
+	     => target(e1) = source(e2)) /\ connected(tail(l)))
+     sorts Path[Kind] ={l: Sequence[Edge[Kind]] . connected (l)};
+           Route[Kind] = { p : Path[Kind]  
+			   . atMostOnce(sources(p)) /\ atMostOnce(p)}
+     ops startOf(l:Sequence[Edge[Kind]]):? Node[Kind] = source(head(l));
+	 endOf(l:Sequence[Edge[Kind]]):? Node[Kind] = target(last(l))
+     pred pathIn : Path[Kind] * Graph[Kind]
+end
+
+
+spec SimplifyEdges [GenGraph[sort Kind1] and
+	            GenGraph[sort Kind2]
+		    then        
+	                 sorts Edge[Kind1], ConstEdge < Edge[Kind2];
+                               Node[Kind2] < Node[Kind1]
+		    ] given Nat =
+     sorts SpRoute[Kind1] = 
+              {r : Route[Kind1] 
+               . forall n : Node[Kind1] 
+		 . freq(targets(r)++sources(r),n) <= 1 }; 
+	   ConstEdge < Edge[Kind2] %% simplified SpRoutes
+
+     ops simplifyEdges : Graph[Kind1] -> Graph[Kind2];
+     
+     forall g_K1: Graph[Kind1];g_K2: Graph[Kind2];
+	    n_K1: Node[Kind1] ;n_K2: Node[Kind2];
+	    e_K1: Edge[Kind1];g_K2: Graph[Kind2];
+            ce_K2: ConstEdge
+     . g_K2 = simplifyEdges(g_K1) => 
+	    ((hasNode(g_K2,n_K2) => hasNode(g_K1,n_K2))
+	     /\ (hasEdge(g_K2,ce_K2) => 
+	           exists spr : SpRoute[Kind1] 
+		   . startOf(spr) = source(ce_K2) /\
+		     endOf(spr) = target(ce_K2))
+             /\ (hasEdge(g_K2,e_K1) => hasEdge(g_K1,e_K1)))
+
+spec PlaceAbstraction [GenGraph[sort Kind1]]
+	              [GenGraph[sort Kind2]] given Nat = 
+	ops abstractPlaces: Graph[Kind1] -> Graph[Kind2];
+            mapNode : Node[Kind1] -> Node[Kind2];
+	    mapEdge : Edge[Kind1] ->? Edge[Kind2];
+
+        forall e_K1:Edge[Kind1]; e_K2:Edge[Kind2]; 
+	       n_K1:Node[Kind1]; n_K2:Node[Kind2]; 
+	       g_K1:Graph[Kind1]; g_K2:Graph[Kind2]
+        . def mapEdge(e_K1) <=> 
+	     not mapNode(source(e_K1)) = mapNode(target(e_K1))
+
+        . g_K2 = abstractPlaces(g_K1) =>
+            ((hasEdge(g_K1,e_K1) => 
+	           source(mapEdge(e_K1)) = mapNode(source(e_K1))
+		/\ target(mapEdge(e_K1)) = mapNode(target(e_K1))
+                /\ hasEdge(g_K2,mapEdge(e_K1)))
+             /\ (hasEdge(g_K2,e_K2) =>
+		   exists e1:Edge[Kind1] 
+		   . hasEdge(g_K1,e1) /\ mapEdge(e1) = e_K2)
+             /\ (hasNode(g_K2,n_K2) =>
+                   exists n1:Node[Kind1]
+                   . hasNode(g_K1,n1) /\ mapNode(n1) = n_K2))
+
+
+spec AbstractionFunc [GenGraph[sort Kind1]]
+	             [GenGraph[sort Kind2]] given Nat = 
+     GenGraph[sort Intermediate]
+then
+     sorts Node[Intermediate] < Node[Kind1];
+           SpRoute[Kind1] = 
+              {r : Route[Kind1] 
+               . forall n : Node[Kind1] 
+		 . freq(targets(r)++sources(r),n) <= 1 }; 
+	   ConstEdge %% simplified SpRoutes
+
+	 free type Edge[Intermediate] ::= sort Edge[Kind1], ConstEdge 
+
+	ops simplifyEdges : Graph[Kind1] -> Graph[Intermediate];
+	    surjGMorphismus : Graph[Intermediate] -> Graph[Kind2];
+            abstract(g1:Graph[Kind1]):Graph[Kind2] = 
+	              surjGMorphismus(simplifyEdges(g1));
+            mapNode : Node[Intermediate] -> Node[Kind2];
+	    mapEdge : Edge[Intermediate] -> Edge[Kind2];
+
+        forall e_K1:Edge[Kind1]; e_K2:Edge[Kind2]; 
+	       n_K1:Node[Kind1]; n_K2:Node[Kind2]; 
+	       g_K1:Graph[Kind1]; g_K2:Graph[Kind2];
+	       n_Int:Node[Intermediate]; 
+	       e_Int:Edge[Intermediate];ce_Int:ConstEdge; 
+	       g_Int:Graph[Intermediate]
+        . g_Int = simplifyEdges(g_K1) => 
+	    ((hasNode(g_Int,n_Int) => hasNode(g_K1,n_Int))
+	     /\ (hasEdge(g_Int,ce_Int) => 
+	           exists spr : SpRoute[Kind1] 
+		   . startOf(spr) = source(ce_Int) /\
+		     endOf(spr) = target(ce_Int))
+             /\ (hasEdge(g_Int,e_K1) => hasEdge(g_K1,e_K1)))
+        . g_K2 = surjGMorphismus(g_Int) =>
+            ((hasEdge(g_Int,e_Int) => 
+	           source(mapEdge(e_Int)) = mapNode(source(e_Int))
+		/\ target(mapEdge(e_Int)) = mapNode(target(e_Int))
+                /\ hasEdge(g_K2,mapEdge(e_Int)))
+             /\ (hasEdge(g_K2,e_K2) =>
+		   exists e1:Edge[Intermediate] 
+		   . hasEdge(g_Int,e1) /\ mapEdge(e1) = e_K2)
+             /\ (hasNode(g_K2,n_K2) =>
+                   exists n1:Node[Intermediate]
+                   . hasNode(g_Int,n1) /\ mapNode(n1) = n_K2))
+
+
+%% instantiation user level
+
+spec RouteGraphIndoors =
+     sorts IndoorsK %[, RailwayK, RoadK]% < KindRG; 
+	   PassageK, AreaK, LiftK < IndoorsK; HallK, OfficeK < AreaK
+then     GenGraph [sort IndoorsK 
+	       fit Kind |-> IndoorsK]
+%[and
+%     GenGraph [sort PassageK 
+%	       fit Kind |-> PassageK]
+%then
+%     sorts Graph[PassageK] < Graph[IndoorsK];
+%	   Edge[PassageK] < Edge[IndoorsK];
+%	   Node[PassageK] < Node[IndoorsK]; 
+%	   Path[PassageK] < Path[IndoorsK];
+%	   Route[PassageK] < Route[IndoorsK];
+%	   Sequence[Edge[PassageK]] < Sequence[Edge[IndoorsK]]
+]%
+%[     ops abstractsTo : Graph[IndoorsK] ->? Graph[IndoorsK];
+
+%	 %% the next two are just specialisations
+%	 abstractsTo : Route[IndoorsK] ->? Edge[IndoorsK];
+%	 abstractsTo : Graph[IndoorsK] ->? Node[IndoorsK];
+%	
+%	  
+%         %{ \Relation{->}{abstractsTo}{abstracts to}{} 
+%%% later on:
+%%      \RelType{abstractsTo}{Route_IndoorsK}{Edge_IndoorsK}
+%%      \RelType{abstractsTo}{Graph_IndoorsK}{Node_IndoorsK}
+%}% ]%
+end
+
+
