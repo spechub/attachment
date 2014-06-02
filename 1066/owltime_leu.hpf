@@ -1,0 +1,6 @@
+# automatically generated hets proof-script
+
+use owltime/owltime_interval/mappings/owltime_leu.het
+
+dg-all auto
+prove
