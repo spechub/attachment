@@ -1,0 +1,85 @@
+library Gum/GUM_withoutDL_withDCC
+version 0.4
+
+from Gum/GUMwithoutDL get GUM_Spatial_Relations
+from Gum/OrientationCalculi get DoubleCrossCalculus
+
+spec GUM_withoutDL_withDCC =
+	GUM_Spatial_Relations
+	and
+	DoubleCrossCalculus %% make sure: no same sorts
+
+then
+	free type FrameOfReference ::= intrinsic | relative | absolute
+
+	ops
+		%% FIXME: here goes some explanation for the next predicate.
+		referenceOfModality : SpatialModality -> FrameOfReference;
+
+		me : SimpleThing;
+		spatialModalityToOrientation : SpatialModality -> OrientationDCC;
+		simpleThingToLocation        : SimpleThing     -> Location
+
+	forall sm1,sm2: SpatialModality; st1,st2: SimpleThing
+		. simpleThingToLocation(st1)        = simpleThingToLocation(st2)         =>  st1 = st2   %% injective mapping
+		. spatialModalityToOrientation(sm1) = spatialModalityToOrientation(sm2)  =>  sm1 = sm2   %% injective mapping
+
+then
+	forall fp: FrontProjection
+		. referenceOfModality(fp) = intrinsic =>
+			   spatialModalityToOrientation(fp) = atExit
+			\/ spatialModalityToOrientation(fp) = front
+			\/ spatialModalityToOrientation(fp) = onCourse
+			\/ spatialModalityToOrientation(fp) = left
+			\/ spatialModalityToOrientation(fp) = leftFront
+			\/ spatialModalityToOrientation(fp) = right
+			\/ spatialModalityToOrientation(fp) = rightFront
+
+		. referenceOfModality(fp) = relative =>
+			   spatialModalityToOrientation(fp) = atEntry
+			\/ spatialModalityToOrientation(fp) = onCourse
+			\/ spatialModalityToOrientation(fp) = left
+			\/ spatialModalityToOrientation(fp) = right
+
+	forall bp: BackProjection
+		. referenceOfModality(bp) = intrinsic =>
+			   spatialModalityToOrientation(bp) = back
+			\/ spatialModalityToOrientation(bp) = leftBack
+			\/ spatialModalityToOrientation(bp) = rightBack
+
+		. referenceOfModality(bp) = relative =>
+			   spatialModalityToOrientation(bp) = front
+			\/ spatialModalityToOrientation(bp) = leftFront
+			\/ spatialModalityToOrientation(bp) = rightFront
+
+	forall lp: LeftProjection
+		. referenceOfModality(lp) = intrinsic =>
+			   spatialModalityToOrientation(lp) = left
+			\/ spatialModalityToOrientation(lp) = leftAtEntry
+			\/ spatialModalityToOrientation(lp) = leftAtExit
+			\/ spatialModalityToOrientation(lp) = leftBack
+			\/ spatialModalityToOrientation(lp) = leftFront
+
+		. referenceOfModality(lp) = relative =>
+			   spatialModalityToOrientation(lp) = left
+			\/ spatialModalityToOrientation(lp) = leftAtExit
+			\/ spatialModalityToOrientation(lp) = leftFront
+
+	forall rp: RightProjection
+		. referenceOfModality(rp) = intrinsic =>
+			   spatialModalityToOrientation(rp) = right
+			\/ spatialModalityToOrientation(rp) = rightAtEntry
+			\/ spatialModalityToOrientation(rp) = rightAtExit
+			\/ spatialModalityToOrientation(rp) = rightBack
+			\/ spatialModalityToOrientation(rp) = rightFront
+
+		. referenceOfModality(rp) = relative =>
+			   spatialModalityToOrientation(rp) = right
+			\/ spatialModalityToOrientation(rp) = rightAtExit
+			\/ spatialModalityToOrientation(rp) = rightFront
+
+
+	forall gl: GeneralizedLocation; sl: SpatialLocating; sm: SpatialModality; st1, st2: SimpleThing; u,v: Arrow
+		.  locatum(sl, st2) /\ placement(sl, gl) /\ hasSpatialModality(gl, sm) /\ relatum(gl, me) /\ u=simpleThingToLocation(me) --> simpleThingToLocation(st1) /\ v=simpleThingToLocation(st1) --> simpleThingToLocation(st2) =>
+			u # v > spatialModalityToOrientation(sm)
+end
