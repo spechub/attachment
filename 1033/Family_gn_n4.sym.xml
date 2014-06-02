@@ -1,0 +1,249 @@
+<?xml version='1.0' ?>
+<Ontology logic="CASL">
+  <Symbols>
+    <Symbol name="Char" kind="">sort Char</Symbol>
+    <Symbol name="DATA" kind="">sort DATA</Symbol>
+    <Symbol name="Literal" kind="">sort Literal</Symbol>
+    <Symbol name="NCName" kind="">sort NCName</Symbol>
+    <Symbol name="NMTOKEN" kind="">sort NMTOKEN</Symbol>
+    <Symbol name="Name" kind="">sort Name</Symbol>
+    <Symbol name="Thing" kind="">sort Thing</Symbol>
+    <Symbol name="XMLLiteral" kind="">sort XMLLiteral</Symbol>
+    <Symbol name="anyURI" kind="">sort anyURI</Symbol>
+    <Symbol name="base64Binary" kind="">sort base64Binary</Symbol>
+    <Symbol name="boolean" kind="">sort boolean</Symbol>
+    <Symbol name="byte" kind="">sort byte</Symbol>
+    <Symbol name="dateTime" kind="">sort dateTime</Symbol>
+    <Symbol name="dateTimeStamp" kind="">sort dateTimeStamp</Symbol>
+    <Symbol name="decimal" kind="">sort decimal</Symbol>
+    <Symbol name="double" kind="">sort double</Symbol>
+    <Symbol name="float" kind="">sort float</Symbol>
+    <Symbol name="hexBinary" kind="">sort hexBinary</Symbol>
+    <Symbol name="int" kind="">sort int</Symbol>
+    <Symbol name="integer" kind="">sort integer</Symbol>
+    <Symbol name="language" kind="">sort language</Symbol>
+    <Symbol name="long" kind="">sort long</Symbol>
+    <Symbol name="negativeInteger" kind="">sort negativeInteger</Symbol>
+    <Symbol name="nonNegativeInteger" kind="">sort nonNegativeInteger</Symbol>
+    <Symbol name="nonPositiveInteger" kind="">sort nonPositiveInteger</Symbol>
+    <Symbol name="normalizedString" kind="">sort normalizedString</Symbol>
+    <Symbol name="positiveInteger" kind="">sort positiveInteger</Symbol>
+    <Symbol name="rational" kind="">sort rational</Symbol>
+    <Symbol name="rdfLiteral" kind="">sort rdfLiteral</Symbol>
+    <Symbol name="rdfsXMLLiteral" kind="">sort rdfsXMLLiteral</Symbol>
+    <Symbol name="real" kind="">sort real</Symbol>
+    <Symbol name="short" kind="">sort short</Symbol>
+    <Symbol name="string" kind="">sort string</Symbol>
+    <Symbol name="token" kind="">sort token</Symbol>
+    <Symbol name="unsignedByte" kind="">sort unsignedByte</Symbol>
+    <Symbol name="unsignedInt" kind="">sort unsignedInt</Symbol>
+    <Symbol name="unsignedLongS" kind="">sort unsignedLongS</Symbol>
+    <Symbol name="unsignedShort" kind="">sort unsignedShort</Symbol>
+    <Symbol name="&#39;\000&#39;" kind="">op &#39;\000&#39; : Char</Symbol>
+    <Symbol name="&#39;\001&#39;" kind="">op &#39;\001&#39; : Char</Symbol>
+    <Symbol name="&#39;\002&#39;" kind="">op &#39;\002&#39; : Char</Symbol>
+    <Symbol name="&#39;\003&#39;" kind="">op &#39;\003&#39; : Char</Symbol>
+    <Symbol name="&#39;\004&#39;" kind="">op &#39;\004&#39; : Char</Symbol>
+    <Symbol name="&#39;\005&#39;" kind="">op &#39;\005&#39; : Char</Symbol>
+    <Symbol name="&#39;\006&#39;" kind="">op &#39;\006&#39; : Char</Symbol>
+    <Symbol name="&#39;\007&#39;" kind="">op &#39;\007&#39; : Char</Symbol>
+    <Symbol name="&#39;\008&#39;" kind="">op &#39;\008&#39; : Char</Symbol>
+    <Symbol name="&#39;\009&#39;" kind="">op &#39;\009&#39; : Char</Symbol>
+    <Symbol name="&#39;\010&#39;" kind="">op &#39;\010&#39; : Char</Symbol>
+    <Symbol name="&#39;\011&#39;" kind="">op &#39;\011&#39; : Char</Symbol>
+    <Symbol name="&#39;\012&#39;" kind="">op &#39;\012&#39; : Char</Symbol>
+    <Symbol name="&#39;\013&#39;" kind="">op &#39;\013&#39; : Char</Symbol>
+    <Symbol name="&#39;\014&#39;" kind="">op &#39;\014&#39; : Char</Symbol>
+    <Symbol name="&#39;\015&#39;" kind="">op &#39;\015&#39; : Char</Symbol>
+    <Symbol name="&#39;\016&#39;" kind="">op &#39;\016&#39; : Char</Symbol>
+    <Symbol name="&#39;\017&#39;" kind="">op &#39;\017&#39; : Char</Symbol>
+    <Symbol name="&#39;\018&#39;" kind="">op &#39;\018&#39; : Char</Symbol>
+    <Symbol name="&#39;\019&#39;" kind="">op &#39;\019&#39; : Char</Symbol>
+    <Symbol name="&#39;\020&#39;" kind="">op &#39;\020&#39; : Char</Symbol>
+    <Symbol name="&#39;\021&#39;" kind="">op &#39;\021&#39; : Char</Symbol>
+    <Symbol name="&#39;\022&#39;" kind="">op &#39;\022&#39; : Char</Symbol>
+    <Symbol name="&#39;\023&#39;" kind="">op &#39;\023&#39; : Char</Symbol>
+    <Symbol name="&#39;\024&#39;" kind="">op &#39;\024&#39; : Char</Symbol>
+    <Symbol name="&#39;\025&#39;" kind="">op &#39;\025&#39; : Char</Symbol>
+    <Symbol name="&#39;\026&#39;" kind="">op &#39;\026&#39; : Char</Symbol>
+    <Symbol name="&#39;\027&#39;" kind="">op &#39;\027&#39; : Char</Symbol>
+    <Symbol name="&#39;\028&#39;" kind="">op &#39;\028&#39; : Char</Symbol>
+    <Symbol name="&#39;\029&#39;" kind="">op &#39;\029&#39; : Char</Symbol>
+    <Symbol name="&#39;\030&#39;" kind="">op &#39;\030&#39; : Char</Symbol>
+    <Symbol name="&#39;\031&#39;" kind="">op &#39;\031&#39; : Char</Symbol>
+    <Symbol name="&#39;\032&#39;" kind="">op &#39;\032&#39; : Char</Symbol>
+    <Symbol name="&#39;\033&#39;" kind="">op &#39;\033&#39; : Char</Symbol>
+    <Symbol name="&#39;\034&#39;" kind="">op &#39;\034&#39; : Char</Symbol>
+    <Symbol name="&#39;\035&#39;" kind="">op &#39;\035&#39; : Char</Symbol>
+    <Symbol name="&#39;\036&#39;" kind="">op &#39;\036&#39; : Char</Symbol>
+    <Symbol name="&#39;\037&#39;" kind="">op &#39;\037&#39; : Char</Symbol>
+    <Symbol name="&#39;\038&#39;" kind="">op &#39;\038&#39; : Char</Symbol>
+    <Symbol name="&#39;\039&#39;" kind="">op &#39;\039&#39; : Char</Symbol>
+    <Symbol name="&#39;\040&#39;" kind="">op &#39;\040&#39; : Char</Symbol>
+    <Symbol name="&#39;\041&#39;" kind="">op &#39;\041&#39; : Char</Symbol>
+    <Symbol name="&#39;\042&#39;" kind="">op &#39;\042&#39; : Char</Symbol>
+    <Symbol name="&#39;\043&#39;" kind="">op &#39;\043&#39; : Char</Symbol>
+    <Symbol name="&#39;\044&#39;" kind="">op &#39;\044&#39; : Char</Symbol>
+    <Symbol name="&#39;\045&#39;" kind="">op &#39;\045&#39; : Char</Symbol>
+    <Symbol name="&#39;\046&#39;" kind="">op &#39;\046&#39; : Char</Symbol>
+    <Symbol name="&#39;\047&#39;" kind="">op &#39;\047&#39; : Char</Symbol>
+    <Symbol name="&#39;\048&#39;" kind="">op &#39;\048&#39; : Char</Symbol>
+    <Symbol name="&#39;\049&#39;" kind="">op &#39;\049&#39; : Char</Symbol>
+    <Symbol name="&#39;\050&#39;" kind="">op &#39;\050&#39; : Char</Symbol>
+    <Symbol name="&#39;\051&#39;" kind="">op &#39;\051&#39; : Char</Symbol>
+    <Symbol name="&#39;\052&#39;" kind="">op &#39;\052&#39; : Char</Symbol>
+    <Symbol name="&#39;\053&#39;" kind="">op &#39;\053&#39; : Char</Symbol>
+    <Symbol name="&#39;\054&#39;" kind="">op &#39;\054&#39; : Char</Symbol>
+    <Symbol name="&#39;\055&#39;" kind="">op &#39;\055&#39; : Char</Symbol>
+    <Symbol name="&#39;\056&#39;" kind="">op &#39;\056&#39; : Char</Symbol>
+    <Symbol name="&#39;\057&#39;" kind="">op &#39;\057&#39; : Char</Symbol>
+    <Symbol name="&#39;\058&#39;" kind="">op &#39;\058&#39; : Char</Symbol>
+    <Symbol name="&#39;\059&#39;" kind="">op &#39;\059&#39; : Char</Symbol>
+    <Symbol name="&#39;\060&#39;" kind="">op &#39;\060&#39; : Char</Symbol>
+    <Symbol name="&#39;\061&#39;" kind="">op &#39;\061&#39; : Char</Symbol>
+    <Symbol name="&#39;\062&#39;" kind="">op &#39;\062&#39; : Char</Symbol>
+    <Symbol name="&#39;\063&#39;" kind="">op &#39;\063&#39; : Char</Symbol>
+    <Symbol name="&#39;\064&#39;" kind="">op &#39;\064&#39; : Char</Symbol>
+    <Symbol name="&#39;\065&#39;" kind="">op &#39;\065&#39; : Char</Symbol>
+    <Symbol name="&#39;\066&#39;" kind="">op &#39;\066&#39; : Char</Symbol>
+    <Symbol name="&#39;\067&#39;" kind="">op &#39;\067&#39; : Char</Symbol>
+    <Symbol name="&#39;\068&#39;" kind="">op &#39;\068&#39; : Char</Symbol>
+    <Symbol name="&#39;\069&#39;" kind="">op &#39;\069&#39; : Char</Symbol>
+    <Symbol name="&#39;\070&#39;" kind="">op &#39;\070&#39; : Char</Symbol>
+    <Symbol name="&#39;\071&#39;" kind="">op &#39;\071&#39; : Char</Symbol>
+    <Symbol name="&#39;\072&#39;" kind="">op &#39;\072&#39; : Char</Symbol>
+    <Symbol name="&#39;\073&#39;" kind="">op &#39;\073&#39; : Char</Symbol>
+    <Symbol name="&#39;\074&#39;" kind="">op &#39;\074&#39; : Char</Symbol>
+    <Symbol name="&#39;\075&#39;" kind="">op &#39;\075&#39; : Char</Symbol>
+    <Symbol name="&#39;\076&#39;" kind="">op &#39;\076&#39; : Char</Symbol>
+    <Symbol name="&#39;\077&#39;" kind="">op &#39;\077&#39; : Char</Symbol>
+    <Symbol name="&#39;\078&#39;" kind="">op &#39;\078&#39; : Char</Symbol>
+    <Symbol name="&#39;\079&#39;" kind="">op &#39;\079&#39; : Char</Symbol>
+    <Symbol name="&#39;\080&#39;" kind="">op &#39;\080&#39; : Char</Symbol>
+    <Symbol name="&#39;\081&#39;" kind="">op &#39;\081&#39; : Char</Symbol>
+    <Symbol name="&#39;\082&#39;" kind="">op &#39;\082&#39; : Char</Symbol>
+    <Symbol name="&#39;\083&#39;" kind="">op &#39;\083&#39; : Char</Symbol>
+    <Symbol name="&#39;\084&#39;" kind="">op &#39;\084&#39; : Char</Symbol>
+    <Symbol name="&#39;\085&#39;" kind="">op &#39;\085&#39; : Char</Symbol>
+    <Symbol name="&#39;\086&#39;" kind="">op &#39;\086&#39; : Char</Symbol>
+    <Symbol name="&#39;\087&#39;" kind="">op &#39;\087&#39; : Char</Symbol>
+    <Symbol name="&#39;\088&#39;" kind="">op &#39;\088&#39; : Char</Symbol>
+    <Symbol name="&#39;\089&#39;" kind="">op &#39;\089&#39; : Char</Symbol>
+    <Symbol name="&#39;\090&#39;" kind="">op &#39;\090&#39; : Char</Symbol>
+    <Symbol name="&#39;\091&#39;" kind="">op &#39;\091&#39; : Char</Symbol>
+    <Symbol name="&#39;\092&#39;" kind="">op &#39;\092&#39; : Char</Symbol>
+    <Symbol name="&#39;\093&#39;" kind="">op &#39;\093&#39; : Char</Symbol>
+    <Symbol name="&#39;\094&#39;" kind="">op &#39;\094&#39; : Char</Symbol>
+    <Symbol name="&#39;\095&#39;" kind="">op &#39;\095&#39; : Char</Symbol>
+    <Symbol name="&#39;\096&#39;" kind="">op &#39;\096&#39; : Char</Symbol>
+    <Symbol name="&#39;\097&#39;" kind="">op &#39;\097&#39; : Char</Symbol>
+    <Symbol name="&#39;\098&#39;" kind="">op &#39;\098&#39; : Char</Symbol>
+    <Symbol name="&#39;\099&#39;" kind="">op &#39;\099&#39; : Char</Symbol>
+    <Symbol name="&#39;\100&#39;" kind="">op &#39;\100&#39; : Char</Symbol>
+    <Symbol name="&#39;\101&#39;" kind="">op &#39;\101&#39; : Char</Symbol>
+    <Symbol name="&#39;\102&#39;" kind="">op &#39;\102&#39; : Char</Symbol>
+    <Symbol name="&#39;\103&#39;" kind="">op &#39;\103&#39; : Char</Symbol>
+    <Symbol name="&#39;\104&#39;" kind="">op &#39;\104&#39; : Char</Symbol>
+    <Symbol name="&#39;\105&#39;" kind="">op &#39;\105&#39; : Char</Symbol>
+    <Symbol name="&#39;\106&#39;" kind="">op &#39;\106&#39; : Char</Symbol>
+    <Symbol name="&#39;\107&#39;" kind="">op &#39;\107&#39; : Char</Symbol>
+    <Symbol name="&#39;\108&#39;" kind="">op &#39;\108&#39; : Char</Symbol>
+    <Symbol name="&#39;\109&#39;" kind="">op &#39;\109&#39; : Char</Symbol>
+    <Symbol name="&#39;\110&#39;" kind="">op &#39;\110&#39; : Char</Symbol>
+    <Symbol name="&#39;\111&#39;" kind="">op &#39;\111&#39; : Char</Symbol>
+    <Symbol name="&#39;\112&#39;" kind="">op &#39;\112&#39; : Char</Symbol>
+    <Symbol name="&#39;\113&#39;" kind="">op &#39;\113&#39; : Char</Symbol>
+    <Symbol name="&#39;\114&#39;" kind="">op &#39;\114&#39; : Char</Symbol>
+    <Symbol name="&#39;\115&#39;" kind="">op &#39;\115&#39; : Char</Symbol>
+    <Symbol name="&#39;\116&#39;" kind="">op &#39;\116&#39; : Char</Symbol>
+    <Symbol name="&#39;\117&#39;" kind="">op &#39;\117&#39; : Char</Symbol>
+    <Symbol name="&#39;\118&#39;" kind="">op &#39;\118&#39; : Char</Symbol>
+    <Symbol name="&#39;\119&#39;" kind="">op &#39;\119&#39; : Char</Symbol>
+    <Symbol name="&#39;\120&#39;" kind="">op &#39;\120&#39; : Char</Symbol>
+    <Symbol name="&#39;\121&#39;" kind="">op &#39;\121&#39; : Char</Symbol>
+    <Symbol name="&#39;\122&#39;" kind="">op &#39;\122&#39; : Char</Symbol>
+    <Symbol name="&#39;\123&#39;" kind="">op &#39;\123&#39; : Char</Symbol>
+    <Symbol name="&#39;\124&#39;" kind="">op &#39;\124&#39; : Char</Symbol>
+    <Symbol name="&#39;\125&#39;" kind="">op &#39;\125&#39; : Char</Symbol>
+    <Symbol name="&#39;\126&#39;" kind="">op &#39;\126&#39; : Char</Symbol>
+    <Symbol name="&#39;\127&#39;" kind="">op &#39;\127&#39; : Char</Symbol>
+    <Symbol name="-__" kind="">op -__ : float -&gt; float</Symbol>
+    <Symbol name="-__" kind="">op -__ : integer -&gt; integer</Symbol>
+    <Symbol name="0" kind="">op 0 : nonNegativeInteger</Symbol>
+    <Symbol name="1" kind="">op 1 : nonNegativeInteger</Symbol>
+    <Symbol name="2" kind="">op 2 : nonNegativeInteger</Symbol>
+    <Symbol name="3" kind="">op 3 : nonNegativeInteger</Symbol>
+    <Symbol name="4" kind="">op 4 : nonNegativeInteger</Symbol>
+    <Symbol name="5" kind="">op 5 : nonNegativeInteger</Symbol>
+    <Symbol name="6" kind="">op 6 : nonNegativeInteger</Symbol>
+    <Symbol name="7" kind="">op 7 : nonNegativeInteger</Symbol>
+    <Symbol name="8" kind="">op 8 : nonNegativeInteger</Symbol>
+    <Symbol name="9" kind="">op 9 : nonNegativeInteger</Symbol>
+    <Symbol name="False" kind="">op False : boolean</Symbol>
+    <Symbol name="Father" kind="">pred Father : Thing</Symbol>
+    <Symbol name="Female" kind="">pred Female : Thing</Symbol>
+    <Symbol name="Grandmother" kind="">pred Grandmother : Thing</Symbol>
+    <Symbol name="Hybrid" kind="">pred Hybrid : Thing</Symbol>
+    <Symbol name="Man" kind="">pred Man : Thing</Symbol>
+    <Symbol name="Married" kind="">pred Married : Thing</Symbol>
+    <Symbol name="MarriedMother" kind="">pred MarriedMother : Thing</Symbol>
+    <Symbol name="Mother" kind="">pred Mother : Thing</Symbol>
+    <Symbol name="MotherWithManyChildren" kind="">pred MotherWithManyChildren : Thing</Symbol>
+    <Symbol name="MotherWithoutDaughter" kind="">pred MotherWithoutDaughter : Thing</Symbol>
+    <Symbol name="Nothing" kind="">pred Nothing : Thing</Symbol>
+    <Symbol name="Parent" kind="">pred Parent : Thing</Symbol>
+    <Symbol name="Person" kind="">pred Person : Thing</Symbol>
+    <Symbol name="Thing" kind="">pred Thing : Thing</Symbol>
+    <Symbol name="True" kind="">op True : boolean</Symbol>
+    <Symbol name="Wife" kind="">pred Wife : Thing</Symbol>
+    <Symbol name="Woman" kind="">pred Woman : Thing</Symbol>
+    <Symbol name="__:::__" kind="">op __:::__ : nonNegativeInteger * nonNegativeInteger -&gt; float</Symbol>
+    <Symbol name="__:@:__" kind="">op __:@:__ : Char * string -&gt; string</Symbol>
+    <Symbol name="__&lt;__" kind="">pred __&lt;__ : DATA * DATA</Symbol>
+    <Symbol name="__&lt;=__" kind="">pred __&lt;=__ : DATA * DATA</Symbol>
+    <Symbol name="__&gt;__" kind="">pred __&gt;__ : DATA * DATA</Symbol>
+    <Symbol name="__&gt;=__" kind="">pred __&gt;=__ : DATA * DATA</Symbol>
+    <Symbol name="__@@__" kind="">op __@@__ : nonNegativeInteger * nonNegativeInteger -&gt;
+            nonNegativeInteger</Symbol>
+    <Symbol name="__E__" kind="">op __E__ : float * integer -&gt; float</Symbol>
+    <Symbol name="__fractionDigits__" kind="">pred __fractionDigits__ : DATA * DATA</Symbol>
+    <Symbol name="__langRange__" kind="">pred __langRange__ : DATA * DATA</Symbol>
+    <Symbol name="__length__" kind="">pred __length__ : DATA * DATA</Symbol>
+    <Symbol name="__maxLength__" kind="">pred __maxLength__ : DATA * DATA</Symbol>
+    <Symbol name="__minLength__" kind="">pred __minLength__ : DATA * DATA</Symbol>
+    <Symbol name="__pattern__" kind="">pred __pattern__ : DATA * DATA</Symbol>
+    <Symbol name="__totalDigits__" kind="">pred __totalDigits__ : DATA * DATA</Symbol>
+    <Symbol name="clara" kind="">op clara : Thing</Symbol>
+    <Symbol name="emptyString" kind="">op emptyString : string</Symbol>
+    <Symbol name="even" kind="">pred even : integer</Symbol>
+    <Symbol name="even" kind="">pred even : nonNegativeInteger</Symbol>
+    <Symbol name="hasChild" kind="">pred hasChild : Thing * Thing</Symbol>
+    <Symbol name="hasHusband" kind="">pred hasHusband : Thing * Thing</Symbol>
+    <Symbol name="hasParent" kind="">pred hasParent : Thing * Thing</Symbol>
+    <Symbol name="john" kind="">op john : Thing</Symbol>
+    <Symbol name="mary" kind="">op mary : Thing</Symbol>
+    <Symbol name="odd" kind="">pred odd : integer</Symbol>
+    <Symbol name="odd" kind="">pred odd : nonNegativeInteger</Symbol>
+  </Symbols>
+  <Axioms>
+    <Axiom name="nothing in Nothing" text="forall a : Thing . not (pred Nothing : Thing)((var a : Thing))" />
+    <Axiom name="thing in Thing" text="forall a : Thing . (pred Thing : Thing)((var a : Thing))" />
+    <Axiom name="Ax22" text="forall a : Thing; b : Thing&amp;#10;. (var a : Thing) = (op john : Thing)&amp;#10;  /\ (var b : Thing) = (op clara : Thing)&amp;#10;  =&gt; (pred hasChild : Thing * Thing)&amp;#10;     ((var a : Thing), (var b : Thing))" />
+    <Axiom name="Ax21" text="forall a : Thing&amp;#10;. (var a : Thing) = (op john : Thing)&amp;#10;  =&gt; (pred Father : Thing)((var a : Thing))" />
+    <Axiom name="Ax20" text="forall a : Thing; b : Thing&amp;#10;. (var a : Thing) = (op mary : Thing)&amp;#10;  /\ (var b : Thing) = (op john : Thing)&amp;#10;  =&gt; (pred hasChild : Thing * Thing)&amp;#10;     ((var a : Thing), (var b : Thing))" />
+    <Axiom name="Ax19" text="forall a : Thing&amp;#10;. (var a : Thing) = (op mary : Thing)&amp;#10;  =&gt; (pred Mother : Thing)((var a : Thing))" />
+    <Axiom name="Ax18" text="forall a : Thing&amp;#10;. (pred Hybrid : Thing)((var a : Thing))&amp;#10;  &lt;=&gt; (pred Woman : Thing)((var a : Thing))&amp;#10;      /\ (pred Man : Thing)((var a : Thing))" />
+    <Axiom name="Ax17" text="forall a : Thing&amp;#10;. (pred MarriedMother : Thing)((var a : Thing))&amp;#10;  =&gt; (pred Female : Thing)((var a : Thing))&amp;#10;     /\ (pred Person : Thing)((var a : Thing))" />
+    <Axiom name="Ax16" text="forall a : Thing&amp;#10;. (pred MarriedMother : Thing)((var a : Thing))&amp;#10;  &lt;=&gt; (pred Mother : Thing)((var a : Thing))&amp;#10;      /\ (pred Married : Thing)((var a : Thing))" />
+    <Axiom name="Ax14" text="forall a : Thing&amp;#10;. (pred Wife : Thing)((var a : Thing))&amp;#10;  &lt;=&gt; (pred Woman : Thing)((var a : Thing))&amp;#10;      /\ exists b : Thing&amp;#10;         . (pred hasHusband : Thing * Thing)&amp;#10;           ((var a : Thing), (var b : Thing))&amp;#10;           /\ (pred Man : Thing)((var b : Thing))" />
+    <Axiom name="Ax13" text="forall a : Thing&amp;#10;. (pred MotherWithoutDaughter : Thing)((var a : Thing))&amp;#10;  &lt;=&gt; (pred Mother : Thing)((var a : Thing))&amp;#10;      /\ forall b : Thing&amp;#10;         . (pred hasChild : Thing * Thing)((var a : Thing), (var b : Thing))&amp;#10;           =&gt; not (pred Woman : Thing)((var b : Thing))" />
+    <Axiom name="Ax12" text="forall a : Thing&amp;#10;. (pred MotherWithManyChildren : Thing)((var a : Thing))&amp;#10;  &lt;=&gt; (pred Mother : Thing)((var a : Thing))&amp;#10;      /\ exists b : Thing; c : Thing; d : Thing&amp;#10;         . not (var b : Thing) = (var c : Thing)&amp;#10;           /\ not (var b : Thing) = (var d : Thing)&amp;#10;           /\ not (var c : Thing) = (var d : Thing)&amp;#10;           /\ (pred hasChild : Thing * Thing)&amp;#10;              ((var a : Thing), (var b : Thing))&amp;#10;           /\ (pred hasChild : Thing * Thing)&amp;#10;              ((var a : Thing), (var c : Thing))&amp;#10;           /\ (pred hasChild : Thing * Thing)&amp;#10;              ((var a : Thing), (var d : Thing))" />
+    <Axiom name="Ax11" text="forall a : Thing&amp;#10;. (pred Grandmother : Thing)((var a : Thing))&amp;#10;  &lt;=&gt; (pred Mother : Thing)((var a : Thing))&amp;#10;      /\ exists b : Thing&amp;#10;         . (pred hasChild : Thing * Thing)((var a : Thing), (var b : Thing))&amp;#10;           /\ (pred Parent : Thing)((var b : Thing))" />
+    <Axiom name="Ax10" text="forall a : Thing&amp;#10;. (pred Parent : Thing)((var a : Thing))&amp;#10;  &lt;=&gt; (pred Father : Thing)((var a : Thing))&amp;#10;      \/ (pred Mother : Thing)((var a : Thing))" />
+    <Axiom name="Ax9" text="forall a : Thing&amp;#10;. (pred Father : Thing)((var a : Thing))&amp;#10;  &lt;=&gt; (pred Man : Thing)((var a : Thing))&amp;#10;      /\ exists b : Thing&amp;#10;         . (pred hasChild : Thing * Thing)((var a : Thing), (var b : Thing))&amp;#10;           /\ (pred Person : Thing)((var b : Thing))" />
+    <Axiom name="Ax8" text="forall a : Thing&amp;#10;. (pred Mother : Thing)((var a : Thing))&amp;#10;  &lt;=&gt; (pred Woman : Thing)((var a : Thing))&amp;#10;      /\ exists b : Thing&amp;#10;         . (pred hasChild : Thing * Thing)((var a : Thing), (var b : Thing))&amp;#10;           /\ (pred Person : Thing)((var b : Thing))" />
+    <Axiom name="Ax6" text="forall a : Thing; b : Thing&amp;#10;. (pred hasChild : Thing * Thing)((var b : Thing), (var a : Thing))&amp;#10;  &lt;=&gt; (pred hasParent : Thing * Thing)&amp;#10;      ((var a : Thing), (var b : Thing))" />
+    <Axiom name="Ax4" text="forall a : Thing&amp;#10;. (pred Man : Thing)((var a : Thing))&amp;#10;  &lt;=&gt; (pred Person : Thing)((var a : Thing))&amp;#10;      /\ not (pred Woman : Thing)((var a : Thing))" />
+    <Axiom name="Ax3" text="forall a : Thing&amp;#10;. (pred Woman : Thing)((var a : Thing))&amp;#10;  &lt;=&gt; (pred Person : Thing)((var a : Thing))&amp;#10;      /\ (pred Female : Thing)((var a : Thing))" />
+  </Axioms>
+</Ontology>
