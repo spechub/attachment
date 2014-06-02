@@ -1,0 +1,8 @@
+logic ExtModal
+
+sort s
+
+op s : s
+
+. s = s when s = s else s %implied
+
