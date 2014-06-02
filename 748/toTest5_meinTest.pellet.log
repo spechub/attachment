@@ -1,0 +1,55 @@
+Consistent: Yes
+
+
+Namespace: owl <http://www.w3.org/2002/07/owl#>
+Namespace: owl2xml <http://www.w3.org/2006/12/owl2-xml#>
+Namespace: rdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Namespace: rdfs <http://www.w3.org/2000/01/rdf-schema#>
+Namespace: xsd <http://www.w3.org/2001/XMLSchema#>
+
+Ontology: <http://www.dfki.de/sks/hets/ontology/unamed>
+
+Class: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED
+Class: Interference
+Class: owl:Thing
+
+ObjectProperty: firstPart
+ObjectProperty: inverse_of_firstPart
+ObjectProperty: inverse_of_secondPart
+ObjectProperty: secondPart
+
+Individual: ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED.1
+Individual: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED.1
+Individual: Interference_4
+
+Individual: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED.1
+Types: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED
+
+Individual: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED.1
+Types: owl:Thing
+
+Individual: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED.1
+Facts: inverse_of_firstPart Interference_4
+
+Individual: ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED.1
+Types: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED
+
+Individual: ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED.1
+Types: owl:Thing
+
+Individual: ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED.1
+Facts: inverse_of_secondPart Interference_4
+
+Individual: Interference_4
+Types: Interference
+
+Individual: Interference_4
+Types: owl:Thing
+
+Individual: Interference_4
+Facts: firstPart
+       ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED.1
+
+Individual: Interference_4
+Facts: secondPart
+       ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED.1
