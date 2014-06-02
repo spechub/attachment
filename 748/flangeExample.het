@@ -1,0 +1,710 @@
+library flangeExample
+
+logic OWL
+
+spec definition =
+	
+
+ObjectProperty: inverse_of_firstPart
+
+    Domain: 
+        Bolt
+        or Flange
+        or Flange_Cover
+        or Gasket
+        or Nut
+        or Screw
+    
+    Range: 
+        Interference
+    
+    InverseOf: 
+        firstPart
+    
+    DisjointWith: 
+        inverse_of_secondPart,
+        secondPart
+    
+    
+
+
+
+ObjectProperty: inverse_of_secondPart
+
+    Characteristics: 
+        AntiSymmetric
+    
+    Domain: 
+        Bolt
+        or Flange
+        or Flange_Cover
+        or Gasket
+        or Nut
+        or Screw
+    
+    Range: 
+        Interference
+    
+    InverseOf: 
+        secondPart
+    
+    DisjointWith: 
+        firstPart,
+        inverse_of_firstPart
+    
+    
+
+
+
+ObjectProperty: hatFlanschdeckel
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Flange
+    
+    Range: 
+        Flange_Cover
+    
+    
+
+
+
+ObjectProperty: secondPart
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Interference
+    
+    Range: 
+        Bolt
+        or Flange
+        or Flange_Cover
+        or Gasket
+        or Nut
+        or Screw
+    
+    InverseOf: 
+        inverse_of_secondPart
+    
+    DisjointWith: 
+        firstPart,
+        inverse_of_firstPart
+    
+    
+
+
+
+ObjectProperty: hatTeilungskreis
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Flange
+        or Flange_Cover
+    
+    
+
+
+
+ObjectProperty: firstPart
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Interference
+    
+    Range: 
+        Bolt
+        or Flange
+        or Flange_Cover
+        or Gasket
+        or Nut
+        or Screw
+    
+    InverseOf: 
+        inverse_of_firstPart
+    
+    DisjointWith: 
+        inverse_of_secondPart,
+        secondPart
+    
+    
+
+
+
+ObjectProperty: hatKoordinaten
+
+    Domain: 
+        Flange_Cover
+    
+    Range: 
+        Coordinates
+    
+    
+
+
+
+DataProperty: Anzahl
+
+    Characteristics: 
+        Functional
+    
+    Range: 
+        int
+    
+    
+
+
+
+DataProperty: InnenDurchmesser
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Gasket
+    
+    Range: 
+        float
+    
+    
+
+
+
+DataProperty: z
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Coordinates
+    
+    Range: 
+        float
+    
+    
+
+
+
+DataProperty: x
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Coordinates
+    
+    Range: 
+        float
+    
+    
+
+
+
+DataProperty: y
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Coordinates
+    
+    Range: 
+        float
+    
+    
+
+
+
+DataProperty: Range
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Interference
+    
+    Range: 
+        int
+    
+    
+
+
+
+DataProperty: Leength
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Screw
+    
+    Range: 
+        float
+    
+    
+
+
+
+DataProperty: Durchmesser
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Borehole
+        or Screw
+    
+    Range: 
+        {"20"^^xsd:string , "40"^^xsd:string , "50"^^xsd:string}
+    
+    
+
+
+
+DataProperty: Gauge
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Rohrflansch
+        or Winkelflansch
+    
+    Range: 
+        float
+    
+    
+
+
+
+DataProperty: AussenDurchmesser
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Gasket
+    
+    Range: 
+        float
+    
+    
+
+
+
+Class: Interference
+
+    DisjointWith: 
+        Nut,
+        Gasket,
+        Flange_Cover,
+        Flange,
+        Borehole,
+        Bolt,
+        Screw,
+        Coordinates
+    
+    
+
+
+
+Class: Nut
+
+    DisjointWith: 
+        Interference,
+        Gasket,
+        Flange_Cover,
+        Flange,
+        Borehole,
+        Bolt,
+        Screw,
+        Coordinates
+    
+    
+
+
+
+Class: Winkelflansch
+
+    SubClassOf: 
+        Flange
+    
+    
+
+
+
+Class: Gasket
+
+    SubClassOf: 
+        owl:Thing,
+        (not (inverse_of_firstPart some (firstPart some Gasket)))
+        or (inverse_of_firstPart only (secondPart some Flange))
+        or (inverse_of_firstPart only (secondPart some Flange_Cover)),
+        (not (inverse_of_firstPart some (firstPart some Gasket)))
+        or (inverse_of_firstPart only (Range value 6))
+    
+    DisjointWith: 
+        Interference,
+        Nut,
+        Flange_Cover,
+        Flange,
+        Borehole,
+        Bolt,
+        Screw,
+        Coordinates
+    
+    
+
+
+
+Class: owl:Thing
+
+    
+
+
+
+Class: Rohrflansch
+
+    SubClassOf: 
+        Flange,
+        Gauge value 100.0f
+    
+    
+
+
+
+Class: ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED
+
+    SubClassOf: 
+        Screw,
+        (not (inverse_of_firstPart some (firstPart some ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED)))
+        or (inverse_of_firstPart only (secondPart only ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED))
+    
+    DisjointWith: 
+        ISO_4017_SCREW_M14x50_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED
+    
+    
+
+
+
+Class: Flange_Cover
+
+    DisjointWith: 
+        Nut,
+        Interference,
+        Gasket,
+        Flange,
+        Borehole,
+        Bolt,
+        Screw,
+        Coordinates
+    
+    
+
+
+
+Class: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED
+
+    SubClassOf: 
+        Nut,
+        (not (inverse_of_firstPart some (firstPart some ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED)))
+        or (inverse_of_firstPart only (secondPart only ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED))
+    
+    
+
+
+
+Class: Coordinates
+
+    DisjointWith: 
+        Interference,
+        Nut,
+        Gasket,
+        Flange_Cover,
+        Flange,
+        Borehole,
+        Bolt,
+        Screw
+    
+    
+
+
+
+Class: Flange
+
+    DisjointWith: 
+        Nut,
+        Interference,
+        Gasket,
+        Flange_Cover,
+        Bolt,
+        Screw,
+        Coordinates
+    
+    
+
+
+
+Class: Borehole
+
+    DisjointWith: 
+        Interference,
+        Nut,
+        Gasket,
+        Flange_Cover,
+        Bolt,
+        Screw,
+        Coordinates
+    
+    
+
+
+
+Class: Bolt
+
+    DisjointWith: 
+        Nut,
+        Interference,
+        Gasket,
+        Flange_Cover,
+        Flange,
+        Borehole,
+        Screw,
+        Coordinates
+    
+    
+
+
+
+Class: Screw
+
+    DisjointWith: 
+        Interference,
+        Nut,
+        Gasket,
+        Flange_Cover,
+        Flange,
+        Borehole,
+        Bolt,
+        Coordinates
+    
+    
+
+
+
+Class: ISO_4017_SCREW_M14x50_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED
+
+    SubClassOf: 
+        Screw,
+        Durchmesser value "50"^^xsd:string
+    
+    DisjointWith: 
+        ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED
+    
+    
+
+
+
+Individual: ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED_9
+
+    Types: 
+        ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED,
+        owl:Thing
+    
+    Facts: 
+        inverse_of_secondPart  Interference_6
+    
+    
+
+
+
+Individual: ISO_4017_SCREW_M14x50_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED_8
+
+    Types: 
+        ISO_4017_SCREW_M14x50_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED,
+        owl:Thing
+    
+    
+
+
+
+Individual: Gasket_1
+
+    Types: 
+        Gasket,
+        owl:Thing
+    
+    Facts: 
+        inverse_of_firstPart  Interference_1
+    
+    
+
+
+
+Individual: ISO_4017_SCREW_M14x50_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED_3
+
+    Types: 
+        ISO_4017_SCREW_M14x50_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED,
+        owl:Thing
+    
+    Facts: 
+        Durchmesser  "50"^^xsd:string
+    
+    
+
+
+
+Individual: Flansch_1
+
+    Types: 
+        Flange,
+        owl:Thing
+    
+    
+
+
+
+Individual: Interference_1
+
+    Types: 
+        Interference,
+        owl:Thing
+    
+    Facts: 
+        Range  "6"^^xsd:int
+    
+    
+
+
+
+Individual: Interference_6
+
+    Types: 
+        Interference,
+        owl:Thing
+    
+    Facts: 
+        secondPart  ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED_9,
+        firstPart  ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED_10,
+        Range  "6"^^xsd:int
+    
+    
+
+
+
+Individual: Rohrflansch_2
+
+    Types: 
+        Rohrflansch,
+        owl:Thing
+    
+    Facts: 
+        hatFlanschdeckel  Flanschdeckel_3
+    
+    
+
+
+
+Individual: jhj
+
+    Types: 
+        ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED,
+        owl:Thing
+    
+    
+
+
+
+Individual: Nail_4
+
+    Types: 
+        Bolt,
+        owl:Thing
+    
+    
+
+
+
+Individual: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED_7
+
+    Types: 
+        ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED,
+        owl:Thing
+    
+    
+
+
+
+Individual: Flanschdeckel_3
+
+    Types: 
+        Flange_Cover,
+        owl:Thing
+    
+    Facts: 
+        inverse_of_secondPart  Interference_1
+    
+    
+
+
+
+Individual: Bohrung_6
+
+    Types: 
+        Borehole,
+        owl:Thing
+    
+    
+
+
+
+Individual: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED_10
+
+    Types: 
+        ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED,
+        owl:Thing
+    
+    Facts: 
+        inverse_of_firstPart  Interference_6
+    
+    
+
+
+
+DisjointClasses: 
+    Bolt,
+    Borehole,
+    Coordinates,
+    Flange,
+    Flange_Cover,
+    Gasket,
+    ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED,
+    Interference
+
+DisjointClasses: 
+    ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED,
+    ISO_4017_SCREW_M14x50_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED,
+    ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED
+
+DisjointClasses: 
+    Gasket,
+    ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED,
+    ISO_4017_SCREW_M14x50_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED
+
+DisjointClasses: 
+    Bolt,
+    Borehole,
+    Coordinates,
+    Flange,
+    Flange_Cover,
+    Gasket,
+    ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED,
+    Interference
+end
