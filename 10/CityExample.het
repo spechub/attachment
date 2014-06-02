@@ -1,0 +1,464 @@
+
+library CityExample
+
+%right_assoc( __::__)%
+%left_assoc __ ++ __
+%list [__], [], __::__
+%prec {__ ++ __} < {__ :: __}
+
+%[ todo: add axioms of section 3
+                           QL
+           qt       ql1
+       ED ----> QT ----> RouteGraph Space
+               / \          ^
+             / ql2\         |
+            /      \        v
+           v        \--> Regions 
+         Color
+   
+ --  turn right at the red building down the street
+ --  Street next building after the Deutsche Bank
+ --  CityMap: Area with two banks (300 m and 600 m away from Subway Station)
+ --  RouteGraph: go to bank accross nice square
+
+-----------------
+-- Stefano's axiom for path
+   link /\ path => path
+
+-- path with Lists
+
+-- path is transitive
+
+-----------------
+-- parthood and connected need to be wired into the example including the view
+
+-----------------
+
+]% 
+
+spec PreOrder =
+     sorts Elem
+     pred __<=__ : Elem * Elem
+     forall x, y, z : Elem
+     . x <= x %(refl)%
+     . x <= z if x <= y /\ y <= z %(trans)%
+
+spec PartialOrder =
+     PreOrder 
+then
+     forall x, y : Elem
+     . x = y if x <= y /\ y <= x %(antisym)%
+
+spec Connection =
+     %% more on this Casati,Varzi, 1999: Parts and Places
+     sort Elem
+     pred __connected__: Elem * Elem
+     forall r,s: Elem
+     . r connected r  %(refl_connected)%
+     . s connected r => r connected s %(sym_connected)%
+     . s = r <=> forall z : Elem . z connected r <=> z connected s
+       %(equal regions)%
+
+view Connection_induces_PartialOrder : 
+     PartialOrder to 
+          { Connection then 
+	    pred __<=__(x,y : Elem) <=> 
+	    forall z : Elem . z connected x => z connected y
+          %(<= def)%
+	  } 
+
+spec Distance[sort Elem] =
+     free type Distance ::= coincide | near | not_so_far | far
+     op distance : Elem * Elem -> Distance, comm
+     forall x,y,z : Elem
+     . distance(x,y) = coincide if x=y %(distance_0)%
+end
+
+spec List[sort Elem] =
+     free type List[Elem] ::=  [] | __::__(Elem; List[Elem])
+     ops __++__: List[Elem] * List[Elem] -> List[Elem]
+     forall K,L,L1,L2:List[Elem]; x,y,z:Elem
+     . [] ++ K = K                           %(concat_nil_List)%
+     . x::L ++ K = x :: (L ++ K)           %(concat_NeList_List)%
+     . x::((L1++(y::L2))++[z]) = (x::L1)++(y::L2)++[z]
+              %(shift brackets)% %implied
+     . ([x]) ++ ([y]) = x :: [y] %(concat singletons)% %implied
+end
+
+spec LinkedList [sort Elem pred link : Elem * Elem] =
+     List [sort Elem]
+then
+     pred LinkedList : List[Elem]
+     forall K: List[Elem];x,y:Elem
+     . LinkedList([]) %(empty list is linked)%
+     . LinkedList(x::[])  %(single element list is linked)%
+     . LinkedList(x::y::K) <=> link(x,y) /\ LinkedList(y::K)
+      %(head elements are linked and the rest is linked => the whole is linked)%
+then %implies
+     forall x,y,z:Elem;K:List[Elem]
+     . link(x,y) <=> LinkedList([x,y]) %(a link implies a linked list)% 
+%[     . forall L:List[Elem] 
+       . LinkedList(x :: (z::L)) /\ LinkedList((z::L)++(y::[])) => 
+	   LinkedList(x::((z::L)++(y::[]))) %(path split)%
+     . LinkedList(x::K) /\ link (y,x) => LinkedList(y::(x::K)) 
+           %(adding a link to a linked list)% ]%
+     . forall L1,L2:List[Elem] 
+       . forall x: Elem 
+	 . LinkedList(x::(L1++[y])) /\ LinkedList(y::(L2++[z])) =>
+	   LinkedList(x::(L1++(y::L2)++[z]))
+	 %(if a linked list ends in an element which is the head of another linked list the concatanation of these is also linked)% 
+
+spec RouteGraph =
+     LinkedList [sort node pred link : node * node]
+then %def
+     pred path : node * node
+     forall x,y:node
+     . path(x,x) %(refl path)% 
+     . path(x,y) <=> 
+       exists L:List[node] 
+       . LinkedList(x::(L++[y])) %(path def)%
+
+spec WeakRouteGraph =
+     sort node
+     pred link,path : node * node
+     forall x,y,z:node
+     . path(x,x) %(path refl)%
+     . link(x,y) => path(x,y) %(links are paths)%
+     . link(x,y) /\ path(y,z) => path(x,z) %(link prefix of path yields path)%
+
+view PathApproximation : WeakRouteGraph to RouteGraph
+
+view path_on_RouteGraph_is_a_PreOrder : PreOrder to RouteGraph 
+= __<=__ |-> path
+
+spec RouteGraphTransition [RouteGraph 
+			   with node |-> node[1]] 
+                          [RouteGraph
+			   with node |-> node[2]]  =
+    free type nodes ::= sorts node[1], node[2]
+and RouteGraph with node |-> nodes
+
+spec WeakRouteGraphTransition [WeakRouteGraph 
+			   with node |-> node[1]] 
+                          [WeakRouteGraph
+			   with node |-> node[2]]  =
+    free type nodes ::= sorts node[1], node[2]
+and WeakRouteGraph with node |-> nodes
+
+%[
+     pred PATH : nodes * nodes
+     forall n1_a,n2_a : node[1]; n1_b,n2_b : node[2]
+     . path[1](n1_a,n2_a) => PATH(n1_a,n2_a) 
+     . path[2](n1_b,n2_b) => PATH(n1_b,n2_b) 
+     . n1_a link n1_b => PATH(n1_a,n1_b)
+     forall x,y,z:nodes
+     . PATH(x,y) /\ PATH(y,z) => PATH(x,z)
+]%
+
+spec QualityType [sort q,Elem] =
+     pred inh : q * Elem %(A1)%
+     forall x,x':q;y,y':Elem
+     . inh(x,y) /\ inh(x,y') => y=y' %(A2)%
+     . inh(x,y) /\ inh(x',y) => x=x' %(A3)% 
+     %[I am not sure how to model x|QT_i at this point]%
+     . exists y : Elem . inh(x,y) %(A4)%
+
+spec StrongQualityType [sort q,Elem] =
+     QualityType [sort q,Elem]
+then
+     forall y : Elem
+     . exists x : q . inh(x,y) %(A4 a)% 
+end
+
+spec QualitySpace [sorts s,q] =
+     pred pos : s * q %(A5)%
+     forall x,x': s; y : q 
+     . pos(x,y) /\ pos(x',y) => x=x' %(A6)%
+
+spec Parthood =
+     PartialOrder with __<=__ |-> P
+%[     . not x <= y => 
+       exists z: Elem 
+       . z <= x /\ forall w : Elem . w <= z => not w <= y %(extensionality)%
+]%
+
+spec CityArea = 
+     Connection with Elem |-> CityArea
+
+spec CityArea_Parthood 
+     [ Parthood with Elem |-> CityArea[k1]]
+     [ CityArea with CityArea |-> CityArea[k2]]
+	  =
+     free type Areas ::= sorts CityArea[k1],CityArea[k2]
+and
+     Parthood with Elem |-> Areas, P |-> isIn
+
+spec Map =
+     Distance [CityArea fit sort Elem |-> CityArea]
+
+spec ApplicationQualities =
+     StrongQualityType [sorts Color,PED fit q |-> Color, Elem |-> PED ]
+and  QualitySpace [sorts RGB,Color fit q |-> Color, s |-> RGB ]
+
+and  StrongQualityType [sorts SL,PED fit q |-> SL, Elem |-> PED ]
+and  QualitySpace [sorts node[sub],SL fit q |-> SL, s |-> node[sub]] 
+and  QualitySpace [sorts node[city],SL fit q |-> SL, s |-> node[city] ] 
+and  QualitySpace [sorts CityArea[Building],SL
+		      fit q |-> SL, s |-> CityArea[Building] ] 
+and  QualitySpace [sorts CityArea[Area],SL 
+		      fit q |-> SL, s |-> CityArea[Area] ] 
+then 
+     sorts Building,Square,Fountain < PED; 
+           PED < ED; SL,Color < PQ; PQ < QT;
+           Station < Building;
+	   node[sub],node[city], CityArea[Building],CityArea[Area] < S;
+	   RGB < CR; CR,S < PP
+     pred pos : S * SL;
+	  pos : CR * Color
+     forall x : SL;n1:node[sub]; n2:node[city];
+	    ca1:CityArea[Building]; ca2:CityArea[Area]; rgb:RGB
+     . exists y : S . pos(y,x) %(A7_S)%
+     forall x : Color
+     . exists y : CR . pos(y,x) %(A7_cl)%
+
+     
+spec SubwayRG_of_X =
+     QualitySpace[WeakRouteGraph then sort SL fit q |-> SL, s |-> node]
+then 
+     ops Central_Station_ns,s1_ns,s2_ns,TungStation_ns,s4_ns : node;
+	 Central_Station_sl,s1_sl,s2_sl,TungStation_sl,s4_sl : SL
+     . link(s1_ns,Central_Station_ns)
+     . link(Central_Station_ns,s2_ns)
+     . link(Central_Station_ns,TungStation_ns)
+     . link(s2_ns,TungStation_ns)
+     . link(TungStation_ns,s4_ns)
+     . pos(Central_Station_ns,Central_Station_sl)
+     . pos(s1_ns,s1_sl)
+     . pos(s2_ns,s2_sl)
+     . pos(TungStation_ns,TungStation_sl)
+     . pos(s4_ns,s4_sl)
+
+spec ChinaTownRG_of_X =
+     QualitySpace[WeakRouteGraph then sort SL fit q |-> SL, s |-> node]
+then
+     ops TungStation_nc,Sq_nc,B1_nc,B2_nc,B3_nc : node;
+	 TungStation_sl,B1_sl,B2_sl,B3_sl,Sq_sl : SL
+     . link(TungStation_nc,Sq_nc)
+     . link(Sq_nc,B1_nc) %(link Sq B1)%
+     . link(TungStation_nc,B2_nc)
+     . link(TungStation_nc,B3_nc)
+     . pos(TungStation_nc,TungStation_sl)
+     . pos(B1_nc,B1_sl) %(pos B1)%
+     . pos(B2_nc,B2_sl)
+     . pos(B3_nc,B3_sl)
+     . pos(Sq_nc,Sq_sl) %(pos Sq)%
+
+
+spec Hidden_ChinaTownRG_of_X =
+     QualitySpace[WeakRouteGraph then sort SL fit q |-> SL, s |-> node]
+then
+     ops TungStation_nc,F_nh,B1_nc : node;
+	 F_sl,TungStation_sl,B1_sl : SL
+     . link(TungStation_nc,F_nh)
+     . link(F_nh,B1_nc)
+     . pos(F_nh,F_sl)
+     . pos(TungStation_nc,TungStation_sl)
+     . pos(B1_nc,B1_sl)
+
+
+spec Map_of_X =
+     QualitySpace[Map then sort SL fit q  |-> SL, s |-> CityArea]
+then
+     ops B1_sl,B2_sl,B3_sl,s2_sl,TungStation_sl,s4_sl : SL;
+	 B1_creg,B2_creg,B3_creg,TungStation_creg,s2_creg,s4_creg : CityArea
+     . pos(s2_creg,s2_sl)
+     . pos(TungStation_creg,TungStation_sl)
+     . pos(s4_creg,s4_sl)
+     . pos(B1_creg,B1_sl)
+     . pos(B2_creg,B2_sl)
+     . pos(B3_creg,B3_sl)
+     . distance(B1_creg,TungStation_creg) = not_so_far
+     . distance(B2_creg,TungStation_creg) = not_so_far
+     . distance(B3_creg,TungStation_creg) = not_so_far
+
+
+spec Colors_of_X =
+     QualitySpace[sorts Color,RGB fit q |-> Color,s |-> RGB]
+then
+     ops B1_co,B2_co,B3_co: Color;
+     free type RGB ::= red | green | blue | grey
+     . pos(red,B1_co)
+     . pos(red,B3_co)
+     . pos(green,B2_co)
+
+spec Subway_connected_ChinaTown_of_X =
+     WeakRouteGraphTransition 
+	        [SubwayRG_of_X
+		 with node |-> node[sub]] 
+	        [{ChinaTownRG_of_X %[and Hidden_ChinaTownRG_of_X]%}
+		 with node |-> node[city]] 
+then
+     . link((TungStation_ns : node[sub]), (TungStation_nc : node[city]))
+
+spec Areas_of_X =
+     CityArea
+then
+     ops Chinatown,NotChinatown: CityArea
+     . not Chinatown=NotChinatown %(Chinaton is distinct from NotChinatown)%
+     . Chinatown connected NotChinatown 
+     %(Chinaton is connected with NotChinatown)%
+     . exists x:CityArea . not x = Chinatown /\ not x = NotChinatown 
+       %(existence of an area apart from Chinatown and NotChinatown)% %implied
+
+
+%{ the following view is similiar to Connection_induces_PartialOrder
+   however it is not possible to state this formally within CASL }%
+view Map_of_X_induces_Parthood : 
+     {Parthood with Elem |-> CityArea[k1]} to 
+          { Map_of_X with CityArea |-> CityArea[Building] 
+	    then 
+	    pred P(x,y : CityArea[Building]) <=> 
+	    forall z : CityArea[Building] . z connected x => z connected y
+          %(P_def)%
+	  } = CityArea[k1] |-> CityArea[Building]
+
+spec BigChinatown =
+     CityArea_Parthood
+       [view Map_of_X_induces_Parthood]
+       [Areas_of_X with CityArea |-> CityArea[Area]]
+then
+     . isIn(B1_creg,Chinatown)
+     . isIn(B2_creg,Chinatown)
+     . isIn(B3_creg,Chinatown)
+     . isIn(TungStation_creg,Chinatown)
+     . isIn(s2_creg,NotChinatown)
+     . isIn(s4_creg,NotChinatown)
+
+spec BuildingsGraphsAndColors_of_X =
+     Colors_of_X
+and  ApplicationQualities
+and  Subway_connected_ChinaTown_of_X
+and  BigChinatown
+then 
+%[     op distance : S * S -> Distance
+     forall x,y: CityArea[Building]
+     . (op distance : S * S -> Distance)(x,y) = 
+      (op distance : CityArea[Building] * CityArea[Building] -> Distance)(x,y)
+]%
+     sorts Areas,nodes < S
+     ops B1,B2,B3 : Building;
+	 Central_Station,s1,s2,TungStation,s4 : Station;
+	 F:Fountain;
+	 Sq:Square
+     preds PATH_SL(sl1,sl2:SL) <=> 
+	   exists  b1_n,b2_n:nodes 
+	   . pos(b1_n,sl1) /\ pos(b2_n,sl2) /\ path(b1_n,b2_n) ;
+	     %(PATH_SL def)% 
+	   PATH_PED(b1,b2:PED) <=>
+	  exists b1_sl,b2_sl:SL
+	  . inh(b1_sl,b1) /\ inh(b2_sl,b2) /\ PATH_SL(b1_sl,b2_sl);
+	     %(PATH_PED def)%
+%[	  PATH_PED_s(b1,b2:PED) <=>
+	   exists  b1_n,b2_n:nodes 
+	   . (exists b1_sl:SL . inh(b1_sl,b1) /\ pos(b1_n,b1_sl)) /\ 
+	     (exists b2_sl:SL . inh(b2_sl,b2) /\ pos(b2_n,b2_sl)) /\
+	      path(b1_n,b2_n)
+	   %(alternative def PATH_PED)% ]%
+     . inh(Central_Station_sl,Central_Station)
+     . inh(s1_sl,s1)
+     . inh(s2_sl,s2)
+     . inh(TungStation_sl,TungStation)
+     . inh(s4_sl,s4)
+%%     . inh(F_sl,F)
+     . inh(Sq_sl,Sq) %(inh Sq)%
+     . inh(B1_sl,B1) %(inh B1)%
+     . inh(B2_sl,B2)
+     . inh(B3_sl,B3)
+     . inh(B1_co,B1)
+     . inh(B2_co,B2)
+     . inh(B3_co,B3)
+
+     %[ linking Chinatown to 
+     . P(B1_creg,Chinatown)
+     . P(B2_creg,Chinatown)
+     . P(B3_creg,Chinatown)
+     . P(TungStation_creg,Chinatown)
+   ]%
+
+spec someTheorems =
+     BuildingsGraphsAndColors_of_X
+then 
+     pred query1(x:Building;c1:CityArea[Building]) <=> 
+	  (exists cl:Color
+	   . inh(cl,x) /\ pos(red,cl)) /\ 
+	  (exists cr:CityArea[Building] 
+	   . (exists sl:SL 
+	      . inh(sl,x) /\ pos(cr,sl)) /\ 
+	     distance(c1,cr) = not_so_far ) ;
+	    %% overloading
+	    %(some Building red and mid_distance away from TungStation_creg)%
+          query2(x:Building;c1:CityArea[Building]) <=>
+	     query1(x,c1) /\   
+	     exists x_nc:node[city] 
+	     . (exists x_sl:SL 
+		. inh(x_sl,x) /\ pos(x_nc,x_sl)) /\ path(s2_ns,Sq_nc) /\ 
+	       path(Sq_nc,x_nc)
+       %(s2 to red building mid_distance away of TungStation and behind a Sq)% 
+     . query1(B1,TungStation_creg) %(query1 B1)% %implied
+     . not query1(B2,TungStation_creg) %(not query1 B2)% %implied
+     . query1(B3,TungStation_creg) %(query1 B3)% %implied
+     . path(TungStation_nc,B1_nc) %(path TungStation to B1)% %implied
+     . path(s2_ns,B1_nc) %(path s2 to B1)% %implied
+     . exists x : Building . query2(x,TungStation_creg) 
+        %(some path to a T building behind a Sq starting at TungStation)% %implied
+%[     . exists sl:SL . inh(sl,TungStation) /\ pos(TungStation_nc,sl) %(TungStation has node in city RG)% %implied
+     . exists sl:SL . inh(sl,B1) /\ pos(B1_nc,sl) %(B1 has node in city RG)% %implied
+     . exists sl:SL . inh(sl,Central_Station) /\ pos(Central_Station_ns,sl) %(CentralStation has node in sub RG)% %implied 
+]%
+     . PATH_SL(Central_Station_sl,B1_sl) %(path between SLs)% %implied
+     . PATH_PED(Central_Station,B1) %(path between PEDs)% %implied
+     . exists x:Building 
+       . (exists sl:SL;ca:CityArea[Building]
+	  . inh(sl,TungStation) /\ pos(ca,sl) /\ query2(x,ca)) /\ 
+	 (exists sl:SL;ca:CityArea[Building]
+	  . inh(sl,TungStation) /\ pos(ca,sl) /\ isIn(ca, Chinatown)) /\
+	 PATH_PED(Central_Station,x)  
+	 %(path from Central_Station to a Building in Chinatown which is red and not_so_far from TungStation and behind a Square)% %implied
+
+spec BuildingsGraphsAndColors_of_X_and_Hidden =
+     BuildingsGraphsAndColors_of_X 
+and  Hidden_ChinaTownRG_of_X
+     with node |-> node[city]
+
+%[
+view CityRG_in_CityRegion :
+     CityRG to CityRegion =
+     Central_Station |-> NotChinatown, c1 |-> NotChinatown,
+     c2 |-> Chinatown, c3 |-> Chinatown, c4 |-> Chinatown,
+     link |-> __connected__
+
+
+view CityRG_Node_as_Corner : 
+     {CityRG reveal c3} 
+     to SquareMap =
+     node |-> Corner, c3 |-> SqCorner
+]%   
+
+%[ %% @Till: Can we reuse such a generic view to form the next view 
+with a concrete model?
+
+view Map_as_Regions [Map] [Region] : 
+     {Map with Region |-> MapRegion 
+          hide Distance} to Region =
+       MapRegion |-> Region, Boundary |-> Region, Corner |-> Region
+]%
+
+%[
+view SquareMap_as_CityRegion : 
+     {SquareMap with Region |-> MapRegion 
+          hide Distance
+} to CityRegion =
+       MapRegion |-> Region, Boundary |-> Region, Corner |-> Region,
+       Square |-> Chinatown, Bank |-> Chinatown, SqBound |-> Chinatown,
+       BankBound |-> Chinatown, SqCorner |-> Chinatown
+]%
