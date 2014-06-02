@@ -1,0 +1,9 @@
+library GlobDecomp1
+
+spec sp1 =
+  pred p:()
+  . false  %(p)%
+end
+
+spec sp1' = sp1
+end
