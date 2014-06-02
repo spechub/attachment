@@ -1,0 +1,16 @@
+spec sp1 =
+  sort s
+end
+
+spec sp2 =
+  sorts s
+  op c:s
+  . not c=c
+  hide c
+end
+
+spec sp = 
+  sp1 
+then %cons
+  sp2
+end
