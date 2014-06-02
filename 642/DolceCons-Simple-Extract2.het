@@ -1,0 +1,297 @@
+library Ontology/Dolce/DolceCons
+version 1.0
+
+%%logic Modal
+
+%%from DOLCE/LaTeX get display_annotations
+
+%%modality empty
+
+
+%%--------------------------------------------------------------------------------
+%% CASL translation of DOLCEv2.1 (see WonderWeb Deliverable D18 v1.0)
+%%--------------------------------------------------------------------------------
+%% CASL simplifications:
+%%
+%% - No explicit parameters are used to specify the DOLCE theory: only simple 
+%%   specifications and imports of these specifications using the "with" operator.
+%% - No "Views" are still used. 
+%%
+%%---------------------------------------------------------------------------------
+%% DOLCE simplifications:
+%%
+%% 0.All the axioms involving a quantification on leaves (or other specific sorts
+%%   in the taxonomy) are introduced only considering the actual taxonomy of DOLCE.
+%%   (see for example the axiom (Ad44) or (Ad51)).
+%%   In the case of axioms (Ad75)-(Ad82), all the Meta-relations NEP, CM, AT, etc.
+%%   are defined in this CASL version, but there are not leaves in the actual DOLCE
+%%   taxonomy that instantiate these properties. 
+%% 1.(Ad9) and (Ad15) are weakened assuming only the existence of binary sum
+%%   and difference (instead of a General Extensional Mereology, we have only a 
+%%   Classical Extensional Mereology).
+%% 2.The predicate PRE (being present),defined in DOLCEv2.1 by means of the fusion
+%%   is here introduced as a primitive relation.
+%% 3.The "spatial inclusion" relation is not defined here (originally it needs fusion)
+%%   therefore axioms (Ad19),(Ad28), and (Ad68) can not be expressed.
+%%   In the case of (Ad68) I introduced a simply mutual specific dependence.
+%% 4.The quality relation (qt) is simplified considering only "direct qualities"(dqt)
+%%   Therefore axiom (Ad42) is not considered.
+%% 5.Axioms (Ad56),(Ad57),(Ad63), and (Ad64) are instantiated only by temporal and
+%%   spatial locations (TL and SL) and by Time intervals (T) and Space Regions (S),
+%%   i.e. all the leaves present in dolce.
+%% 6.(Ad74) not introduced (I'm unable to do the logical OR between specific and 
+%%   Generic dependence.
+%%-----------------------------------------------------------------------------------
+
+
+
+%%------------------------
+%% Partial_Order (po)
+%%------------------------
+
+spec Partial_Order =
+
+esort s
+pred Rel:s * s
+forall x,y,z: s
+. Rel(x,x) %(reflexivity)%
+. Rel(x,y) /\ Rel(y,x) => x = y %(antisymmetry)%
+. Rel(x,y) /\ Rel(y,z) => Rel(x,z) %(transitivity)%
+end
+
+
+%%---------------------------
+%% Strict_Partial_Order (spo)
+%%---------------------------
+
+%% Unused spec
+
+%[
+spec Strict_Partial_Order =
+
+esort s
+pred Rel: s * s
+forall x,y,z: s
+. Rel(x,y) => not Rel(y,x) 
+. Rel(x,y) /\ Rel(y,z) => Rel(x,z) %(transitivity)%
+end
+]%
+
+
+%%-----------------------------------
+%% Classical_Extensional_Parthood (p)
+%%----------------------------------
+
+spec Classical_Extensional_Parthood =
+     Partial_Order with Rel |-> P
+then
+
+preds
+%% Proper Part
+PP(x:s; y:s) <=> P(x, y) /\  not  P(y, x); %(Dd14)%
+
+%% Overlap
+Ov(x:s; y:s) <=> exists z:s.(P(z, x) /\  P(z, y)); %(Dd15)%
+
+%% Atom
+At(x:s) <=> not exists y:s.(PP(y, x)); %(Dd16)%
+
+%%  Atomic Part
+AtP(x:s; y:s) <=> P(x, y) /\  At(x); %(Dd17)%
+ 
+%%  Binary Sum
+Sum(z:s; x:s; y:s) <=> forall w:s.(Ov(w,z) <=> (Ov(w, x) \/  Ov(w, y)));
+
+%%  Binary Difference
+Dif(z:s; x:s; y:s) <=> forall w:s.(P(w,z) <=> (P(w, x) /\ not Ov(w, y)));
+
+forall x,y:s
+. not  P(x,y) => exists z:s.(Dif(z,x,y)) %(Extensionality+existence of the difference)%
+. exists z:s.(Sum(z,x,y)) %(Existence of the sum)%
+end
+
+
+%%---------------
+%% Time_Mereology
+%%---------------
+%% Time_Mereology is needed in oder to specify the properties of perdurants
+
+spec Time_Mereology =
+     Classical_Extensional_Parthood with s |-> T
+end
+
+%%--------------------------------
+%% Unary_Temporal_Dissective (utd)
+%%--------------------------------
+
+spec Unary_Temporal_Dissective = 
+     Time_Mereology 
+then
+esort s
+pred Rel: s * T
+
+forall x:s; t1,t2:T
+.(Rel(x,t1) /\ P(t2,t1)) => Rel(x,t2)
+end
+
+
+%%-------------------
+%% Being_Present
+%%-------------------
+
+spec Being_Present =
+     Unary_Temporal_Dissective with Rel |-> PRE
+
+then 
+
+forall x:s
+.exists t:T.(PRE(x,t))
+end
+
+
+
+
+%%---------------------
+%% Binary_Present (bpre)
+%%---------------------
+
+spec Binary_Present =
+     Being_Present with s |-> s1
+then
+     Being_Present with s |-> s2
+then
+
+pred Rel: s1 * s2 * T
+
+forall x1:s1; x2:s2; t:T
+.Rel(x1,x2,t) => PRE(x1,t) /\ PRE(x2,t)
+end 
+
+
+%%---------------------------------
+%% Binary_Temporal_Dissective (btd)
+%%---------------------------------
+
+spec Binary_Temporal_Dissective = 
+     Time_Mereology
+then
+
+esort s1,s2
+pred Rel: s1 * s2 * T 
+
+forall x1:s1; x2:s2; t1,t2:T
+.(Rel(x1,x2,t1) /\ P(t2,t1)) => Rel(x1,x2,t2)
+end
+
+
+%%-----------------------------
+%% Temporary_Partial_Order (tpo)
+%%-----------------------------
+
+spec Temporary_Partial_Order =
+     Being_Present
+then
+
+pred Rel: s * s * T
+
+forall x,y,z:s; t:T
+.PRE(x,t) => Rel(x,x,t)
+.Rel(x,y,t) /\ Rel(y,z,t) => Rel(x,z,t)
+end 
+
+
+
+%%-----------------------
+%% Temporary_Parthood No Temporal Sums and Diffs (tpno)
+%%-----------------------
+
+spec Temporary_Parthood_No =
+     Temporary_Partial_Order with Rel |-> tP
+and  Binary_Temporal_Dissective with s1 |-> s, s2 |-> s, Rel |-> tP
+and  Binary_Present with s1 |-> s, s2 |-> s, Rel |-> tP
+
+then
+
+preds
+%% Temporary Proper Part
+tPP(x:s; y:s; t:T) <=> tP(x,y,t) /\  not tP(y,x,t);
+
+%% Temporary Overlap
+tOv(x:s; y:s; t:T) <=> exists z:s.(tP(z,x,t) /\ tP(z,y,t)); 
+
+%% Temporary Atom 
+%% At(x:s) <=> not exists y:s.(PP(y, x)); %(Dd16)%
+%% tAt(x:s; t:T) <=> not exists y:s. tPP(y, x, t); %(Dd16)%
+
+%% Temporary Atomic Part
+%%  AtP(x:s; y:s) <=> P(x, y) /\  At(x); %(Dd17)%
+ 
+%% why are atoms included in this spec?
+
+%%----------------------------------------------------------------------------------------------------
+end  
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% (1)
+%%One Point Model Found
+spec TM_Cons=
+     Time_Mereology
+then
+     . exists t:T . true  %% we need at least one time point
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% add a view to a model
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% (2,3,4)
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% view works, conservativity not shown.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% (5)
+spec TempParthoodSC_Cons =
+     TM_Cons
+     then %cons
+     Temporary_Parthood_No with s |-> SC
+end
+
+%%%%%%%%%%%%%%%% 1 and 2 point models for temp parthood no existence %%%%%%%%%%%%%%%%
+
+spec OnePointTempParthoodNoModel =
+  TM_Cons
+then
+  free type s ::= ThePoint
+  pred PRE (x:s;t:T) <=> true
+%%  pred tDif (x,y,z:s) <=> false
+  pred tOv (x,y:s;t:T) <=> true
+  pred tP (x,y:s;t:T) <=> true
+  pred tPP (x,y:s;t:T) <=> false
+%%  pred tSum  (x,y,z:s) <=> true
+end
+
+view v_Temporary_Parthood_No_1 : 
+		Temporary_Parthood_No to OnePointTempParthoodNoModel
+
+%%%%%%%%%%%%%%%%%
+
+
+		
+spec TempParthoodSC_Cons_Model =
+     TM_Cons
+then %cons
+     OnePointTempParthoodNoModel with sort s |-> SC
+end
+
+view v_TempParthoodSC_Cons_Model : 
+     TempParthoodSC_Cons to TempParthoodSC_Cons_Model
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% view works, conservativity not shown.
+
