@@ -1,0 +1,21 @@
+library Examples/SpearShield
+
+%%  In the state of Chu during the Warring States period in China, ...
+spec SpearShield =
+  sort Object
+%% ...  a man was boasting about a spear and a shield he was selling:
+  ops TheSpear,TheShield :  Object
+  preds pierces_throguh, destroys : Object*Object
+  forall x,y:Object
+%%    "This spear is so sharp that it can pierce through anything!"
+   . pierces_throguh(TheSpear,x)            %(Spear pierces through anything)%
+   . pierces_throguh(x,y) => destroys(x,y)  %(pierces_destroys)%
+%%   "And this shield is so strong that nothing can destroy it!"
+   . not destroys(x,TheShield)              %(undestructible shield)%
+%%   Then a passerby decided to mock him: 
+then %implies
+%%   "What if you use your spear against your shield?"
+  . pierces_throguh(TheSpear,TheShield)     %(Spear pierces through shield)%
+  . not destroys(TheSpear,TheShield)        %(Spear does not destroy shield)%
+  . false                                   %(contradiction)%
+end
