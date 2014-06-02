@@ -1,0 +1,278 @@
+logic OWL.ALC
+
+%%Chinese is not a subclass of Restaurant!
+
+spec Activities =
+
+Namespace: unamed <http://www.dfki.de/sks/hets/ontology/unamed#>
+Namespace: rdfs <http://www.w3.org/2000/01/rdf-schema#>
+Namespace: owl2xml <http://www.w3.org/2006/12/owl2-xml#>
+Namespace: owl <http://www.w3.org/2002/07/owl#>
+Namespace: xsd <http://www.w3.org/2001/XMLSchema#>
+Namespace: rdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+
+
+Ontology: <http://www.dfki.de/sks/hets/ontology/unamed>
+
+
+
+Class:  Addresse
+Class:  Aerzte
+Class:  Aktivitaeten
+Class:  Apotheke
+Class:  Arabisch
+Class:  Baeckerei
+Class:  Bahnhaltestelle
+Class:  Bahnhof
+Class:  Bank
+Class:  Bildungseinrichtungen
+Class:  Blumen
+Class:  Bushaltestelle
+Class:  Car-Sharing_Punkt
+Class:  Chinesisch
+Class:  Deutsch
+Class:  Delikatessen
+Class:  Drogeriemarkt
+Class:  Elektronik
+Class:  Elektrotankstelle
+Class:  Erlebnisbad
+Class:  Fahrradverleih
+Class:  FastfoodAndImbiss
+Class:  Feinkostgeschaeft
+Class:  Fisch
+Class:  Fitnessstudio
+Class:  Franzoesisch
+Class:  Freizeit
+Class:  Gastronomie
+Class:  Geldautomat
+Class:  Gesundheit
+Class:  Griechisch
+Class:  Hochschule
+Class:  Indisch
+Class:  Italienisch
+Class:  Kinderbetreuung
+Class:  Kino
+Class:  Klettern
+Class:  Krankenhaus
+Class:  Lebensmittel
+Class:  Mall
+Class:  Massage
+Class:  Metzgerei
+Class:  Museum
+Class:  Oeffentliche_Verkehrsmittel
+Class:  Oeffnungszeiten
+Class:  Oper
+Class:  Parkanlage
+Class:  Parkplatz
+Class:  Restaurants
+Class:  Sauna
+Class:  Schuhe
+Class:  Schule
+Class:  Schwimmbad
+Class:  Shopping
+Class:  Spanisch
+Class:  Strom_aus_nicht_regenerativen_Energien
+Class:  Strom_aus_regenerativen_Energien
+Class:  Supermarkt
+Class:  Textilien
+Class:  Thailaendisch
+Class:  Theater
+Class:  U-Bahn
+Class:  Universitaet
+Class:  VHS
+Class:  Wellness
+Class:  Zahnarzt
+Class:  Cafe
+
+
+Class:  Bildungseinrichtungen
+SubClassOf:  Aktivitaeten
+
+Class:  Erlebnisbad
+SubClassOf:  Schwimmbad
+
+Class:  Museum
+SubClassOf:  Freizeit
+
+Class:  Deutsch
+SubClassOf:  Restaurants
+
+Class:  Italienisch
+SubClassOf:  Restaurants
+
+
+Class:  Mall
+SubClassOf:  Shopping
+
+Class:  Spanisch
+SubClassOf:  Restaurants
+
+Class:  Sauna
+SubClassOf:  Wellness
+
+Class:  Strom_aus_regenerativen_Energien
+SubClassOf:  Elektrotankstelle
+
+Class:  Elektronik
+SubClassOf:  Shopping
+
+Class:  Oeffentliche_Verkehrsmittel
+SubClassOf:  Aktivitaeten
+Class:  Franzoesisch
+SubClassOf:  Restaurants
+
+Class:  Krankenhaus
+SubClassOf:  Gesundheit
+
+Class:  Wellness
+SubClassOf:  Freizeit
+
+Class:  Massage
+SubClassOf:  Wellness
+
+Class:  Geldautomat
+SubClassOf:  Aktivitaeten
+
+
+Class:  Baeckerei
+SubClassOf:  Lebensmittel
+
+Class:  Schwimmbad
+SubClassOf:  Freizeit
+
+Class:  Universitaet
+SubClassOf:  Bildungseinrichtungen
+
+Class:  Gastronomie
+SubClassOf:  Aktivitaeten
+
+Class:  Drogeriemarkt
+SubClassOf:  Shopping
+
+Class:  Thailaendisch
+SubClassOf:  Restaurants
+
+Class:  Bahnhaltestelle
+SubClassOf:  Oeffentliche_Verkehrsmittel
+
+Class:  Kino
+SubClassOf:  Freizeit
+
+Class:  Metzgerei
+SubClassOf:  Lebensmittel
+
+Class:  Car-Sharing_Punkt
+SubClassOf:  Oeffentliche_Verkehrsmittel
+
+
+Class:  Bahnhof
+SubClassOf:  Oeffentliche_Verkehrsmittel
+
+Class:  Fisch
+SubClassOf:  Lebensmittel
+
+
+Class:  Schuhe
+SubClassOf:  Shopping
+
+Class:  Schule
+SubClassOf:  Bildungseinrichtungen
+
+Class:  Aerzte
+SubClassOf:  Gesundheit
+
+Class:  Bank
+SubClassOf:  Aktivitaeten
+
+Class:  Bushaltestelle
+SubClassOf:  Oeffentliche_Verkehrsmittel
+
+Class:  FastfoodAndImbiss
+SubClassOf:  Gastronomie
+
+Class:  Gesundheit
+SubClassOf:  Aktivitaeten
+
+Class:  Chinesisch
+SubClassOf:  Restaurants
+
+Class:  Indisch
+SubClassOf:  Restaurants
+
+Class:  Griechisch
+SubClassOf:  Restaurants
+
+Class:  Oper
+SubClassOf:  Freizeit
+
+Class:  Feinkostgeschaeft
+SubClassOf:  Lebensmittel
+
+Class:  Arabisch
+SubClassOf:  Restaurants
+
+Class:  Fahrradverleih
+SubClassOf:  Oeffentliche_Verkehrsmittel
+
+Class:  Freizeit
+SubClassOf:  Aktivitaeten
+
+
+
+
+Class:  U-Bahn
+SubClassOf:  Oeffentliche_Verkehrsmittel
+
+Class:  Textilien
+SubClassOf:  Shopping
+
+
+Class:  VHS
+SubClassOf:  Bildungseinrichtungen
+
+
+
+Class:  Strom_aus_nicht_regenerativen_Energien
+SubClassOf:  Elektrotankstelle
+
+
+
+Class:  Shopping
+SubClassOf:  Aktivitaeten
+
+
+
+Class:  Parkplatz
+SubClassOf:  Oeffentliche_Verkehrsmittel
+
+Class:  Theater
+SubClassOf:  Freizeit
+
+Class:  Lebensmittel
+SubClassOf:  Shopping
+
+Class:  Blumen
+SubClassOf:  Shopping
+
+Class:  Hochschule
+SubClassOf:  Bildungseinrichtungen
+
+Class: Cafe
+SubClassOf:  Gastronomie
+
+Class:  Parkanlage
+SubClassOf:  Freizeit
+
+Class:  Restaurants
+SubClassOf:  Gastronomie
+
+Class:  Kinderbetreuung
+SubClassOf:  Aktivitaeten
+
+Class:  Apotheke
+SubClassOf:  Gesundheit
+
+Class:  Supermarkt
+SubClassOf:  Shopping
+
