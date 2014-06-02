@@ -1,0 +1,1323 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.domologic.com/ontologies/DomoticOntology.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://www.domologic.com/ontologies/DomoticOntology.owl">
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal>A device ontology that describes various devices based on their functions.</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#Actuator"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AdapterPlug"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Brighter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Building"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#City"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Close"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Continent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Country"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Darker"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Device"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Dimmer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Down"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Dual"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Floor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Function"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Lamp"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Location"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Multi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Off"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#On"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Open"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Planet"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Port"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Removable"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Room"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Sensor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Shutter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Single"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Street"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Switch"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Up"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#contains"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFunction"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPort"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasRemovableDevice"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isFunctionOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIn"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isPluggedTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isPortOf"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ActuatorLamp1OnOff"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ActuatorLamp2OnOff"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ActuatorShutterDown"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ActuatorShutterUp"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Braunschweig"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Bueltenweg"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#DomologicHouse"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Earth"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Europe"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#FunctionDown"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#FunctionOff"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#FunctionOn"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#FunctionUp"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Germany"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MainFloor"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OfficeA"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OfficeB"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TestDimmer"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TestLamp1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TestLamp2"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TestShutter"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TestSwitch"/>
+    </Declaration>
+    <Declaration>
+        <Datatype abbreviatedIRI="xsd:anyType"/>
+    </Declaration>
+    <Declaration>
+        <Datatype abbreviatedIRI="xsd:int"/>
+    </Declaration>
+    <Declaration>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#Brighter"/>
+        <ObjectUnionOf>
+            <ObjectIntersectionOf>
+                <Class IRI="#On"/>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#isFunctionOf"/>
+                    <ObjectIntersectionOf>
+                        <Class IRI="#Actuator"/>
+                        <ObjectSomeValuesFrom>
+                            <ObjectProperty IRI="#isPortOf"/>
+                            <Class IRI="#Lamp"/>
+                        </ObjectSomeValuesFrom>
+                    </ObjectIntersectionOf>
+                </ObjectSomeValuesFrom>
+            </ObjectIntersectionOf>
+            <ObjectIntersectionOf>
+                <Class IRI="#Up"/>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#isFunctionOf"/>
+                    <ObjectIntersectionOf>
+                        <Class IRI="#Actuator"/>
+                        <ObjectSomeValuesFrom>
+                            <ObjectProperty IRI="#isPortOf"/>
+                            <Class IRI="#Shutter"/>
+                        </ObjectSomeValuesFrom>
+                    </ObjectIntersectionOf>
+                </ObjectSomeValuesFrom>
+            </ObjectIntersectionOf>
+        </ObjectUnionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Close"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Down"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isFunctionOf"/>
+                <Class IRI="#Shutter"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Darker"/>
+        <ObjectUnionOf>
+            <ObjectIntersectionOf>
+                <Class IRI="#Down"/>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#isFunctionOf"/>
+                    <ObjectIntersectionOf>
+                        <Class IRI="#Actuator"/>
+                        <ObjectSomeValuesFrom>
+                            <ObjectProperty IRI="#isPortOf"/>
+                            <Class IRI="#Shutter"/>
+                        </ObjectSomeValuesFrom>
+                    </ObjectIntersectionOf>
+                </ObjectSomeValuesFrom>
+            </ObjectIntersectionOf>
+            <ObjectIntersectionOf>
+                <Class IRI="#Off"/>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#isFunctionOf"/>
+                    <ObjectIntersectionOf>
+                        <Class IRI="#Actuator"/>
+                        <ObjectSomeValuesFrom>
+                            <ObjectProperty IRI="#isPortOf"/>
+                            <Class IRI="#Lamp"/>
+                        </ObjectSomeValuesFrom>
+                    </ObjectIntersectionOf>
+                </ObjectSomeValuesFrom>
+            </ObjectIntersectionOf>
+        </ObjectUnionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Open"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Up"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isFunctionOf"/>
+                <Class IRI="#Shutter"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#Actuator"/>
+        <Class IRI="#Port"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AdapterPlug"/>
+        <Class IRI="#Removable"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AdapterPlug"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasRemovableDevice"/>
+            <Class IRI="#Removable"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AdapterPlug"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasRemovableDevice"/>
+            <Class IRI="#Removable"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Brighter"/>
+        <Class IRI="#Function"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Building"/>
+        <Class IRI="#Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Building"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Floor"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Building"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Floor"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#City"/>
+        <Class IRI="#Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#City"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Street"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#City"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Street"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Close"/>
+        <Class IRI="#Function"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Continent"/>
+        <Class IRI="#Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Continent"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Country"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Continent"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Country"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Country"/>
+        <Class IRI="#Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Country"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#City"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Country"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#City"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Darker"/>
+        <Class IRI="#Function"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Device"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Device"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasFunction"/>
+            <Class IRI="#Function"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Device"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPort"/>
+            <Class IRI="#Port"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Device"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasFunction"/>
+            <Class IRI="#Function"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Device"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasPort"/>
+            <Class IRI="#Port"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Dimmer"/>
+        <Class IRI="#AdapterPlug"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Dimmer"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasPort"/>
+            <Class IRI="#Multi"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Down"/>
+        <Class IRI="#Function"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Dual"/>
+        <Class IRI="#Actuator"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Floor"/>
+        <Class IRI="#Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Floor"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Room"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Floor"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Room"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Function"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Lamp"/>
+        <Class IRI="#Removable"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Lamp"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasPort"/>
+            <Class IRI="#Dual"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Location"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Multi"/>
+        <Class IRI="#Actuator"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Off"/>
+        <Class IRI="#Function"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#On"/>
+        <Class IRI="#Function"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Open"/>
+        <Class IRI="#Function"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Planet"/>
+        <Class IRI="#Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Planet"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Continent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Planet"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Continent"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Port"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Port"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasFunction"/>
+            <Class IRI="#Function"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Removable"/>
+        <Class IRI="#Device"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Removable"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isPluggedTo"/>
+            <Class IRI="#AdapterPlug"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Removable"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#isPluggedTo"/>
+            <Class IRI="#AdapterPlug"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Room"/>
+        <Class IRI="#Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Room"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Device"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Room"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Device"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Sensor"/>
+        <Class IRI="#Port"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Shutter"/>
+        <Class IRI="#Device"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Shutter"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasPort"/>
+            <Class IRI="#Multi"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Shutter"/>
+        <ObjectExactCardinality cardinality="2">
+            <ObjectProperty IRI="#hasPort"/>
+            <Class IRI="#Single"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Single"/>
+        <Class IRI="#Actuator"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Street"/>
+        <Class IRI="#Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Street"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Building"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Street"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Building"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Switch"/>
+        <Class IRI="#AdapterPlug"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Switch"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasPort"/>
+            <Class IRI="#Dual"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Up"/>
+        <Class IRI="#Function"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Actuator"/>
+        <Class IRI="#Sensor"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Brighter"/>
+        <Class IRI="#Darker"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Close"/>
+        <Class IRI="#Open"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Device"/>
+        <Class IRI="#Port"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Down"/>
+        <Class IRI="#Up"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Dual"/>
+        <Class IRI="#Multi"/>
+        <Class IRI="#Single"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Off"/>
+        <Class IRI="#On"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Removable"/>
+        <Class IRI="#Shutter"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#Dual"/>
+        <NamedIndividual IRI="#ActuatorLamp1OnOff"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#ActuatorLamp1OnOff"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Dual"/>
+        <NamedIndividual IRI="#ActuatorLamp2OnOff"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#ActuatorLamp2OnOff"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Single"/>
+        <NamedIndividual IRI="#ActuatorShutterDown"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#ActuatorShutterDown"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Single"/>
+        <NamedIndividual IRI="#ActuatorShutterUp"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#ActuatorShutterUp"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#City"/>
+        <NamedIndividual IRI="#Braunschweig"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Braunschweig"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Street"/>
+        <NamedIndividual IRI="#Bueltenweg"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Bueltenweg"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Building"/>
+        <NamedIndividual IRI="#DomologicHouse"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#DomologicHouse"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Planet"/>
+        <NamedIndividual IRI="#Earth"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Earth"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Continent"/>
+        <NamedIndividual IRI="#Europe"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Europe"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Down"/>
+        <NamedIndividual IRI="#FunctionDown"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#FunctionDown"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Off"/>
+        <NamedIndividual IRI="#FunctionOff"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#FunctionOff"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#On"/>
+        <NamedIndividual IRI="#FunctionOn"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#FunctionOn"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Up"/>
+        <NamedIndividual IRI="#FunctionUp"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#FunctionUp"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Country"/>
+        <NamedIndividual IRI="#Germany"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Germany"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Floor"/>
+        <NamedIndividual IRI="#MainFloor"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#MainFloor"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Room"/>
+        <NamedIndividual IRI="#OfficeA"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#OfficeA"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Room"/>
+        <NamedIndividual IRI="#OfficeB"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#OfficeB"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Dimmer"/>
+        <NamedIndividual IRI="#TestDimmer"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#TestDimmer"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Lamp"/>
+        <NamedIndividual IRI="#TestLamp1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#TestLamp1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Lamp"/>
+        <NamedIndividual IRI="#TestLamp2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#TestLamp2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Shutter"/>
+        <NamedIndividual IRI="#TestShutter"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#TestShutter"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Switch"/>
+        <NamedIndividual IRI="#TestSwitch"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#TestSwitch"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasFunction"/>
+        <NamedIndividual IRI="#ActuatorLamp1OnOff"/>
+        <NamedIndividual IRI="#FunctionOff"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasFunction"/>
+        <NamedIndividual IRI="#ActuatorLamp1OnOff"/>
+        <NamedIndividual IRI="#FunctionOn"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasFunction"/>
+        <NamedIndividual IRI="#ActuatorLamp2OnOff"/>
+        <NamedIndividual IRI="#FunctionOff"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasFunction"/>
+        <NamedIndividual IRI="#ActuatorLamp2OnOff"/>
+        <NamedIndividual IRI="#FunctionOn"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasFunction"/>
+        <NamedIndividual IRI="#ActuatorShutterDown"/>
+        <NamedIndividual IRI="#FunctionDown"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasFunction"/>
+        <NamedIndividual IRI="#ActuatorShutterUp"/>
+        <NamedIndividual IRI="#FunctionUp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#contains"/>
+        <NamedIndividual IRI="#Braunschweig"/>
+        <NamedIndividual IRI="#Bueltenweg"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#contains"/>
+        <NamedIndividual IRI="#Bueltenweg"/>
+        <NamedIndividual IRI="#DomologicHouse"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#contains"/>
+        <NamedIndividual IRI="#DomologicHouse"/>
+        <NamedIndividual IRI="#MainFloor"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#contains"/>
+        <NamedIndividual IRI="#Earth"/>
+        <NamedIndividual IRI="#Europe"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#contains"/>
+        <NamedIndividual IRI="#Europe"/>
+        <NamedIndividual IRI="#Germany"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#contains"/>
+        <NamedIndividual IRI="#Germany"/>
+        <NamedIndividual IRI="#Braunschweig"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#contains"/>
+        <NamedIndividual IRI="#MainFloor"/>
+        <NamedIndividual IRI="#OfficeA"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#contains"/>
+        <NamedIndividual IRI="#MainFloor"/>
+        <NamedIndividual IRI="#OfficeB"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPort"/>
+        <NamedIndividual IRI="#TestLamp1"/>
+        <NamedIndividual IRI="#ActuatorLamp1OnOff"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIn"/>
+        <NamedIndividual IRI="#TestLamp1"/>
+        <NamedIndividual IRI="#OfficeA"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPluggedTo"/>
+        <NamedIndividual IRI="#TestLamp1"/>
+        <NamedIndividual IRI="#TestSwitch"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPort"/>
+        <NamedIndividual IRI="#TestLamp2"/>
+        <NamedIndividual IRI="#ActuatorLamp2OnOff"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIn"/>
+        <NamedIndividual IRI="#TestLamp2"/>
+        <NamedIndividual IRI="#OfficeB"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPluggedTo"/>
+        <NamedIndividual IRI="#TestLamp2"/>
+        <NamedIndividual IRI="#TestDimmer"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPort"/>
+        <NamedIndividual IRI="#TestShutter"/>
+        <NamedIndividual IRI="#ActuatorShutterUp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPort"/>
+        <NamedIndividual IRI="#TestShutter"/>
+        <NamedIndividual IRI="#ActuatorShutterDown"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIn"/>
+        <NamedIndividual IRI="#TestShutter"/>
+        <NamedIndividual IRI="#OfficeA"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#ActuatorAddress"/>
+        <NamedIndividual IRI="#ActuatorLamp1OnOff"/>
+        <Literal datatypeIRI="&xsd;int">0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#ActuatorAddress"/>
+        <NamedIndividual IRI="#ActuatorLamp2OnOff"/>
+        <Literal datatypeIRI="&xsd;int">0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#ActuatorAddress"/>
+        <NamedIndividual IRI="#ActuatorShutterDown"/>
+        <Literal datatypeIRI="&xsd;int">1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#ActuatorAddress"/>
+        <NamedIndividual IRI="#ActuatorShutterUp"/>
+        <Literal datatypeIRI="&xsd;int">0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#name"/>
+        <NamedIndividual IRI="#Braunschweig"/>
+        <Literal datatypeIRI="&xsd;string">Braunschweig</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#name"/>
+        <NamedIndividual IRI="#Bueltenweg"/>
+        <Literal datatypeIRI="&xsd;string">Bueltenweg</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#houseNumber"/>
+        <NamedIndividual IRI="#DomologicHouse"/>
+        <Literal datatypeIRI="&xsd;int">23</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#name"/>
+        <NamedIndividual IRI="#DomologicHouse"/>
+        <Literal datatypeIRI="&xsd;string">Domologic Homeautomation GmbH</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#name"/>
+        <NamedIndividual IRI="#Earth"/>
+        <Literal datatypeIRI="&xsd;string">Earth</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#name"/>
+        <NamedIndividual IRI="#Europe"/>
+        <Literal datatypeIRI="&xsd;string">Europe</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#functionData"/>
+        <NamedIndividual IRI="#FunctionOff"/>
+        <Literal datatypeIRI="&xsd;int">0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#functionData"/>
+        <NamedIndividual IRI="#FunctionOn"/>
+        <Literal datatypeIRI="&xsd;int">1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#name"/>
+        <NamedIndividual IRI="#Germany"/>
+        <Literal datatypeIRI="&xsd;string">Germany</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#name"/>
+        <NamedIndividual IRI="#MainFloor"/>
+        <Literal datatypeIRI="&xsd;string">MainFloor</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#name"/>
+        <NamedIndividual IRI="#OfficeA"/>
+        <Literal datatypeIRI="&xsd;string">OfficeA</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#name"/>
+        <NamedIndividual IRI="#OfficeB"/>
+        <Literal datatypeIRI="&xsd;string">OfficeB</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#id"/>
+        <NamedIndividual IRI="#TestDimmer"/>
+        <Literal datatypeIRI="&xsd;string">dimmer_1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#id"/>
+        <NamedIndividual IRI="#TestLamp1"/>
+        <Literal datatypeIRI="&xsd;string">lamp_1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#id"/>
+        <NamedIndividual IRI="#TestLamp2"/>
+        <Literal datatypeIRI="&xsd;string">lamp_2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#id"/>
+        <NamedIndividual IRI="#TestShutter"/>
+        <Literal datatypeIRI="&xsd;string">shutter_1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#id"/>
+        <NamedIndividual IRI="#TestSwitch"/>
+        <Literal datatypeIRI="&xsd;string">switch_1</Literal>
+    </DataPropertyAssertion>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#contains"/>
+        <ObjectProperty IRI="#isIn"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isFunctionOf"/>
+        <ObjectProperty IRI="#hasFunction"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isPortOf"/>
+        <ObjectProperty IRI="#hasPort"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isPluggedTo"/>
+        <ObjectProperty IRI="#hasRemovableDevice"/>
+    </InverseObjectProperties>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#contains"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#hasRemovableDevice"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#isIn"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#isPluggedTo"/>
+    </TransitiveObjectProperty>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasFunction"/>
+        <Class IRI="#Function"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasPort"/>
+        <Class IRI="#Port"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasRemovableDevice"/>
+        <Class IRI="#Removable"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isPluggedTo"/>
+        <Class IRI="#AdapterPlug"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isPortOf"/>
+        <Class IRI="#Device"/>
+    </ObjectPropertyRange>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#ActuatorAddress"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#functionData"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#houseNumber"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#id"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#name"/>
+    </FunctionalDataProperty>
+    <DataPropertyDomain>
+        <DataProperty IRI="#id"/>
+        <Class IRI="#Device"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#id"/>
+        <Class IRI="#Location"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#ActuatorAddress"/>
+        <Datatype abbreviatedIRI="xsd:anyType"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#functionData"/>
+        <Datatype abbreviatedIRI="xsd:anyType"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#houseNumber"/>
+        <Datatype abbreviatedIRI="xsd:int"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#id"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Actuator</IRI>
+        <Literal>Actuators are the input ports of a device.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Braunschweig</IRI>
+        <Literal>A test city.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Brighter</IRI>
+        <Literal>Increases the luminance.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Bueltenweg</IRI>
+        <Literal>A test street.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Close</IRI>
+        <Literal>Closes a device.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Darker</IRI>
+        <Literal>Decreases the luminance.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Device</IRI>
+        <Literal>Describes a device.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#DomologicHouse</IRI>
+        <Literal>The test building.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Dual</IRI>
+        <Literal>Dual Actuator ports are binary state ports, i.e. on() off().</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Earth</IRI>
+        <Literal>A test planet.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Europe</IRI>
+        <Literal>A test continent.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Function</IRI>
+        <Literal>Describes a function of a device.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#FunctionOff</IRI>
+        <Literal>The description to disable the corresponding function.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#FunctionOn</IRI>
+        <Literal>The description to enable the corresponding function.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Germany</IRI>
+        <Literal>A test country.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Lamp</IRI>
+        <Literal>A simple lamp.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#MainFloor</IRI>
+        <Literal>A test floor.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Multi</IRI>
+        <Literal>Multi Actuator ports are ports which needed a state value to set, i.e. position().</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Off</IRI>
+        <Literal>Disables a device.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#OfficeA</IRI>
+        <Literal>A test room.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#OfficeB</IRI>
+        <Literal>A test room.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#On</IRI>
+        <Literal>Enables a device.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Open</IRI>
+        <Literal>Opens a device.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Port</IRI>
+        <Literal>Describes a port, which is used for the communication with a device.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Sensor</IRI>
+        <Literal>Sensors are the output ports of a device.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Shutter</IRI>
+        <Literal>A simple shutter.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Single</IRI>
+        <Literal>Single Actuator ports are simple call functions, i.e. up().</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#TestDimmer</IRI>
+        <Literal>Test dimable adapter plug.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#TestLamp1</IRI>
+        <Literal>Test lamp nr.1</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#TestLamp2</IRI>
+        <Literal>Test lamp nr.2</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#TestShutter</IRI>
+        <Literal>A test shutter.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#TestSwitch</IRI>
+        <Literal>Test switchable adapter plug.</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.0.0.1413) http://owlapi.sourceforge.net -->
+
