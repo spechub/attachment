@@ -1,0 +1,6 @@
+# automatically generated hets proof-script
+
+use periods/mappings/periods.het
+
+dg-all auto
+prove
