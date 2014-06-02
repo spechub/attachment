@@ -1,0 +1,21 @@
+from Basic/RelationsAndOrders get LeftTotalRelation, RightUniqueRelation
+
+%% BUGGY Spec:
+spec Rel1 = LeftTotalRelation and RightUniqueRelation
+
+spec LTR =
+     sorts S, T
+     pred __ R __: S * T
+     forall s:S . exists t:T . s R t
+end
+
+spec RUR =
+     sorts S, T
+     pred __ R __: S * T
+     forall s:S; t1,t2:T
+     . s R t1 /\ s R t2 => t1=t2
+end
+
+%% NO BUG:
+%% structurally exactly the same as Rel1, but imports from locally defined specs
+spec Rel1alt = LTR and RUR
