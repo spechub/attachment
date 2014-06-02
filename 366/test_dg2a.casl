@@ -1,0 +1,22 @@
+library Basic/RelationsAndOrders
+
+spec Int = sort Int; pred p: Int*Int end
+
+spec ReflexiveRelation =
+     sort Elem
+     . true                      %(refl)%
+end
+
+spec TransitiveRelation =
+     sort Elem
+     . false    %(trans)%
+end
+
+spec PreOrder =
+     {ReflexiveRelation and TransitiveRelation}
+end
+
+view PreOrder_in_Int: PreOrder to Int =
+     sort Elem |-> Int
+end
+
