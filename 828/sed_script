@@ -1,0 +1,42 @@
+#!/bin/sh -e
+# License changing script
+
+
+NEW_LICENSE='GPLv2 or higher'
+
+while [ 1 ]
+	do
+#reading filename
+		read x
+#testing if filename viable
+		if [ -e $x ];
+		then
+#testing if filename defines a directory instead of a file
+			if [ -d $x ];
+			then
+				echo "Skipping directory $x"
+			else
+#testing if file has write permissions
+				if [ -w $x ]; then
+					echo "Changing $x"
+					cat $x > /tmp/sed_script_tmp
+					cat /tmp/sed_script_tmp \
+					| sed "s/similar\ to\ LGPL,\ see\ HetCATS\/LICENSE.txt\ or\ LIZENZ.txt/$NEW_LICENSE/g" \
+					| sed "s/similar to LGPL, see HetCATS\/LICENCE.txt or LIZENZ.txt/$NEW_LICENSE/g" \
+					| sed "s/Similar\ to\ LGPL,\ see\ HetCATS\/LICENSE.txt\ or\ LIZENZ.txt/$NEW_LICENSE/g" \
+					| sed "s/similar\ to\ LGPL,\ see\ LICENSE.txt\ or\ LIZENZ.txt/$NEW_LICENSE/g" \
+					| sed "s/similar\ to\ LGPL,\ see HetCATS\/LICENSE.txt/$NEW_LICENSE/g" \
+					| sed "s/similar\ to\ LGPL,\ see LICENSE.txt/$NEW_LICENSE/g" \
+					| sed "s/similar\ to\ LGPL,\ see HetCATS\/LICENSE.txt\ or\ LIZENZ.txt/$NEW_LICENSE/g" \
+					| sed "s/similar\ to\ LGPL,\ see Hets\/LICENSE.txt/$NEW_LICENSE/g" \
+					| sed "s/LGPL,\ see\ LICENSE.txt\ or\ LIZENZ.txt/$NEW_LICENSE/g" \
+					| sed "s/AGPLv2\ or\ higher/$NEW_LICENSE/g" \
+					> $x
+				else
+					echo "No write permissions for $x"
+				fi
+			fi
+		else
+			echo "Cannot find $x"
+		fi
+done
