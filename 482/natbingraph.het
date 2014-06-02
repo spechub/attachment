@@ -1,0 +1,27 @@
+from Basic/Numbers get Nat
+
+spec bin_data = 
+ Nat  then 
+    sort s1
+
+spec bin = 
+ bin_data then 
+   sort s2
+
+spec simpnats = 
+  {}
+
+logic HasCASL
+
+spec bin_word = 
+  bin with logic -> HasCASL
+  then 
+  op f : s2 -> s2
+
+%% refinement m_nat_bin = 
+%%  simpnats refined via
+%%     logic CASL2Modal 
+%%    to bin_word
+
+view v : {logic HasCASL : simpnats} to bin_word
+
