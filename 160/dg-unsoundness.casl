@@ -1,0 +1,25 @@
+spec Strict_Partial_Order =
+    . false
+end
+
+spec Strict_Total_Order =
+    Strict_Partial_Order
+end
+
+spec Partial_Order =
+    Strict_Partial_Order
+end
+
+
+spec Total_Order =
+  Partial_Order and Strict_Total_Order 
+end
+
+spec Nat =
+. true
+end
+
+view v : Total_Order to Nat
+end
+
+
