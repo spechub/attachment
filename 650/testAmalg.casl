@@ -1,0 +1,24 @@
+spec Nat =
+  sorts Zero<Nat
+  ops 0:Zero;
+      __-__ : Zero*Zero->Zero;
+      __-__ : Nat*Nat->Nat
+  . 0 - 0 = 0
+  forall n:Nat
+  . 0 - n = 0
+end
+
+spec Int =
+  sorts Zero<Nat; Nat<Int
+  ops 0:Nat; 0:Int;
+      __-__ : Zero*Zero->Zero;
+      __-__ : Int*Int->Int
+  forall x,y:Int
+  . x - y = 0 <=> x=y
+end
+
+spec Combine =
+  Nat hide __-__ : Nat*Nat->Nat
+and
+  Int hide __-__ : Int*Int->Int
+end
