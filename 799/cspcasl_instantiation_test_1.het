@@ -1,0 +1,67 @@
+logic CASL
+
+spec MyData =
+  sort MyData
+end
+		  
+logic CspCASL
+
+%[%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%]%
+%[ Abstract System                              ]%
+%[%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%]%
+
+spec Reader =
+  data
+    MyData
+  channel
+    Read : MyData
+  process
+    Reader : Read;
+    Reader = RUN(Read)
+end
+
+spec Writer =
+  data
+    MyData
+  channel
+    Write : MyData
+  process
+    Writer : Write;
+    Writer = RUN(Write)
+end
+
+spec Pipe[Reader][Writer] =
+  process
+    Sys : Read, Write;
+    Sys = Reader || Writer
+end
+
+%[%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%]%
+%[ Concrete System                              ]%
+%[%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%]%
+
+spec MyReader =
+  data
+    MyData
+  channel
+    Read : MyData
+  process
+    Reader : Read;
+    Reader = RUN(Read); Reader
+end
+
+spec MyWriter =
+  data
+    MyData
+  channel
+    Write : MyData
+  process
+    Writer : Write;
+    Writer = RUN(Write); Writer
+end
+
+%[Create a new system by pluggin in new components. They will still be]%
+%[composed in to a sysyem in the same way as before.]%
+%[This will cause views between the reader and writers.]%
+
+spec MySys = Pipe[MyReader][MyWriter]
