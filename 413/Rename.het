@@ -1,0 +1,8 @@
+logic HasCASL
+
+spec s1 = 
+ sort t 
+ op o : t
+ . o = o
+
+spec s2 = s1 with t |-> t2, o |-> o2
