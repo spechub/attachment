@@ -1,0 +1,1203 @@
+logic HasCASL.HOL
+spec BigViaSmallSteps =
+types
+Development : Type;
+Document : Type;
+EUC : Type;
+List[T] : Type;
+Map[TicketId,Ticket] : Type;
+Nat : Type;
+Part : Type;
+Set[SmallStep] : Type;
+Set[TicketId] : Type;
+SmallStep : Type;
+Some[T] : Type;
+Status : Type;
+T : Type;
+Ticket : Type;
+TicketId : Type;
+gn_WN : Type;
+gn_World : Type
+op 0 : Nat %(constructor)%
+op Some : List[T] -> Some[T] %(constructor)%
+op Ticket : Document -> Set[SmallStep] -> Status -> Ticket
+            %(constructor)%
+op close : Status %(constructor)%
+op doc : Ticket -> Document
+op empty : Map[TicketId, Ticket] %(constructor)%
+op first : List[T] -> T
+op flexibleDevelopment : EUC -> SmallStep
+op flexibleLifeCycle : EUC -> SmallStep
+op gn_C[__+__] : Set[SmallStep] -> SmallStep -> Set[SmallStep]
+                 %(constructor)%
+op gn_C[__+__] : Set[TicketId] -> TicketId -> Set[TicketId]
+                 %(constructor)%
+op gn_C[__++__] : List[T] -> List[T] -> List[T]
+op gn_C[__::__] : T -> List[T] -> List[T] %(constructor)%
+op gn_C[__[__/__]] : Map[TicketId, Ticket] ->
+                     Ticket -> TicketId -> Map[TicketId, Ticket]
+                     %(constructor)%
+op gn_C[__union__] : Set[SmallStep] ->
+                     Set[SmallStep] -> Set[SmallStep]
+op gn_C[__union__] : Set[TicketId] ->
+                     Set[TicketId] -> Set[TicketId]
+op gn_WN : gn_World -> Nat -> gn_WN %(constructor)%
+op gn_bottom_Development : Development
+op gn_bottom_Document : Document
+op gn_bottom_List[T] : List[T] %(constructor)%
+op gn_bottom_Map[TicketId,Ticket] : Map[TicketId, Ticket]
+                                    %(constructor)%
+op gn_bottom_Part : Part
+op gn_bottom_Set[SmallStep] : Set[SmallStep] %(constructor)%
+op gn_bottom_SmallStep : SmallStep
+op gn_bottom_Some[T] : Some[T] %(constructor)%
+op gn_bottom_Status : Status %(constructor)%
+op gn_bottom_T : T
+op gn_bottom_Ticket : Ticket %(constructor)%
+op gn_getWorld : gn_WN -> gn_World
+                 %(selector of constructor(s) gn_WN : gn_World -> Nat -> gn_WN)%
+op gn_inj_T_Part : T -> Part
+op gn_num : gn_WN -> Nat
+            %(selector of constructor(s) gn_WN : gn_World -> Nat -> gn_WN)%
+op gn_proj_Part_T : Part -> T
+op insert : Development -> Part -> Development
+op insertPart : EUC -> Part -> SmallStep
+op lookup : TicketId -> Map[TicketId, Ticket] -> Ticket
+op nil : List[T] %(constructor)%
+op open : Status %(constructor)%
+op remove : Development -> Part -> Development
+op removePart : EUC -> Part -> SmallStep
+op rest : List[T] -> List[T]
+op review : EUC -> Document -> SmallStep
+op status : Ticket -> Status
+op steps : Ticket -> Set[SmallStep]
+op suc : Nat -> Nat %(constructor)%
+op treat[T] : gn_World -> EUC -> Some[T] -> SmallStep
+op treatImpl : gn_World -> EUC -> Some[T] -> SmallStep
+op undef : Some[T] %(constructor)%
+op {} : Set[SmallStep] %(constructor)%
+op {} : Set[TicketId] %(constructor)%
+pred gn_defined : Development
+pred gn_defined : Document
+pred gn_defined : List[T]
+pred gn_defined : Map[TicketId, Ticket]
+pred gn_defined : Part
+pred gn_defined : Set[SmallStep]
+pred gn_defined : SmallStep
+pred gn_defined : Some[T]
+pred gn_defined : Status
+pred gn_defined : T
+pred gn_defined : Ticket
+fun affects[T] : EUC -> SmallStep ->? Unit
+fun gn_C[__eps__] : SmallStep -> Set[SmallStep] ->? Unit
+fun gn_C[__eps__] : TicketId -> Set[TicketId] ->? Unit
+fun gn_C[__isSubsetOf__] : Set[SmallStep] ->
+                           Set[SmallStep] ->? Unit
+fun gn_C[__isSubsetOf__] : Set[TicketId] -> Set[TicketId] ->? Unit
+fun gn_T_t[SmallStep] : SmallStep -> gn_World -> gn_World ->? Unit
+fun gn_contains : (gn_WN -> gn_WN ->? Unit) ->
+                  (gn_WN -> gn_WN ->? Unit) ->? Unit
+fun gn_has_successor : gn_World ->
+                       (gn_WN -> gn_WN ->? Unit) ->? Unit
+fun gn_has_tau_suc : (gn_WN -> gn_WN ->? Unit) ->? Unit
+fun gn_irreflex : (gn_WN -> gn_WN ->? Unit) ->? Unit
+fun gn_isTrans : (gn_WN -> gn_WN ->? Unit) ->? Unit
+fun gn_path : gn_World -> (gn_WN -> gn_WN ->? Unit) ->? Unit
+fun gn_reflex : (gn_WN -> gn_WN ->? Unit) ->? Unit
+fun gn_subset_of_tau : (gn_WN -> gn_WN ->? Unit) ->? Unit
+fun gn_superpath : gn_World -> (gn_WN -> gn_WN ->? Unit) ->? Unit
+fun gn_tau : gn_World -> gn_World ->? Unit
+fun gn_trans : (gn_WN -> gn_WN ->? Unit) ->
+               (gn_WN -> gn_WN ->? Unit) ->? Unit
+fun gn_trans_linear_order : (gn_WN -> gn_WN ->? Unit) ->? Unit
+fun gn_trans_reflex : (gn_WN -> gn_WN ->? Unit) ->
+                      (gn_WN -> gn_WN ->? Unit) ->? Unit
+
+forall p_Nat : Nat ->? Unit
+. (p_Nat 0 /\ forall x_1 : Nat . p_Nat x_1 => p_Nat (suc x_1))
+  => forall x : Nat . p_Nat x;                   %(nat_induction)%
+
+forall x_1 : gn_World; x_2 : Nat
+. gn_getWorld (gn_WN x_1 x_2) = x_1;     %(ga_select_gn_getWorld)%
+
+forall x_1 : gn_World; x_2 : Nat . gn_num (gn_WN x_1 x_2) = x_2;
+                                              %(ga_select_gn_num)%
+
+forall gn_v1 : gn_World; gn_v2 : gn_World
+. gn_tau gn_v1 gn_v2
+  <=> exists gn_t : SmallStep . gn_T_t[SmallStep] gn_t gn_v1 gn_v2;
+                                                           %(tau)%
+
+forall gn_P : gn_WN -> gn_WN ->? Unit
+. gn_isTrans gn_P
+  <=> forall gn_v1 : gn_WN; gn_v2 : gn_WN; gn_v3 : gn_WN
+      . gn_P gn_v1 gn_v2 /\ gn_P gn_v2 gn_v3 => gn_P gn_v1 gn_v3;
+                                                       %(isTrans)%
+
+forall gn_P : gn_WN -> gn_WN ->? Unit
+. gn_reflex gn_P <=> forall gn_x : gn_WN . gn_P gn_x gn_x;
+                                                        %(reflex)%
+
+forall gn_P : gn_WN -> gn_WN ->? Unit
+. gn_irreflex gn_P <=> forall gn_x : gn_WN . not gn_P gn_x gn_x;
+                                                      %(irreflex)%
+
+forall
+gn_R : gn_WN -> gn_WN ->? Unit; gn_Q : gn_WN -> gn_WN ->? Unit
+. gn_contains gn_R gn_Q
+  <=> forall gn_v1 : gn_WN; gn_v2 : gn_WN
+      . gn_R gn_v1 gn_v2 => gn_Q gn_v1 gn_v2;         %(contains)%
+
+forall
+gn_R : gn_WN -> gn_WN ->? Unit; gn_Q : gn_WN -> gn_WN ->? Unit
+. gn_trans gn_R gn_Q
+  <=> gn_isTrans gn_Q /\ gn_contains gn_R gn_Q
+      /\ forall gn_P : gn_WN -> gn_WN ->? Unit
+         . gn_isTrans gn_P /\ gn_contains gn_R gn_P
+           => gn_contains gn_Q gn_P;                     %(trans)%
+
+forall
+gn_R : gn_WN -> gn_WN ->? Unit; gn_Q : gn_WN -> gn_WN ->? Unit
+. gn_trans_reflex gn_R gn_Q
+  <=> gn_isTrans gn_Q /\ gn_reflex gn_Q /\ gn_contains gn_R gn_Q
+      /\ forall gn_P : gn_WN -> gn_WN ->? Unit
+         . gn_isTrans gn_P /\ gn_reflex gn_P /\ gn_contains gn_R gn_P
+           => gn_contains gn_Q gn_P;              %(trans_reflex)%
+
+forall gn_R : gn_WN -> gn_WN ->? Unit
+. gn_trans_linear_order gn_R
+  <=> exists gn_Q : gn_WN -> gn_WN ->? Unit
+      . gn_trans gn_R gn_Q
+        /\ forall gn_v1 : gn_WN; gn_v2 : gn_WN
+           . (exists gn_v3 : gn_WN; gn_v4 : gn_WN
+              . (gn_Q gn_v1 gn_v3 \/ gn_Q gn_v3 gn_v1)
+                /\ (gn_Q gn_v2 gn_v4 \/ gn_Q gn_v4 gn_v2))
+             => gn_Q gn_v1 gn_v2 \/ gn_Q gn_v2 gn_v1 \/ gn_v1 = gn_v2;
+                                            %(trans_linear_order)%
+
+forall gn_x0 : gn_World; gn_P : gn_WN -> gn_WN ->? Unit
+. gn_has_successor gn_x0 gn_P
+  <=> (exists gn_x : gn_World . gn_tau gn_x0 gn_x)
+      => exists gn_x : gn_World
+         . gn_tau gn_x0 gn_x /\ gn_P (gn_WN gn_x0 0) (gn_WN gn_x (suc 0));
+                                                 %(has_successor)%
+
+forall gn_P : gn_WN -> gn_WN ->? Unit
+. gn_subset_of_tau gn_P
+  <=> forall gn_v1 : gn_WN; gn_v2 : gn_WN
+      . gn_P gn_v1 gn_v2
+        => gn_tau (gn_getWorld gn_v1) (gn_getWorld gn_v2);
+                                                 %(subset_of_tau)%
+
+forall gn_P : gn_WN -> gn_WN ->? Unit
+. gn_has_tau_suc gn_P
+  <=> forall gn_x0 : gn_World; gn_n : Nat
+      . ((exists gn_y : gn_WN . gn_P gn_y (gn_WN gn_x0 gn_n))
+         /\ exists gn_x : gn_World . gn_tau gn_x0 gn_x)
+        => exists gn_x : gn_World
+           . gn_tau gn_x0 gn_x
+             /\ gn_P (gn_WN gn_x0 gn_n) (gn_WN gn_x (suc gn_n));
+                                                   %(has_tau_suc)%
+
+forall gn_x0 : gn_World; gn_P : gn_WN -> gn_WN ->? Unit
+. gn_superpath gn_x0 gn_P
+  <=> gn_has_successor gn_x0 gn_P
+      /\ (gn_irreflex gn_P
+          /\ (gn_subset_of_tau gn_P
+              /\ (gn_has_tau_suc gn_P /\ gn_trans_linear_order gn_P)));
+                                                     %(superpath)%
+
+forall gn_x0 : gn_World; gn_P : gn_WN -> gn_WN ->? Unit
+. gn_path gn_x0 gn_P
+  <=> exists gn_R : gn_WN -> gn_WN ->? Unit
+      . gn_superpath gn_x0 gn_R
+        /\ (gn_trans_reflex gn_R gn_P
+            /\ forall gn_Q : gn_WN -> gn_WN ->? Unit
+               . gn_superpath gn_x0 gn_Q
+                 => (forall gn_v1 : gn_WN; gn_v2 : gn_WN
+                     . not (gn_Q gn_v1 gn_v2 => gn_R gn_v1 gn_v2))
+                    \/ forall gn_v1 : gn_WN; gn_v2 : gn_WN
+                       . gn_Q gn_v1 gn_v2 <=> gn_R gn_v1 gn_v2);
+                                                          %(path)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall e : EUC
+     . forall PHI : ? Unit
+       . (forall gn_w2 : gn_World
+          . gn_T_t[SmallStep] (treatImpl gn_w1 e (Some nil)) gn_w1 gn_w2
+            /\ forall gn_Z2 : gn_WN -> gn_WN ->? Unit
+               . gn_path gn_w2 gn_Z2
+                 => gn_Z2 (gn_WN gn_w2 0) (gn_WN gn_w2 0) /\ PHI)
+         <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ PHI;
+                                                          %(Ax17)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall e : EUC; t : T; ts : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : T ->? Unit) t
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : List[T] ->? Unit) ts)
+       => forall PHI : ? Unit
+          . (forall gn_w2 : gn_World
+             . gn_T_t[SmallStep] (treatImpl gn_w1 e (Some (gn_C[__::__] t ts)))
+               gn_w1
+               gn_w2
+               /\ forall gn_Z2 : gn_WN -> gn_WN ->? Unit
+                  . gn_path gn_w2 gn_Z2
+                    => gn_Z2 (gn_WN gn_w2 0) (gn_WN gn_w2 0) /\ PHI)
+            <=> forall gn_w2 : gn_World
+                . (exists gn_w3 : gn_World
+                   . gn_T_t[SmallStep] (insertPart e (gn_inj_T_Part t)) gn_w1
+                     gn_w3
+                     /\ gn_T_t[SmallStep] (treatImpl gn_w3 e (Some ts)) gn_w3
+                        gn_w2)
+                  /\ forall gn_Z2 : gn_WN -> gn_WN ->? Unit
+                     . gn_path gn_w2 gn_Z2
+                       => gn_Z2 (gn_WN gn_w2 0) (gn_WN gn_w2 0) /\ PHI;
+                                                          %(Ax18)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall e : EUC; ts : Some[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Some[T] ->? Unit) ts
+       => forall PHI : ? Unit
+          . (forall gn_w2 : gn_World
+             . gn_T_t[SmallStep] (treat[T] gn_w1 e ts) gn_w1 gn_w2
+               /\ forall gn_Z2 : gn_WN -> gn_WN ->? Unit
+                  . gn_path gn_w2 gn_Z2
+                    => gn_Z2 (gn_WN gn_w2 0) (gn_WN gn_w2 0) /\ PHI)
+            <=> forall gn_w2 : gn_World
+                . gn_T_t[SmallStep] (treatImpl gn_w1 e ts) gn_w1 gn_w2
+                  /\ forall gn_Z2 : gn_WN -> gn_WN ->? Unit
+                     . gn_path gn_w2 gn_Z2
+                       => gn_Z2 (gn_WN gn_w2 0) (gn_WN gn_w2 0) /\ PHI;
+                                                          %(Ax19)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => exists x : Development
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Development ->? Unit) x;
+                                       %(ga_nonEmpty_Development)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : Development
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_defined : Development ->? Unit) x)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ x = gn_bottom_Development;
+                                   %(ga_notDefBottom_Development)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => exists x : Document
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Document ->? Unit) x;
+                                          %(ga_nonEmpty_Document)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : Document
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_defined : Document ->? Unit) x)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ x = gn_bottom_Document; %(ga_notDefBottom_Document)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => exists x : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : List[T] ->? Unit) x;
+                                           %(ga_nonEmpty_List[T])%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : List[T]
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_defined : List[T] ->? Unit) x)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ x = gn_bottom_List[T];
+                                       %(ga_notDefBottom_List[T])%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => exists x : Map[TicketId, Ticket]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Map[TicketId, Ticket] ->? Unit) x;
+                              %(ga_nonEmpty_Map[TicketId,Ticket])%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : Map[TicketId, Ticket]
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_defined : Map[TicketId, Ticket] ->? Unit) x)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ x = gn_bottom_Map[TicketId,Ticket];
+                          %(ga_notDefBottom_Map[TicketId,Ticket])%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => exists x : Part
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Part ->? Unit) x;  %(ga_nonEmpty_Part)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : Part
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_defined : Part ->? Unit) x)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ x = gn_bottom_Part;
+                                          %(ga_notDefBottom_Part)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => exists x : Set[SmallStep]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Set[SmallStep] ->? Unit) x;
+                                    %(ga_nonEmpty_Set[SmallStep])%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : Set[SmallStep]
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_defined : Set[SmallStep] ->? Unit) x)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ x = gn_bottom_Set[SmallStep];
+                                %(ga_notDefBottom_Set[SmallStep])%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => exists x : SmallStep
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : SmallStep ->? Unit) x;
+                                         %(ga_nonEmpty_SmallStep)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : SmallStep
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_defined : SmallStep ->? Unit) x)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ x = gn_bottom_SmallStep;
+                                     %(ga_notDefBottom_SmallStep)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => exists x : Some[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Some[T] ->? Unit) x;
+                                           %(ga_nonEmpty_Some[T])%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : Some[T]
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_defined : Some[T] ->? Unit) x)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ x = gn_bottom_Some[T];
+                                       %(ga_notDefBottom_Some[T])%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => exists x : Status
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Status ->? Unit) x;
+                                            %(ga_nonEmpty_Status)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : Status
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_defined : Status ->? Unit) x)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ x = gn_bottom_Status;
+                                        %(ga_notDefBottom_Status)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => exists x : T
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : T ->? Unit) x;        %(ga_nonEmpty_T)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : T
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_defined : T ->? Unit) x)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ x = gn_bottom_T;
+                                             %(ga_notDefBottom_T)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => exists x : Ticket
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Ticket ->? Unit) x;
+                                            %(ga_nonEmpty_Ticket)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : Ticket
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_defined : Ticket ->? Unit) x)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ x = gn_bottom_Ticket;
+                                        %(ga_notDefBottom_Ticket)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Some[T] ->? Unit) (Some x_1)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : List[T] ->? Unit) x_1;
+                                            %(ga_strictness_Some)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : Document; x_2 : Set[SmallStep]; x_3 : Status
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Ticket ->? Unit) (Ticket x_1 x_2 x_3)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Document ->? Unit) x_1
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : Set[SmallStep] ->? Unit) x_2
+               /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                   /\ (op gn_defined : Status ->? Unit) x_3));
+                                          %(ga_strictness_Ticket)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : Set[SmallStep]; x_2 : SmallStep
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Set[SmallStep] ->? Unit)
+          ((op gn_C[__+__] : Set[SmallStep] -> SmallStep -> Set[SmallStep])
+           x_1
+           x_2)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Set[SmallStep] ->? Unit) x_1
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : SmallStep ->? Unit) x_2);
+                                           %(ga_strictness___+__)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : List[T]; x_2 : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : List[T] ->? Unit) (gn_C[__++__] x_1 x_2)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : List[T] ->? Unit) x_1
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : List[T] ->? Unit) x_2);
+                                          %(ga_strictness___++__)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : T; x_2 : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : List[T] ->? Unit) (gn_C[__::__] x_1 x_2)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : T ->? Unit) x_1
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : List[T] ->? Unit) x_2);
+                                          %(ga_strictness___::__)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : Map[TicketId, Ticket]; x_2 : Ticket; x_3 : TicketId
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Map[TicketId, Ticket] ->? Unit)
+          (gn_C[__[__/__]] x_1 x_2 x_3)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Map[TicketId, Ticket] ->? Unit) x_1
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : Ticket ->? Unit) x_2);
+                                       %(ga_strictness___[__/__])%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : Set[SmallStep]; x_2 : Set[SmallStep]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Set[SmallStep] ->? Unit)
+          ((op gn_C[__union__] :
+            Set[SmallStep] -> Set[SmallStep] -> Set[SmallStep])
+           x_1
+           x_2)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Set[SmallStep] ->? Unit) x_1
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : Set[SmallStep] ->? Unit) x_2);
+                                       %(ga_strictness___union__)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+     /\ (op gn_defined : Status ->? Unit) close;
+                                           %(ga_strictness_close)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : Ticket
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Document ->? Unit) (doc x_1)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Ticket ->? Unit) x_1;
+                                             %(ga_strictness_doc)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+     /\ (op gn_defined : Map[TicketId, Ticket] ->? Unit) empty;
+                                           %(ga_strictness_empty)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : T ->? Unit) (first x_1)
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ (op gn_defined : List[T] ->? Unit) x_1;
+                                           %(ga_strictness_first)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : EUC
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : SmallStep ->? Unit) (flexibleDevelopment x_1);
+                             %(ga_strictness_flexibleDevelopment)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : EUC
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : SmallStep ->? Unit) (flexibleLifeCycle x_1);
+                               %(ga_strictness_flexibleLifeCycle)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : T
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Part ->? Unit) (gn_inj_T_Part x_1)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : T ->? Unit) x_1;
+                                   %(ga_strictness_gn_inj_T_Part)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : Part
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : T ->? Unit) (gn_proj_Part_T x_1)
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ (op gn_defined : Part ->? Unit) x_1;
+                                  %(ga_strictness_gn_proj_Part_T)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : Development; x_2 : Part
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Development ->? Unit) (insert x_1 x_2)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Development ->? Unit) x_1
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : Part ->? Unit) x_2);
+                                          %(ga_strictness_insert)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : EUC; x_2 : Part
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : SmallStep ->? Unit) (insertPart x_1 x_2)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Part ->? Unit) x_2;
+                                      %(ga_strictness_insertPart)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : TicketId; x_2 : Map[TicketId, Ticket]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Ticket ->? Unit) (lookup x_1 x_2)
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ (op gn_defined : Map[TicketId, Ticket] ->? Unit) x_2;
+                                          %(ga_strictness_lookup)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+     /\ (op gn_defined : List[T] ->? Unit) nil;
+                                             %(ga_strictness_nil)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+     /\ (op gn_defined : Status ->? Unit) open;
+                                            %(ga_strictness_open)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : Development; x_2 : Part
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Development ->? Unit) (remove x_1 x_2)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Development ->? Unit) x_1
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : Part ->? Unit) x_2);
+                                          %(ga_strictness_remove)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : EUC; x_2 : Part
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : SmallStep ->? Unit) (removePart x_1 x_2)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Part ->? Unit) x_2;
+                                      %(ga_strictness_removePart)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : List[T] ->? Unit) (rest x_1)
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ (op gn_defined : List[T] ->? Unit) x_1;
+                                            %(ga_strictness_rest)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : EUC; x_2 : Document
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : SmallStep ->? Unit) (review x_1 x_2)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Document ->? Unit) x_2;
+                                          %(ga_strictness_review)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : Ticket
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Status ->? Unit) (status x_1)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Ticket ->? Unit) x_1;
+                                          %(ga_strictness_status)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : Ticket
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Set[SmallStep] ->? Unit) (steps x_1)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Ticket ->? Unit) x_1;
+                                           %(ga_strictness_steps)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : EUC; x_2 : Some[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : SmallStep ->? Unit) (treat[T] gn_w1 x_1 x_2)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Some[T] ->? Unit) x_2;
+                                        %(ga_strictness_treat[T])%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : EUC; x_2 : Some[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : SmallStep ->? Unit) (treatImpl gn_w1 x_1 x_2)
+       <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Some[T] ->? Unit) x_2;
+                                       %(ga_strictness_treatImpl)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+     /\ (op gn_defined : Some[T] ->? Unit) undef;
+                                           %(ga_strictness_undef)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+     /\ (op gn_defined : Set[SmallStep] ->? Unit)
+        (op {} : Set[SmallStep]);             %(ga_strictness_{})%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : SmallStep; x_2 : Set[SmallStep]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_C[__eps__] : SmallStep -> Set[SmallStep] ->? Unit) x_1
+          x_2
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ (op gn_defined : SmallStep ->? Unit) x_1
+          /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+              /\ (op gn_defined : Set[SmallStep] ->? Unit) x_2);
+                               %(ga_predicate_strictness___eps__)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : Set[SmallStep]; x_2 : Set[SmallStep]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_C[__isSubsetOf__] :
+           Set[SmallStep] -> Set[SmallStep] ->? Unit)
+          x_1
+          x_2
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ (op gn_defined : Set[SmallStep] ->? Unit) x_1
+          /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+              /\ (op gn_defined : Set[SmallStep] ->? Unit) x_2);
+                        %(ga_predicate_strictness___isSubsetOf__)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x_1 : EUC; x_2 : SmallStep
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ affects[T] x_1 x_2
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ (op gn_defined : SmallStep ->? Unit) x_2;
+                            %(ga_predicate_strictness_affects[T])%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : T; y : T
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : T ->? Unit) x
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : T ->? Unit) y)
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ gn_inj_T_Part x = gn_inj_T_Part y
+          /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+              /\ (op gn_defined : Part ->? Unit) (gn_inj_T_Part x))
+          => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ x = y
+             /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                 /\ (op gn_defined : T ->? Unit) x);
+                            %(ga_embedding_injectivity_T_to_Part)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : Part; y : Part
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Part ->? Unit) x
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Part ->? Unit) y)
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ gn_proj_Part_T x = gn_proj_Part_T y
+          /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+              /\ (op gn_defined : T ->? Unit) (gn_proj_Part_T x))
+          => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ x = y
+             /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                 /\ (op gn_defined : Part ->? Unit) x);
+                           %(ga_projection_injectivity_Part_to_T)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : T
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : T ->? Unit) x
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ gn_proj_Part_T (gn_inj_T_Part x) = x
+          /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+              /\ (op gn_defined : T ->? Unit)
+                 (gn_proj_Part_T (gn_inj_T_Part x)));
+                                       %(ga_projection_Part_to_T)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall e : EUC; m : SmallStep
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : SmallStep ->? Unit) m
+       => (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ affects[T] e m
+           <=> exists p : T
+               . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                 /\ (op gn_defined : T ->? Unit) p
+                 /\ ((gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                      /\ m = insertPart e (gn_inj_T_Part p))
+                     \/ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                         /\ m = removePart e (gn_inj_T_Part p))));
+                                                         %(Ax1_4)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ open = close);
+                                        %(ga_disjoint_open_close)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall X1 : Document; X2 : Set[SmallStep]; X3 : Status
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Document ->? Unit) X1
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Set[SmallStep] ->? Unit) X2
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : Status ->? Unit) X3))
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ doc (Ticket X1 X2 X3) = X1;       %(ga_selector_doc)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall X1 : Document; X2 : Set[SmallStep]; X3 : Status
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Document ->? Unit) X1
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Set[SmallStep] ->? Unit) X2
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : Status ->? Unit) X3))
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ steps (Ticket X1 X2 X3) = X2;   %(ga_selector_steps)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall X1 : Document; X2 : Set[SmallStep]; X3 : Status
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Document ->? Unit) X1
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Set[SmallStep] ->? Unit) X2
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : Status ->? Unit) X3))
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ status (Ticket X1 X2 X3) = X3; %(ga_selector_status)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall
+     X1 : Document; X2 : Set[SmallStep]; X3 : Status; Y1 : Document;
+     Y2 : Set[SmallStep]; Y3 : Status
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Document ->? Unit) X1
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Set[SmallStep] ->? Unit) X2
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : Status ->? Unit) X3
+               /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                   /\ (op gn_defined : Document ->? Unit) Y1
+                   /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                       /\ (op gn_defined : Set[SmallStep] ->? Unit) Y2
+                       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                           /\ (op gn_defined : Status ->? Unit) Y3)))))
+       => (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ Ticket X1 X2 X3 = Ticket Y1 Y2 Y3
+           <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ X1 = Y1
+               /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ X2 = Y2
+                   /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ X3 = Y3)));
+                                           %(ga_injective_Ticket)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : SmallStep
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : SmallStep ->? Unit) x
+       => not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_C[__eps__] : SmallStep -> Set[SmallStep] ->? Unit) x
+                  (op {} : Set[SmallStep]));  %(elemOf_empty_Set)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : SmallStep; y : SmallStep; M : Set[SmallStep]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : SmallStep ->? Unit) x
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : SmallStep ->? Unit) y
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : Set[SmallStep] ->? Unit) M))
+       => (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_C[__eps__] : SmallStep -> Set[SmallStep] ->? Unit) x
+              ((op gn_C[__+__] : Set[SmallStep] -> SmallStep -> Set[SmallStep])
+               M
+               y)
+           <=> (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ x = y)
+               \/ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                   /\ (op gn_C[__eps__] : SmallStep -> Set[SmallStep] ->? Unit)
+                      x
+                      M));                 %(elemOf_NonEmpty_Set)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall M : Set[SmallStep]; N : Set[SmallStep]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Set[SmallStep] ->? Unit) M
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Set[SmallStep] ->? Unit) N)
+       => (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ M = N
+           <=> forall x : SmallStep
+               . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                 /\ (op gn_defined : SmallStep ->? Unit) x
+                 => (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                     /\ (op gn_C[__eps__] :
+                         SmallStep -> Set[SmallStep] ->? Unit)
+                        x
+                        M
+                     <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                         /\ (op gn_C[__eps__] :
+                             SmallStep -> Set[SmallStep] ->? Unit)
+                            x
+                            N));                  %(equality_Set)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall M : Set[SmallStep]; N : Set[SmallStep]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Set[SmallStep] ->? Unit) M
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Set[SmallStep] ->? Unit) N)
+       => (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_C[__isSubsetOf__] :
+               Set[SmallStep] -> Set[SmallStep] ->? Unit)
+              M
+              N
+           <=> forall x : SmallStep
+               . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                 /\ (op gn_defined : SmallStep ->? Unit) x
+                 => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                    /\ (op gn_C[__eps__] : SmallStep -> Set[SmallStep] ->? Unit)
+                       x
+                       M
+                    => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                       /\ (op gn_C[__eps__] :
+                           SmallStep -> Set[SmallStep] ->? Unit)
+                          x
+                          N);                   %(isSubsetOf_def)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall M : Set[SmallStep]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Set[SmallStep] ->? Unit) M
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ (op gn_C[__union__] :
+              Set[SmallStep] -> Set[SmallStep] -> Set[SmallStep])
+             M
+             (op {} : Set[SmallStep])
+             = M;                               %(union_EmptySet)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : SmallStep; M : Set[SmallStep]; N : Set[SmallStep]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : SmallStep ->? Unit) x
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Set[SmallStep] ->? Unit) M
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : Set[SmallStep] ->? Unit) N))
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ (op gn_C[__union__] :
+              Set[SmallStep] -> Set[SmallStep] -> Set[SmallStep])
+             M
+             ((op gn_C[__+__] : Set[SmallStep] -> SmallStep -> Set[SmallStep]) N
+              x)
+             = (op gn_C[__+__] : Set[SmallStep] -> SmallStep -> Set[SmallStep])
+               ((op gn_C[__union__] :
+                 Set[SmallStep] -> Set[SmallStep] -> Set[SmallStep])
+                M
+                N)
+               x;                            %(union_NonEmptySet)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : TicketId
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_C[__eps__] : TicketId -> Set[TicketId] ->? Unit) x
+               (op {} : Set[TicketId]));   %(elemOf_empty_Set_16)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : TicketId; y : TicketId; M : Set[TicketId]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_C[__eps__] : TicketId -> Set[TicketId] ->? Unit) x
+          ((op gn_C[__+__] : Set[TicketId] -> TicketId -> Set[TicketId]) M y)
+       <=> (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ x = y)
+           \/ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_C[__eps__] : TicketId -> Set[TicketId] ->? Unit) x M);
+                                        %(elemOf_NonEmpty_Set_15)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall M : Set[TicketId]; N : Set[TicketId]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ M = N
+       <=> forall x : TicketId
+           . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+             /\ (op gn_C[__eps__] : TicketId -> Set[TicketId] ->? Unit) x M
+             <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                 /\ (op gn_C[__eps__] : TicketId -> Set[TicketId] ->? Unit) x N;
+                                               %(equality_Set_17)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall M : Set[TicketId]; N : Set[TicketId]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_C[__isSubsetOf__] :
+           Set[TicketId] -> Set[TicketId] ->? Unit)
+          M
+          N
+       <=> forall x : TicketId
+           . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+             /\ (op gn_C[__eps__] : TicketId -> Set[TicketId] ->? Unit) x M
+             => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                /\ (op gn_C[__eps__] : TicketId -> Set[TicketId] ->? Unit) x N;
+                                             %(isSubsetOf_def_19)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall M : Set[TicketId]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_C[__union__] :
+           Set[TicketId] -> Set[TicketId] -> Set[TicketId])
+          M
+          (op {} : Set[TicketId])
+          = M;                               %(union_EmptySet_20)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : TicketId; M : Set[TicketId]; N : Set[TicketId]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_C[__union__] :
+           Set[TicketId] -> Set[TicketId] -> Set[TicketId])
+          M
+          ((op gn_C[__+__] : Set[TicketId] -> TicketId -> Set[TicketId]) N x)
+          = (op gn_C[__+__] : Set[TicketId] -> TicketId -> Set[TicketId])
+            ((op gn_C[__union__] :
+              Set[TicketId] -> Set[TicketId] -> Set[TicketId])
+             M
+             N)
+            x;                            %(union_NonEmptySet_21)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall s : TicketId
+     . not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+            /\ (op gn_defined : Ticket ->? Unit) (lookup s empty));
+                                              %(lookup_empty_Map)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall
+     M : Map[TicketId, Ticket]; s : TicketId; s1 : TicketId; t1 : Ticket
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Map[TicketId, Ticket] ->? Unit) M
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Ticket ->? Unit) t1)
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ lookup s (gn_C[__[__/__]] M t1 s1)
+             = t1 when gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ s = s1
+               else lookup s M;            %(lookup_nonEmpty_Map)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall M : Map[TicketId, Ticket]; N : Map[TicketId, Ticket]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : Map[TicketId, Ticket] ->? Unit) M
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : Map[TicketId, Ticket] ->? Unit) N)
+       => (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ M = N
+           <=> forall s : TicketId
+               . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                 /\ lookup s M = lookup s N);     %(equality_Map)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall X1 : List[T]; Y1 : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : List[T] ->? Unit) X1
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : List[T] ->? Unit) Y1)
+       => (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ Some X1 = Some Y1
+           <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ X1 = Y1);
+                                             %(ga_injective_Some)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall Y1 : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : List[T] ->? Unit) Y1
+       => not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ undef = Some Y1);
+                                        %(ga_disjoint_undef_Some)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall X1 : T; X2 : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : T ->? Unit) X1
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : List[T] ->? Unit) X2)
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ first (gn_C[__::__] X1 X2) = X1;
+                                             %(ga_selector_first)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall X1 : T; X2 : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : T ->? Unit) X1
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : List[T] ->? Unit) X2)
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ rest (gn_C[__::__] X1 X2) = X2;  %(ga_selector_rest)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall X1 : T; X2 : List[T]; Y1 : T; Y2 : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : T ->? Unit) X1
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : List[T] ->? Unit) X2
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : T ->? Unit) Y1
+               /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+                   /\ (op gn_defined : List[T] ->? Unit) Y2)))
+       => (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ gn_C[__::__] X1 X2 = gn_C[__::__] Y1 Y2
+           <=> gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ X1 = Y1
+               /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ X2 = Y2));
+                                           %(ga_injective___::__)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall Y1 : T; Y2 : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : T ->? Unit) Y1
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : List[T] ->? Unit) Y2)
+       => not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ nil = gn_C[__::__] Y1 Y2);
+                                        %(ga_disjoint_nil___::__)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ (op gn_defined : T ->? Unit) (first nil));
+                                   %(ga_selector_undef_first_nil)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => not (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ (op gn_defined : List[T] ->? Unit) (rest nil));
+                                    %(ga_selector_undef_rest_nil)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : List[T]; y : List[T]; z : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : List[T] ->? Unit) x
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : List[T] ->? Unit) y
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : List[T] ->? Unit) z))
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ gn_C[__++__] (gn_C[__++__] x y) z
+             = gn_C[__++__] x (gn_C[__++__] y z);
+                                               %(ga_assoc___++__)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall K : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : List[T] ->? Unit) K
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0) /\ gn_C[__++__] nil K = K;
+                                               %(concat_nil_List)%
+
+forall gn_w1 : gn_World; gn_Z1 : gn_WN -> gn_WN ->? Unit
+. gn_path gn_w1 gn_Z1
+  => forall x : T; K : List[T]; L : List[T]
+     . gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+       /\ (op gn_defined : T ->? Unit) x
+       /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+           /\ (op gn_defined : List[T] ->? Unit) K
+           /\ (gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+               /\ (op gn_defined : List[T] ->? Unit) L))
+       => gn_Z1 (gn_WN gn_w1 0) (gn_WN gn_w1 0)
+          /\ gn_C[__++__] (gn_C[__::__] x L) K
+             = gn_C[__::__] x (gn_C[__++__] L K);
+                                            %(concat_NeList_List)%
