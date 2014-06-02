@@ -1,0 +1,15 @@
+library topsort
+
+spec sp1 =
+  sort t
+  pred s:t
+  with logic CASL2TopSort:CASL -> CASL
+end
+
+spec sp2 =
+  sorts s<t
+  with logic CASL2TopSort:CASL -> CASL
+end
+
+view v1 : sp1 to sp2 end
+view v2 : sp2 to sp1 end
