@@ -1,0 +1,28 @@
+spec Ord =
+  sort Elem
+  pred p,q:()
+  . p /\ q
+end
+
+spec List[Ord] =
+  sort List
+end
+
+spec Nat =
+  sort Nat
+  pred p,q:()
+  . p
+  . q
+end
+
+spec Inst1 =
+  List[Nat]
+end
+
+spec Inst2 =
+  pred q:()
+  . q
+then
+  List[Nat]
+end
+
