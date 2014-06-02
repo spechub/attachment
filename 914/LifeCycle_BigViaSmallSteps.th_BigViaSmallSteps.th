@@ -1,0 +1,510 @@
+logic THF.THF0
+spec BigViaSmallSteps =
+%Types:
+thf(type_ticketId, type, ticketId : $tType).
+thf(type_ticket, type, ticket : $tType).
+thf(type_t, type, t : $tType).
+thf(type_status, type, status : $tType).
+thf(type_someOSqBrTCSqBr, type, someOSqBrTCSqBr : $tType).
+thf(type_smallStep, type, smallStep : $tType).
+thf(type_setOSqBrTicketIdCSqBr, type, setOSqBrTicketIdCSqBr : $tType).
+thf(type_setOSqBrSmallStepCSqBr, type, setOSqBrSmallStepCSqBr : $tType).
+thf(type_part, type, part : $tType).
+thf(type_nat, type, nat : $tType).
+thf(type_mapOSqBrTicketIdCommaTicketCSqBr, type, mapOSqBrTicketIdCommaTicketCSqBr : $tType).
+thf(type_listOSqBrTCSqBr, type, listOSqBrTCSqBr : $tType).
+thf(type_gn_World, type, gn_World : $tType).
+thf(type_gn_WN, type, gn_WN : $tType).
+thf(type_eUC, type, eUC : $tType).
+thf(type_document, type, document : $tType).
+thf(type_development, type, development : $tType).
+
+%Constants:
+thf(const_z, type, z : nat).
+thf(const_undef, type, undef : someOSqBrTCSqBr).
+thf(const_treatOSqBrTCSqBr, type, treatOSqBrTCSqBr : gn_World > eUC > someOSqBrTCSqBr > smallStep).
+thf(const_treatImpl, type, treatImpl : gn_World > eUC > someOSqBrTCSqBr > smallStep).
+thf(const_suc, type, suc : nat > nat).
+thf(const_steps, type, steps : ticket > setOSqBrSmallStepCSqBr).
+thf(const_state, type, state : ticket > status).
+thf(const_some, type, some : listOSqBrTCSqBr > someOSqBrTCSqBr).
+thf(const_review, type, review : eUC > document > smallStep).
+thf(const_rest, type, rest : listOSqBrTCSqBr > listOSqBrTCSqBr).
+thf(const_removePart, type, removePart : eUC > part > smallStep).
+thf(const_remove, type, remove : development > part > development).
+thf(const_open, type, open : status).
+thf(const_nil, type, nil : listOSqBrTCSqBr).
+thf(const_mkTicket, type, mkTicket : document > setOSqBrSmallStepCSqBr > status > ticket).
+thf(const_lookup, type, lookup : ticketId > mapOSqBrTicketIdCommaTicketCSqBr > ticket).
+thf(const_lBraceRBrace2, type, lBraceRBrace2 : setOSqBrTicketIdCSqBr).
+thf(const_lBraceRBrace, type, lBraceRBrace : setOSqBrSmallStepCSqBr).
+thf(const_insertPart, type, insertPart : eUC > part > smallStep).
+thf(const_insert, type, insert : development > part > development).
+thf(const_hccnot__, type, hccnot__ : $o > $o).
+thf(const_hcc__Or__, type, hcc__Or__ : $o > $o > $o).
+thf(const_hcc__Impl__, type, hcc__Impl__ : $o > $o > $o).
+thf(const_hcc__Eqv__, type, hcc__Eqv__ : $o > $o > $o).
+thf(const_hcc__Eq__, type, hcc__Eq__ : A > A > $o).
+thf(const_hcc__And__, type, hcc__And__ : $o > $o > $o).
+thf(const_gn_trans_reflex, type, gn_trans_reflex : (gn_WN > gn_WN > $o) > (gn_WN > gn_WN > $o) > $o).
+thf(const_gn_trans_linear_order, type, gn_trans_linear_order : (gn_WN > gn_WN > $o) > $o).
+thf(const_gn_trans, type, gn_trans : (gn_WN > gn_WN > $o) > (gn_WN > gn_WN > $o) > $o).
+thf(const_gn_tau, type, gn_tau : gn_World > gn_World > $o).
+thf(const_gn_superpath, type, gn_superpath : gn_World > (gn_WN > gn_WN > $o) > $o).
+thf(const_gn_subset_of_tau, type, gn_subset_of_tau : (gn_WN > gn_WN > $o) > $o).
+thf(const_gn_reflex, type, gn_reflex : (gn_WN > gn_WN > $o) > $o).
+thf(const_gn_proj_Part_T, type, gn_proj_Part_T : part > t).
+thf(const_gn_path, type, gn_path : gn_World > (gn_WN > gn_WN > $o) > $o).
+thf(const_gn_num, type, gn_num : gn_WN > nat).
+thf(const_gn_mkWN, type, gn_mkWN : gn_World > nat > gn_WN).
+thf(const_gn_isTrans, type, gn_isTrans : (gn_WN > gn_WN > $o) > $o).
+thf(const_gn_irreflex, type, gn_irreflex : (gn_WN > gn_WN > $o) > $o).
+thf(const_gn_inj_T_Part, type, gn_inj_T_Part : t > part).
+thf(const_gn_has_tau_suc, type, gn_has_tau_suc : (gn_WN > gn_WN > $o) > $o).
+thf(const_gn_has_successor, type, gn_has_successor : gn_World > (gn_WN > gn_WN > $o) > $o).
+thf(const_gn_getWorld, type, gn_getWorld : gn_WN > gn_World).
+thf(const_gn_defined9, type, gn_defined9 : status > $o).
+thf(const_gn_defined8, type, gn_defined8 : someOSqBrTCSqBr > $o).
+thf(const_gn_defined7, type, gn_defined7 : smallStep > $o).
+thf(const_gn_defined6, type, gn_defined6 : setOSqBrSmallStepCSqBr > $o).
+thf(const_gn_defined5, type, gn_defined5 : part > $o).
+thf(const_gn_defined4, type, gn_defined4 : mapOSqBrTicketIdCommaTicketCSqBr > $o).
+thf(const_gn_defined3, type, gn_defined3 : listOSqBrTCSqBr > $o).
+thf(const_gn_defined2, type, gn_defined2 : document > $o).
+thf(const_gn_defined11, type, gn_defined11 : ticket > $o).
+thf(const_gn_defined10, type, gn_defined10 : t > $o).
+thf(const_gn_defined, type, gn_defined : development > $o).
+thf(const_gn_contains, type, gn_contains : (gn_WN > gn_WN > $o) > (gn_WN > gn_WN > $o) > $o).
+thf(const_gn_bottom_Ticket, type, gn_bottom_Ticket : ticket).
+thf(const_gn_bottom_T, type, gn_bottom_T : t).
+thf(const_gn_bottom_Status, type, gn_bottom_Status : status).
+thf(const_gn_bottom_SomeOSqBrTCSqBr, type, gn_bottom_SomeOSqBrTCSqBr : someOSqBrTCSqBr).
+thf(const_gn_bottom_SmallStep, type, gn_bottom_SmallStep : smallStep).
+thf(const_gn_bottom_SetOSqBrSmallStepCSqBr, type, gn_bottom_SetOSqBrSmallStepCSqBr : setOSqBrSmallStepCSqBr).
+thf(const_gn_bottom_Part, type, gn_bottom_Part : part).
+thf(const_gn_bottom_MapOSqBrTicketIdCommaTicketCSqBr, type, gn_bottom_MapOSqBrTicketIdCommaTicketCSqBr : mapOSqBrTicketIdCommaTicketCSqBr).
+thf(const_gn_bottom_ListOSqBrTCSqBr, type, gn_bottom_ListOSqBrTCSqBr : listOSqBrTCSqBr).
+thf(const_gn_bottom_Document, type, gn_bottom_Document : document).
+thf(const_gn_bottom_Development, type, gn_bottom_Development : development).
+thf(const_gn_T_tOSqBrSmallStepCSqBr, type, gn_T_tOSqBrSmallStepCSqBr : smallStep > gn_World > gn_World > $o).
+thf(const_gn_COSqBr__union__CSqBr2, type, gn_COSqBr__union__CSqBr2 : setOSqBrTicketIdCSqBr > setOSqBrTicketIdCSqBr > setOSqBrTicketIdCSqBr).
+thf(const_gn_COSqBr__union__CSqBr, type, gn_COSqBr__union__CSqBr : setOSqBrSmallStepCSqBr > setOSqBrSmallStepCSqBr > setOSqBrSmallStepCSqBr).
+thf(const_gn_COSqBr__isSubsetOf__CSqBr2, type, gn_COSqBr__isSubsetOf__CSqBr2 : setOSqBrTicketIdCSqBr > setOSqBrTicketIdCSqBr > $o).
+thf(const_gn_COSqBr__isSubsetOf__CSqBr, type, gn_COSqBr__isSubsetOf__CSqBr : setOSqBrSmallStepCSqBr > setOSqBrSmallStepCSqBr > $o).
+thf(const_gn_COSqBr__eps__CSqBr2, type, gn_COSqBr__eps__CSqBr2 : ticketId > setOSqBrTicketIdCSqBr > $o).
+thf(const_gn_COSqBr__eps__CSqBr, type, gn_COSqBr__eps__CSqBr : smallStep > setOSqBrSmallStepCSqBr > $o).
+thf(const_gn_COSqBr__Plus__CSqBr2, type, gn_COSqBr__Plus__CSqBr2 : setOSqBrTicketIdCSqBr > ticketId > setOSqBrTicketIdCSqBr).
+thf(const_gn_COSqBr__Plus__CSqBr, type, gn_COSqBr__Plus__CSqBr : setOSqBrSmallStepCSqBr > smallStep > setOSqBrSmallStepCSqBr).
+thf(const_gn_COSqBr__PlusPlus__CSqBr, type, gn_COSqBr__PlusPlus__CSqBr : listOSqBrTCSqBr > listOSqBrTCSqBr > listOSqBrTCSqBr).
+thf(const_gn_COSqBr__OSqBr__Slash__CSqBrCSqBr, type, gn_COSqBr__OSqBr__Slash__CSqBrCSqBr : mapOSqBrTicketIdCommaTicketCSqBr > ticket > ticketId > mapOSqBrTicketIdCommaTicketCSqBr).
+thf(const_gn_COSqBr__ColonColon__CSqBr, type, gn_COSqBr__ColonColon__CSqBr : t > listOSqBrTCSqBr > listOSqBrTCSqBr).
+thf(const_flexibleLifeCycle, type, flexibleLifeCycle : eUC > smallStep).
+thf(const_flexibleDevelopment, type, flexibleDevelopment : eUC > smallStep).
+thf(const_first, type, first : listOSqBrTCSqBr > t).
+thf(const_empty, type, empty : mapOSqBrTicketIdCommaTicketCSqBr).
+thf(const_doc, type, doc : ticket > document).
+thf(const_close, type, close : status).
+thf(const_affectsOSqBrTCSqBr, type, affectsOSqBrTCSqBr : eUC > smallStep > $o).
+
+thf(def_hccnot__, definition, hccnot__ = (^ [A : $o] : ~ (A))).
+
+thf(def_hcc__And__, definition, hcc__And__ = (^ [X : $o,
+                                                 Y : $o] : (X & Y))).
+
+thf(def_hcc__Or__, definition, hcc__Or__ = (^ [X : $o,
+                                               Y : $o] : (X | Y))).
+
+thf(def_hcc__Eqv__, definition, hcc__Eqv__ = (^ [X : $o,
+                                                 Y : $o] : (X <=> Y))).
+
+thf(def_hcc__Impl__, definition, hcc__Impl__ = (^ [X : $o,
+                                                   Y : $o] : (X => Y))).
+
+thf(def_hcc__Eq__, definition, hcc__Eq__ = (^ [X : A,
+                                               Y : A] : (X = Y))).
+
+thf(nat_induction, axiom, ! [P_Nat : nat > $o] : (hcc__Impl__ @ (hcc__And__ @ (P_Nat @ z) @ ! [X_1 : nat] : (hcc__Impl__ @ (P_Nat @ X_1) @ (P_Nat @ (suc @ X_1)))) @ ! [X : nat] : (P_Nat @ X))).
+
+thf(ga_select_gn_getWorld, axiom, ! [X_1 : gn_World,
+                                     X_2 : nat] : (hcc__Eq__ @ (gn_getWorld @ (gn_mkWN @ X_1 @ X_2)) @ X_1)).
+
+thf(ga_select_gn_num, axiom, ! [X_1 : gn_World,
+                                X_2 : nat] : (hcc__Eq__ @ (gn_num @ (gn_mkWN @ X_1 @ X_2)) @ X_2)).
+
+thf(tau, axiom, ! [Gn_v1 : gn_World,
+                   Gn_v2 : gn_World] : (hcc__Eqv__ @ (gn_tau @ Gn_v1 @ Gn_v2) @ ? [Gn_t : smallStep] : (gn_T_tOSqBrSmallStepCSqBr @ Gn_t @ Gn_v1 @ Gn_v2))).
+
+thf(isTrans, axiom, ! [Gn_P : gn_WN > gn_WN > $o] : (hcc__Eqv__ @ (gn_isTrans @ Gn_P) @ ! [Gn_v1 : gn_WN,
+                                                                                           Gn_v2 : gn_WN,
+                                                                                           Gn_v3 : gn_WN] : (hcc__Impl__ @ (hcc__And__ @ (Gn_P @ Gn_v1 @ Gn_v2) @ (Gn_P @ Gn_v2 @ Gn_v3)) @ (Gn_P @ Gn_v1 @ Gn_v3)))).
+
+thf(reflex, axiom, ! [Gn_P : gn_WN > gn_WN > $o] : (hcc__Eqv__ @ (gn_reflex @ Gn_P) @ ! [Gn_x : gn_WN] : (Gn_P @ Gn_x @ Gn_x))).
+
+thf(irreflex, axiom, ! [Gn_P : gn_WN > gn_WN > $o] : (hcc__Eqv__ @ (gn_irreflex @ Gn_P) @ ! [Gn_x : gn_WN] : (hccnot__ @ (Gn_P @ Gn_x @ Gn_x)))).
+
+thf(contains, axiom, ! [Gn_Q : gn_WN > gn_WN > $o,
+                        Gn_R : gn_WN > gn_WN > $o] : (hcc__Eqv__ @ (gn_contains @ Gn_R @ Gn_Q) @ ! [Gn_v1 : gn_WN,
+                                                                                                    Gn_v2 : gn_WN] : (hcc__Impl__ @ (Gn_R @ Gn_v1 @ Gn_v2) @ (Gn_Q @ Gn_v1 @ Gn_v2)))).
+
+thf(trans, axiom, ! [Gn_Q : gn_WN > gn_WN > $o,
+                     Gn_R : gn_WN > gn_WN > $o] : (hcc__Eqv__ @ (gn_trans @ Gn_R @ Gn_Q) @ (hcc__And__ @ (hcc__And__ @ (gn_isTrans @ Gn_Q) @ (gn_contains @ Gn_R @ Gn_Q)) @ ! [Gn_P : gn_WN > gn_WN > $o] : (hcc__Impl__ @ (hcc__And__ @ (gn_isTrans @ Gn_P) @ (gn_contains @ Gn_R @ Gn_P)) @ (gn_contains @ Gn_Q @ Gn_P))))).
+
+thf(trans_reflex, axiom, ! [Gn_Q : gn_WN > gn_WN > $o,
+                            Gn_R : gn_WN > gn_WN > $o] : (hcc__Eqv__ @ (gn_trans_reflex @ Gn_R @ Gn_Q) @ (hcc__And__ @ (hcc__And__ @ (hcc__And__ @ (gn_isTrans @ Gn_Q) @ (gn_reflex @ Gn_Q)) @ (gn_contains @ Gn_R @ Gn_Q)) @ ! [Gn_P : gn_WN > gn_WN > $o] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (gn_isTrans @ Gn_P) @ (gn_reflex @ Gn_P)) @ (gn_contains @ Gn_R @ Gn_P)) @ (gn_contains @ Gn_Q @ Gn_P))))).
+
+thf(trans_linear_order, axiom, ! [Gn_R : gn_WN > gn_WN > $o] : (hcc__Eqv__ @ (gn_trans_linear_order @ Gn_R) @ ? [Gn_Q : gn_WN > gn_WN > $o] : (hcc__And__ @ (gn_trans @ Gn_R @ Gn_Q) @ ! [Gn_v1 : gn_WN,
+                                                                                                                                                                                          Gn_v2 : gn_WN] : (hcc__Impl__ @ ? [Gn_v3 : gn_WN,
+                                                                                                                                                                                                                             Gn_v4 : gn_WN] : (hcc__And__ @ (hcc__Or__ @ (Gn_Q @ Gn_v1 @ Gn_v3) @ (Gn_Q @ Gn_v3 @ Gn_v1)) @ (hcc__Or__ @ (Gn_Q @ Gn_v2 @ Gn_v4) @ (Gn_Q @ Gn_v4 @ Gn_v2))) @ (hcc__Or__ @ (hcc__Or__ @ (Gn_Q @ Gn_v1 @ Gn_v2) @ (Gn_Q @ Gn_v2 @ Gn_v1)) @ (hcc__Eq__ @ Gn_v1 @ Gn_v2)))))).
+
+thf(has_successor, axiom, ! [Gn_P : gn_WN > gn_WN > $o,
+                             Gn_x0 : gn_World] : (hcc__Eqv__ @ (gn_has_successor @ Gn_x0 @ Gn_P) @ (hcc__Impl__ @ ? [Gn_x : gn_World] : (gn_tau @ Gn_x0 @ Gn_x) @ ? [Gn_x : gn_World] : (hcc__And__ @ (gn_tau @ Gn_x0 @ Gn_x) @ (Gn_P @ (gn_mkWN @ Gn_x0 @ z) @ (gn_mkWN @ Gn_x @ (suc @ z))))))).
+
+thf(subset_of_tau, axiom, ! [Gn_P : gn_WN > gn_WN > $o] : (hcc__Eqv__ @ (gn_subset_of_tau @ Gn_P) @ ! [Gn_v1 : gn_WN,
+                                                                                                       Gn_v2 : gn_WN] : (hcc__Impl__ @ (Gn_P @ Gn_v1 @ Gn_v2) @ (gn_tau @ (gn_getWorld @ Gn_v1) @ (gn_getWorld @ Gn_v2))))).
+
+thf(has_tau_suc, axiom, ! [Gn_P : gn_WN > gn_WN > $o] : (hcc__Eqv__ @ (gn_has_tau_suc @ Gn_P) @ ! [Gn_x0 : gn_World,
+                                                                                                   Gn_n : nat] : (hcc__Impl__ @ (hcc__And__ @ ? [Gn_y : gn_WN] : (Gn_P @ Gn_y @ (gn_mkWN @ Gn_x0 @ Gn_n)) @ ? [Gn_x : gn_World] : (gn_tau @ Gn_x0 @ Gn_x)) @ ? [Gn_x : gn_World] : (hcc__And__ @ (gn_tau @ Gn_x0 @ Gn_x) @ (Gn_P @ (gn_mkWN @ Gn_x0 @ Gn_n) @ (gn_mkWN @ Gn_x @ (suc @ Gn_n))))))).
+
+thf(superpath, axiom, ! [Gn_P : gn_WN > gn_WN > $o,
+                         Gn_x0 : gn_World] : (hcc__Eqv__ @ (gn_superpath @ Gn_x0 @ Gn_P) @ (hcc__And__ @ (gn_has_successor @ Gn_x0 @ Gn_P) @ (hcc__And__ @ (gn_irreflex @ Gn_P) @ (hcc__And__ @ (gn_subset_of_tau @ Gn_P) @ (hcc__And__ @ (gn_has_tau_suc @ Gn_P) @ (gn_trans_linear_order @ Gn_P))))))).
+
+thf(path, axiom, ! [Gn_P : gn_WN > gn_WN > $o,
+                    Gn_x0 : gn_World] : (hcc__Eqv__ @ (gn_path @ Gn_x0 @ Gn_P) @ ? [Gn_R : gn_WN > gn_WN > $o] : (hcc__And__ @ (gn_superpath @ Gn_x0 @ Gn_R) @ (hcc__And__ @ (gn_trans_reflex @ Gn_R @ Gn_P) @ ! [Gn_Q : gn_WN > gn_WN > $o] : (hcc__Impl__ @ (gn_superpath @ Gn_x0 @ Gn_Q) @ (hcc__Or__ @ ! [Gn_v1 : gn_WN,
+                                                                                                                                                                                                                                                                                                              Gn_v2 : gn_WN] : (hccnot__ @ (hcc__Impl__ @ (Gn_Q @ Gn_v1 @ Gn_v2) @ (Gn_R @ Gn_v1 @ Gn_v2))) @ ! [Gn_v1 : gn_WN,
+                                                                                                                                                                                                                                                                                                                                                                                                                 Gn_v2 : gn_WN] : (hcc__Eqv__ @ (Gn_Q @ Gn_v1 @ Gn_v2) @ (Gn_R @ Gn_v1 @ Gn_v2)))))))).
+
+thf(ax17, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [E : eUC] : ! [PHI : $o] : (hcc__Eqv__ @ ! [Gn_w2 : gn_World] : (hcc__And__ @ (gn_T_tOSqBrSmallStepCSqBr @ (treatImpl @ Gn_w1 @ E @ (some @ nil)) @ Gn_w1 @ Gn_w2) @ ! [Gn_Z2 : gn_WN > gn_WN > $o] : (hcc__Impl__ @ (gn_path @ Gn_w2 @ Gn_Z2) @ (hcc__And__ @ (Gn_Z2 @ (gn_mkWN @ Gn_w2 @ z) @ (gn_mkWN @ Gn_w2 @ z)) @ PHI))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ PHI)))).
+
+thf(ax18, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [E : eUC,
+                                                                                      T : t,
+                                                                                      Ts : listOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ T)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ Ts))) @ ! [PHI : $o] : (hcc__Eqv__ @ ! [Gn_w2 : gn_World] : (hcc__And__ @ (gn_T_tOSqBrSmallStepCSqBr @ (treatImpl @ Gn_w1 @ E @ (some @ (gn_COSqBr__ColonColon__CSqBr @ T @ Ts))) @ Gn_w1 @ Gn_w2) @ ! [Gn_Z2 : gn_WN > gn_WN > $o] : (hcc__Impl__ @ (gn_path @ Gn_w2 @ Gn_Z2) @ (hcc__And__ @ (Gn_Z2 @ (gn_mkWN @ Gn_w2 @ z) @ (gn_mkWN @ Gn_w2 @ z)) @ PHI))) @ ! [Gn_w2 : gn_World] : (hcc__And__ @ ? [Gn_w3 : gn_World] : (hcc__And__ @ (gn_T_tOSqBrSmallStepCSqBr @ (insertPart @ E @ (gn_inj_T_Part @ T)) @ Gn_w1 @ Gn_w3) @ (gn_T_tOSqBrSmallStepCSqBr @ (treatImpl @ Gn_w3 @ E @ (some @ Ts)) @ Gn_w3 @ Gn_w2)) @ ! [Gn_Z2 : gn_WN > gn_WN > $o] : (hcc__Impl__ @ (gn_path @ Gn_w2 @ Gn_Z2) @ (hcc__And__ @ (Gn_Z2 @ (gn_mkWN @ Gn_w2 @ z) @ (gn_mkWN @ Gn_w2 @ z)) @ PHI))))))).
+
+thf(ax19, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [E : eUC,
+                                                                                      Ts : someOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined8 @ Ts)) @ ! [PHI : $o] : (hcc__Eqv__ @ ! [Gn_w2 : gn_World] : (hcc__And__ @ (gn_T_tOSqBrSmallStepCSqBr @ (treatOSqBrTCSqBr @ Gn_w1 @ E @ Ts) @ Gn_w1 @ Gn_w2) @ ! [Gn_Z2 : gn_WN > gn_WN > $o] : (hcc__Impl__ @ (gn_path @ Gn_w2 @ Gn_Z2) @ (hcc__And__ @ (Gn_Z2 @ (gn_mkWN @ Gn_w2 @ z) @ (gn_mkWN @ Gn_w2 @ z)) @ PHI))) @ ! [Gn_w2 : gn_World] : (hcc__And__ @ (gn_T_tOSqBrSmallStepCSqBr @ (treatImpl @ Gn_w1 @ E @ Ts) @ Gn_w1 @ Gn_w2) @ ! [Gn_Z2 : gn_WN > gn_WN > $o] : (hcc__Impl__ @ (gn_path @ Gn_w2 @ Gn_Z2) @ (hcc__And__ @ (Gn_Z2 @ (gn_mkWN @ Gn_w2 @ z) @ (gn_mkWN @ Gn_w2 @ z)) @ PHI))))))).
+
+thf(ga_nonEmpty_Development, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                       Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ? [X : development] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined @ X)))).
+
+thf(ga_notDefBottom_Development, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                           Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : development] : (hcc__Eqv__ @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined @ X))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ gn_bottom_Development))))).
+
+thf(ga_nonEmpty_Document, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ? [X : document] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined2 @ X)))).
+
+thf(ga_notDefBottom_Document, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                        Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : document] : (hcc__Eqv__ @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined2 @ X))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ gn_bottom_Document))))).
+
+thf(ga_nonEmpty_List[T], axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ? [X : listOSqBrTCSqBr] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X)))).
+
+thf(ga_notDefBottom_List[T], axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                       Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : listOSqBrTCSqBr] : (hcc__Eqv__ @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ gn_bottom_ListOSqBrTCSqBr))))).
+
+thf(ga_nonEmpty_Map[TicketId,Ticket], axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                                Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ? [X : mapOSqBrTicketIdCommaTicketCSqBr] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined4 @ X)))).
+
+thf(ga_notDefBottom_Map[TicketId,Ticket], axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : mapOSqBrTicketIdCommaTicketCSqBr] : (hcc__Eqv__ @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined4 @ X))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ gn_bottom_MapOSqBrTicketIdCommaTicketCSqBr))))).
+
+thf(ga_nonEmpty_Part, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ? [X : part] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined5 @ X)))).
+
+thf(ga_notDefBottom_Part, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : part] : (hcc__Eqv__ @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined5 @ X))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ gn_bottom_Part))))).
+
+thf(ga_nonEmpty_Set[SmallStep], axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                          Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ? [X : setOSqBrSmallStepCSqBr] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X)))).
+
+thf(ga_notDefBottom_Set[SmallStep], axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                              Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : setOSqBrSmallStepCSqBr] : (hcc__Eqv__ @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ gn_bottom_SetOSqBrSmallStepCSqBr))))).
+
+thf(ga_nonEmpty_SmallStep, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                     Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ? [X : smallStep] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ X)))).
+
+thf(ga_notDefBottom_SmallStep, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                         Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : smallStep] : (hcc__Eqv__ @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ X))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ gn_bottom_SmallStep))))).
+
+thf(ga_nonEmpty_Some[T], axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ? [X : someOSqBrTCSqBr] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined8 @ X)))).
+
+thf(ga_notDefBottom_Some[T], axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                       Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : someOSqBrTCSqBr] : (hcc__Eqv__ @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined8 @ X))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ gn_bottom_SomeOSqBrTCSqBr))))).
+
+thf(ga_nonEmpty_Status, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                  Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ? [X : status] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined9 @ X)))).
+
+thf(ga_notDefBottom_Status, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                      Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : status] : (hcc__Eqv__ @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined9 @ X))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ gn_bottom_Status))))).
+
+thf(ga_nonEmpty_T, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                             Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ? [X : t] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ X)))).
+
+thf(ga_notDefBottom_T, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                 Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : t] : (hcc__Eqv__ @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ X))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ gn_bottom_T))))).
+
+thf(ga_nonEmpty_Ticket, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                  Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ? [X : ticket] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined11 @ X)))).
+
+thf(ga_notDefBottom_Ticket, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                      Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : ticket] : (hcc__Eqv__ @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined11 @ X))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ gn_bottom_Ticket))))).
+
+thf(ga_strictness_Some, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                  Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : listOSqBrTCSqBr] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined8 @ (some @ X_1))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X_1))))).
+
+thf(ga_strictness___+__, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : setOSqBrSmallStepCSqBr,
+                                                                                                     X_2 : smallStep] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ (gn_COSqBr__Plus__CSqBr @ X_1 @ X_2))) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X_1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ X_2)))))).
+
+thf(ga_strictness___++__, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : listOSqBrTCSqBr,
+                                                                                                      X_2 : listOSqBrTCSqBr] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ (gn_COSqBr__PlusPlus__CSqBr @ X_1 @ X_2))) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X_1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X_2)))))).
+
+thf(ga_strictness___::__, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : t,
+                                                                                                      X_2 : listOSqBrTCSqBr] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ (gn_COSqBr__ColonColon__CSqBr @ X_1 @ X_2))) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ X_1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X_2)))))).
+
+thf(ga_strictness___[__/__], axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                       Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : mapOSqBrTicketIdCommaTicketCSqBr,
+                                                                                                         X_2 : ticket,
+                                                                                                         X_3 : ticketId] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined4 @ (gn_COSqBr__OSqBr__Slash__CSqBrCSqBr @ X_1 @ X_2 @ X_3))) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined4 @ X_1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined11 @ X_2)))))).
+
+thf(ga_strictness___union__, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                       Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : setOSqBrSmallStepCSqBr,
+                                                                                                         X_2 : setOSqBrSmallStepCSqBr] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ (gn_COSqBr__union__CSqBr @ X_1 @ X_2))) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X_1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X_2)))))).
+
+thf(ga_strictness_close, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined9 @ close)))).
+
+thf(ga_strictness_doc, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                 Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : ticket] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined2 @ (doc @ X_1))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined11 @ X_1))))).
+
+thf(ga_strictness_empty, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined4 @ empty)))).
+
+thf(ga_strictness_first, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : listOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ (first @ X_1))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X_1))))).
+
+thf(ga_strictness_flexibleDevelopment, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                                 Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : eUC] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ (flexibleDevelopment @ X_1))))).
+
+thf(ga_strictness_flexibleLifeCycle, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                               Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : eUC] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ (flexibleLifeCycle @ X_1))))).
+
+thf(ga_strictness_gn_inj_T_Part, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                           Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : t] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined5 @ (gn_inj_T_Part @ X_1))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ X_1))))).
+
+thf(ga_strictness_gn_proj_Part_T, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                            Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : part] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ (gn_proj_Part_T @ X_1))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined5 @ X_1))))).
+
+thf(ga_strictness_insert, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : development,
+                                                                                                      X_2 : part] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined @ (insert @ X_1 @ X_2))) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined @ X_1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined5 @ X_2)))))).
+
+thf(ga_strictness_insertPart, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                        Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : eUC,
+                                                                                                          X_2 : part] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ (insertPart @ X_1 @ X_2))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined5 @ X_2))))).
+
+thf(ga_strictness_lookup, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : ticketId,
+                                                                                                      X_2 : mapOSqBrTicketIdCommaTicketCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined11 @ (lookup @ X_1 @ X_2))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined4 @ X_2))))).
+
+thf(ga_strictness_mkTicket, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                      Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : document,
+                                                                                                        X_2 : setOSqBrSmallStepCSqBr,
+                                                                                                        X_3 : status] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined11 @ (mkTicket @ X_1 @ X_2 @ X_3))) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined2 @ X_1)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X_2)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined9 @ X_3))))))).
+
+thf(ga_strictness_nil, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                 Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ nil)))).
+
+thf(ga_strictness_open, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                  Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined9 @ open)))).
+
+thf(ga_strictness_remove, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : development,
+                                                                                                      X_2 : part] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined @ (remove @ X_1 @ X_2))) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined @ X_1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined5 @ X_2)))))).
+
+thf(ga_strictness_removePart, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                        Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : eUC,
+                                                                                                          X_2 : part] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ (removePart @ X_1 @ X_2))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined5 @ X_2))))).
+
+thf(ga_strictness_rest, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                  Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : listOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ (rest @ X_1))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X_1))))).
+
+thf(ga_strictness_review, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : eUC,
+                                                                                                      X_2 : document] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ (review @ X_1 @ X_2))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined2 @ X_2))))).
+
+thf(ga_strictness_state, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : ticket] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined9 @ (state @ X_1))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined11 @ X_1))))).
+
+thf(ga_strictness_steps, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : ticket] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ (steps @ X_1))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined11 @ X_1))))).
+
+thf(ga_strictness_treat[T], axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                      Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : eUC,
+                                                                                                        X_2 : someOSqBrTCSqBr] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ (treatOSqBrTCSqBr @ Gn_w1 @ X_1 @ X_2))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined8 @ X_2))))).
+
+thf(ga_strictness_treatImpl, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                       Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : eUC,
+                                                                                                         X_2 : someOSqBrTCSqBr] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ (treatImpl @ Gn_w1 @ X_1 @ X_2))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined8 @ X_2))))).
+
+thf(ga_strictness_undef, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined8 @ undef)))).
+
+thf(ga_strictness_{}, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ lBraceRBrace)))).
+
+thf(ga_predicate_strictness___eps__, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                               Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : smallStep,
+                                                                                                                 X_2 : setOSqBrSmallStepCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr @ X_1 @ X_2)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ X_1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X_2)))))).
+
+thf(ga_predicate_strictness___isSubsetOf__, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                                      Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : setOSqBrSmallStepCSqBr,
+                                                                                                                        X_2 : setOSqBrSmallStepCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__isSubsetOf__CSqBr @ X_1 @ X_2)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X_1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X_2)))))).
+
+thf(ga_predicate_strictness_affects[T], axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                                  Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X_1 : eUC,
+                                                                                                                    X_2 : smallStep] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (affectsOSqBrTCSqBr @ X_1 @ X_2)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ X_2))))).
+
+thf(ga_embedding_injectivity_T_to_Part, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                                  Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : t,
+                                                                                                                    Y : t] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ X)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ Y))) @ (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (gn_inj_T_Part @ X) @ (gn_inj_T_Part @ Y))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined5 @ (gn_inj_T_Part @ X)))) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ Y)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ X))))))).
+
+thf(ga_projection_injectivity_Part_to_T, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : part,
+                                                                                                                     Y : part] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined5 @ X)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined5 @ Y))) @ (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (gn_proj_Part_T @ X) @ (gn_proj_Part_T @ Y))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ (gn_proj_Part_T @ X)))) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ Y)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined5 @ X))))))).
+
+thf(ga_projection_Part_to_T, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                       Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : t] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ X)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (gn_proj_Part_T @ (gn_inj_T_Part @ X)) @ X)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ (gn_proj_Part_T @ (gn_inj_T_Part @ X)))))))).
+
+thf(ax1_4, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                     Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [E : eUC,
+                                                                                       M : smallStep] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ M)) @ (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (affectsOSqBrTCSqBr @ E @ M)) @ ? [P : t] : (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ P)) @ (hcc__Or__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ M @ (insertPart @ E @ (gn_inj_T_Part @ P)))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ M @ (removePart @ E @ (gn_inj_T_Part @ P)))))))))).
+
+thf(ga_disjoint_open_close, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                      Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ open @ close))))).
+
+thf(ga_selector_doc, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                               Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X1 : document,
+                                                                                                 X2 : setOSqBrSmallStepCSqBr,
+                                                                                                 X3 : status] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined2 @ X1)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X2)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined9 @ X3)))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (doc @ (mkTicket @ X1 @ X2 @ X3)) @ X1))))).
+
+thf(ga_selector_steps, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                 Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X1 : document,
+                                                                                                   X2 : setOSqBrSmallStepCSqBr,
+                                                                                                   X3 : status] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined2 @ X1)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X2)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined9 @ X3)))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (steps @ (mkTicket @ X1 @ X2 @ X3)) @ X2))))).
+
+thf(ga_selector_state, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                 Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X1 : document,
+                                                                                                   X2 : setOSqBrSmallStepCSqBr,
+                                                                                                   X3 : status] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined2 @ X1)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X2)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined9 @ X3)))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (state @ (mkTicket @ X1 @ X2 @ X3)) @ X3))))).
+
+thf(ga_injective_mkTicket, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                     Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X1 : document,
+                                                                                                       X2 : setOSqBrSmallStepCSqBr,
+                                                                                                       X3 : status,
+                                                                                                       Y1 : document,
+                                                                                                       Y2 : setOSqBrSmallStepCSqBr,
+                                                                                                       Y3 : status] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined2 @ X1)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ X2)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined9 @ X3)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined2 @ Y1)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ Y2)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined9 @ Y3))))))) @ (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (mkTicket @ X1 @ X2 @ X3) @ (mkTicket @ Y1 @ Y2 @ Y3))) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X1 @ Y1)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X2 @ Y2)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X3 @ Y3)))))))).
+
+thf(elemOf_empty_Set, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : smallStep] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ X)) @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr @ X @ lBraceRBrace)))))).
+
+thf(elemOf_NonEmpty_Set, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : smallStep,
+                                                                                                     Y : smallStep,
+                                                                                                     M : setOSqBrSmallStepCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ X)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ Y)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ M)))) @ (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr @ X @ (gn_COSqBr__Plus__CSqBr @ M @ Y))) @ (hcc__Or__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ Y)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr @ X @ M))))))).
+
+thf(equality_Set, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                            Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [M : setOSqBrSmallStepCSqBr,
+                                                                                              N : setOSqBrSmallStepCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ M)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ N))) @ (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ M @ N)) @ ! [X : smallStep] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ X)) @ (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr @ X @ M)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr @ X @ N)))))))).
+
+thf(isSubsetOf_def, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                              Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [M : setOSqBrSmallStepCSqBr,
+                                                                                                N : setOSqBrSmallStepCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ M)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ N))) @ (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__isSubsetOf__CSqBr @ M @ N)) @ ! [X : smallStep] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ X)) @ (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr @ X @ M)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr @ X @ N)))))))).
+
+thf(union_EmptySet, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                              Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [M : setOSqBrSmallStepCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ M)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (gn_COSqBr__union__CSqBr @ M @ lBraceRBrace) @ M))))).
+
+thf(union_NonEmptySet, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                 Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : smallStep,
+                                                                                                   M : setOSqBrSmallStepCSqBr,
+                                                                                                   N : setOSqBrSmallStepCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined7 @ X)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ M)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined6 @ N)))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (gn_COSqBr__union__CSqBr @ M @ (gn_COSqBr__Plus__CSqBr @ N @ X)) @ (gn_COSqBr__Plus__CSqBr @ (gn_COSqBr__union__CSqBr @ M @ N) @ X)))))).
+
+thf(elemOf_empty_Set_16, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : ticketId] : (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr2 @ X @ lBraceRBrace2))))).
+
+thf(elemOf_NonEmpty_Set_15, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                      Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : ticketId,
+                                                                                                        Y : ticketId,
+                                                                                                        M : setOSqBrTicketIdCSqBr] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr2 @ X @ (gn_COSqBr__Plus__CSqBr2 @ M @ Y))) @ (hcc__Or__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X @ Y)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr2 @ X @ M)))))).
+
+thf(equality_Set_17, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                               Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [M : setOSqBrTicketIdCSqBr,
+                                                                                                 N : setOSqBrTicketIdCSqBr] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ M @ N)) @ ! [X : ticketId] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr2 @ X @ M)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr2 @ X @ N)))))).
+
+thf(isSubsetOf_def_19, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                 Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [M : setOSqBrTicketIdCSqBr,
+                                                                                                   N : setOSqBrTicketIdCSqBr] : (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__isSubsetOf__CSqBr2 @ M @ N)) @ ! [X : ticketId] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr2 @ X @ M)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_COSqBr__eps__CSqBr2 @ X @ N)))))).
+
+thf(union_EmptySet_20, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                 Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [M : setOSqBrTicketIdCSqBr] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (gn_COSqBr__union__CSqBr2 @ M @ lBraceRBrace2) @ M)))).
+
+thf(union_NonEmptySet_21, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                    Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : ticketId,
+                                                                                                      M : setOSqBrTicketIdCSqBr,
+                                                                                                      N : setOSqBrTicketIdCSqBr] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (gn_COSqBr__union__CSqBr2 @ M @ (gn_COSqBr__Plus__CSqBr2 @ N @ X)) @ (gn_COSqBr__Plus__CSqBr2 @ (gn_COSqBr__union__CSqBr2 @ M @ N) @ X))))).
+
+thf(lookup_empty_Map, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [S : ticketId] : (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined11 @ (lookup @ S @ empty)))))).
+
+thf(equality_Map, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                            Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [M : mapOSqBrTicketIdCommaTicketCSqBr,
+                                                                                              N : mapOSqBrTicketIdCommaTicketCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined4 @ M)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined4 @ N))) @ (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ M @ N)) @ ! [S : ticketId] : (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (lookup @ S @ M) @ (lookup @ S @ N))))))).
+
+thf(ga_injective_Some, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                 Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X1 : listOSqBrTCSqBr,
+                                                                                                   Y1 : listOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ Y1))) @ (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (some @ X1) @ (some @ Y1))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X1 @ Y1)))))).
+
+thf(ga_disjoint_undef_Some, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                      Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [Y1 : listOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ Y1)) @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ undef @ (some @ Y1))))))).
+
+thf(ga_selector_first, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                 Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X1 : t,
+                                                                                                   X2 : listOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ X1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X2))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (first @ (gn_COSqBr__ColonColon__CSqBr @ X1 @ X2)) @ X1))))).
+
+thf(ga_selector_rest, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X1 : t,
+                                                                                                  X2 : listOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ X1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X2))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (rest @ (gn_COSqBr__ColonColon__CSqBr @ X1 @ X2)) @ X2))))).
+
+thf(ga_injective___::__, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                   Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X1 : t,
+                                                                                                     X2 : listOSqBrTCSqBr,
+                                                                                                     Y1 : t,
+                                                                                                     Y2 : listOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ X1)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X2)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ Y1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ Y2))))) @ (hcc__Eqv__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (gn_COSqBr__ColonColon__CSqBr @ X1 @ X2) @ (gn_COSqBr__ColonColon__CSqBr @ Y1 @ Y2))) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X1 @ Y1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ X2 @ Y2))))))).
+
+thf(ga_disjoint_nil___::__, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                      Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [Y1 : t,
+                                                                                                        Y2 : listOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ Y1)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ Y2))) @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ nil @ (gn_COSqBr__ColonColon__CSqBr @ Y1 @ Y2))))))).
+
+thf(ga_selector_undef_first_nil, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                           Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ (first @ nil)))))).
+
+thf(ga_selector_undef_rest_nil, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                          Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ (hccnot__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ (rest @ nil)))))).
+
+thf(ga_assoc___++__, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                               Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : listOSqBrTCSqBr,
+                                                                                                 Y : listOSqBrTCSqBr,
+                                                                                                 Z : listOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ X)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ Y)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ Z)))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (gn_COSqBr__PlusPlus__CSqBr @ (gn_COSqBr__PlusPlus__CSqBr @ X @ Y) @ Z) @ (gn_COSqBr__PlusPlus__CSqBr @ X @ (gn_COSqBr__PlusPlus__CSqBr @ Y @ Z))))))).
+
+thf(concat_nil_List, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                               Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [K : listOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ K)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (gn_COSqBr__PlusPlus__CSqBr @ nil @ K) @ K))))).
+
+thf(concat_NeList_List, axiom, ! [Gn_Z1 : gn_WN > gn_WN > $o,
+                                  Gn_w1 : gn_World] : (hcc__Impl__ @ (gn_path @ Gn_w1 @ Gn_Z1) @ ! [X : t,
+                                                                                                    K : listOSqBrTCSqBr,
+                                                                                                    L : listOSqBrTCSqBr] : (hcc__Impl__ @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined10 @ X)) @ (hcc__And__ @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ K)) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (gn_defined3 @ L)))) @ (hcc__And__ @ (Gn_Z1 @ (gn_mkWN @ Gn_w1 @ z) @ (gn_mkWN @ Gn_w1 @ z)) @ (hcc__Eq__ @ (gn_COSqBr__PlusPlus__CSqBr @ (gn_COSqBr__ColonColon__CSqBr @ X @ L) @ K) @ (gn_COSqBr__ColonColon__CSqBr @ X @ (gn_COSqBr__PlusPlus__CSqBr @ L @ K))))))).
