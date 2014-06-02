@@ -1,0 +1,28 @@
+library test_hide2
+
+spec Function =
+  sorts s
+  op f:s->s
+end
+
+spec Fixpoint_inverse =
+  Function
+then
+  op g:s->s
+  . forall x:s . g(f(x)) = x
+  . forall x:s . f(g(x)) = x
+  . exists y:s . g(y)=y
+  hide g
+  %% exists g:s->s . (forall x:s . g(f(x)) = x /\ exists y:s . g(y)=y )
+end
+
+spec Fixpoint =
+  sort t
+  op k:t->t
+  . exists x:t . k(x)=x
+end
+
+view v : Fixpoint to Fixpoint_inverse =
+  sort t |-> s, op k |-> f
+end
+
