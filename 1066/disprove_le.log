@@ -1,0 +1,77 @@
+SZS status Satisfiable for /tmp/owltime_le_i3__T2078.tptp
+
+MODEL (TPTP):
+SZS output start FiniteModel for /tmp/owltime_le_i3__T2078.tptp
+fof(interpretation_domain, fi_domain,
+    ! [X] : ( X = e1 | X = e2 )
+    ).
+
+fof(interpretation_domain_distinct, fi_domain,
+    ( e1 != e2 )
+    ).
+
+fof(interpretation_terms, fi_functors, (
+    ( ! [X0, X1] : (esk1_2(X0, X1) = e1) )
+    &
+    ( ! [X0] : (esk2_1(X0) = e1) )
+    &
+    ( ! [X0] : (esk3_1(X0) = e1) )
+    &
+    ( (esk4_0 = e1) )
+    &
+    ( (esk5_0 = e2) )
+    &
+    ( ! [X0] : (esk6_1(X0) = e1) )
+    &
+    ( ! [X0] : (esk7_1(X0) = e1) )
+    &
+    ( ! [X0, X1] : (esk8_2(X0, X1) = e1) )
+    ) ).
+
+fof(interpretation_atoms, fi_predicates, (
+    ( ! [X0, X1] :  ( before(X0, X1) <=> $false ) )
+    &
+    ( ! [X0, X1] :  ( begins(X0, X1) <=> $false ) )
+    &
+    ( ! [X0, X1] :  ( ends(X0, X1) <=> $false ) )
+    &
+    ( ! [X0] :  ( instant(X0) <=> $false ) )
+    &
+    ( ! [X0] :  ( interval(X0) <=> $false ) )
+    &
+    ( ! [X0, X1] :  ( leq(X0, X1) <=> (
+        ( (X1 = X0) )
+    ) ) )
+    &
+    ( ! [X0, X1] :  ( lt(X0, X1) <=> $false ) )
+    &
+    ( ! [X0] :  ( properInterval(X0) <=> $false ) )
+    &
+    ( ! [X0] :  ( temporalEntity(X0) <=> $false ) )
+    &
+    ( ! [X0, X1, X2] :  ( timeBetween(X0, X1, X2) <=> $false ) )
+    ) ).
+SZS output end FiniteModel for /tmp/owltime_le_i3__T2078.tptp
+
+Statistics:
+Close                                   :        0
+Assert                                  :       17
+Split                                   :        2
+Resolve                                 :        1
+Subsume                                 :        8
+Compact                                 :        0
+Productivity Filtered                   :        0
+Assert Candidates                       :       28
+Split Candidates                        :        4
+Jumps                                   :        0
+Debug                                   :        0
+Global Debug                            :        0
+Global Debug2                           :        0
+Maximum Context Size                    :       19
+Incomplete Branches                     :        0
+Restarts                                :        0
+Bound                                   :        2
+Lemmas                                  :        0
+
+CPU  Time (s)                           :      0.0
+Memory    (MB)                          :        2
