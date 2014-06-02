@@ -1,0 +1,36 @@
+spec FIELD =
+  sort V
+  ops __ + __: V * V -> V;
+      __ * __: V * V -> V;
+      -__ : V -> V;
+      ~__ : V ->? V;
+      0 : V;
+      1 : V
+  vars a,b,c : V
+  . (a+b)+c = a+(b+c)
+  . a+b = b+a
+  . 0 + a = a
+  . a + - a = 0
+  . (a*b)*c = a*(b*c)
+  . a*b = b*a
+  . 1 * a = a
+  . a * ~a = 1 if not (a = 0)
+  . a*(b+c) = (a*b)+(a*c)
+end
+
+spec BIT =
+  free type Bit ::=  0 | 1;
+  ops __&&__ : Bit * Bit -> Bit;	%(op_and)%
+      __^^__ : Bit * Bit -> Bit;	%(op_xor)%
+      /__ : Bit -> Bit;			%(op_negate)%
+      -__: Bit -> Bit;                  %(op_inv_for_xor)%
+      ~__: Bit -> Bit;			%(op_inv_for_and)%
+end
+
+spec GF_2 =
+  BIT with sort Bit |-> V,
+           ops __^^__ |-> __+__,
+               __&&__ |-> __*__
+then %implies 
+  FIELD
+end
