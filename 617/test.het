@@ -1,0 +1,28 @@
+library DL/Test
+
+logic OWL
+
+spec Test =
+  
+  ObjectProperty: P
+  ObjectProperty: Q
+
+  ObjectProperty: R
+  SubPropertyChain:
+    Annotations: dummyAnnotations "dummyAnnotations"^^integer
+    P o Q
+
+  Individual: a
+    Facts: P b
+
+  Individual: b
+    Facts: Q c
+
+  Individual: c
+
+then %implies
+
+  Individual: a
+    Facts: R c
+
+end
