@@ -1,0 +1,43 @@
+hets("v0.72",(Lib_id(Indirect_link("test_dg2a",R([P(,1,9)]),,TOD(1184078762,0))),
+
+[([
+GlobDecomp((2,3,DGLink(GMor,GlobalThm(LeftOpen,None,LeftOpen),DGView(T("v",R([P(,3,6)]))),[2]))),
+GlobDecomp((1,3,DGLink(GMor,GlobalThm(LeftOpen,None,LeftOpen),DGProof,[4]))),
+GlobDecomp((0,3,DGLink(GMor,GlobalThm(LeftOpen,None,LeftOpen),DGProof,[3]))),
+LocInference((2,3,DGLink(GMor,LocalThm(LeftOpen,None,LeftOpen),DGProof,[5]))),
+LocInference((1,3,DGLink(GMor,LocalThm(LeftOpen,None,LeftOpen),DGProof,[9]))),
+LocInference((0,3,DGLink(GMor,LocalThm(LeftOpen,None,LeftOpen),DGProof,[7])))],
+
+[InsertEdge((2,3,DGLink(GMor,GlobalThm(Proven(GlobDecomp((2,3,
+  DGLink(GMor,GlobalThm(LeftOpen,None,LeftOpen),DGView(T("v",R([P(,3,6)]))),[2])
+    )),[[5],[4],[3]]),None,LeftOpen),DGProof,[2]))),
+DeleteEdge((2,3,DGLink(GMor,GlobalThm(LeftOpen,None,LeftOpen),
+  DGView(T("v",R([P(,3,6)]))),[2]))),
+InsertEdge((1,3,DGLink(GMor,GlobalThm(Proven(GlobDecomp((1,3,
+  DGLink(GMor,GlobalThm(LeftOpen,None,LeftOpen),DGProof,[4])
+   )),[[9]]),None,LeftOpen),DGProof,[4]))),
+InsertEdge((0,3,DGLink(GMor,GlobalThm(Proven(GlobDecomp((0,3,
+     DGLink(GMor,GlobalThm(LeftOpen,None,LeftOpen),DGProof,[3]))),[[7]]),None,LeftOpen),DGProof,[3]))),
+InsertEdge((2,3,DGLink(GMor,LocalThm(Proven(LocInference((2,3,
+     DGLink(GMor,LocalThm(LeftOpen,None,LeftOpen),DGProof,[5])
+      )),[]),None,LeftOpen),DGProof,[5]))),
+SetNodeLab(DGNode((T("v",R([P(,3,6)])),"T",0),
+  G_theory("CASL",Sig,Map([("Ax1",EWOrd(0,SenAttr(ThmStatus([]),F,F,F,True_atom(R([P(,3,13)])))))])),N,N,
+  DGBasic,None,LeftOpen),(3,DGNode((T("v",R([P(,3,6)])),"T",0),
+  G_theory("CASL",Sig,
+    Map([("Ax1",EWOrd(0,SenAttr(ThmStatus([]),F,F,F,True_atom(R([P(,3,13)]))))),
+         ("Ax1_1",EWOrd(1,SenAttr(ThmStatus([]),F,F,F,False_atom(R([P(,3,24)])))))
+        ])),N,N,DGBasic,None,LeftOpen))),
+InsertEdge((1,3,DGLink(GMor,LocalThm(Proven(LocInference((1,3,
+  DGLink(GMor,LocalThm(LeftOpen,None,LeftOpen),DGProof,[9])
+    )),[]),None,LeftOpen),DGProof,[9]))),
+SetNodeLab(DGNode((T("v",R([P(,3,6)])),"T",0),
+  G_theory("CASL",Sig,Map([])),
+    N,N,DGBasic,None,LeftOpen),(3,DGNode((T("v",R([P(,3,6)])),"T",0),
+  G_theory("CASL",Sig,Map([("Ax1",EWOrd(0,SenAttr(ThmStatus([]),F,F,F,True_atom(R([P(,3,13)])))))])),
+    N,N,DGBasic,None,LeftOpen))),
+InsertEdge((0,3,DGLink(GMor,LocalThm(Proven(LocInference((0,3,
+  DGLink(GMor,LocalThm(LeftOpen,None,LeftOpen),DGProof,[7]))),[]),None,LeftOpen),DGProof,[7])))
+]
+
+),([],[])]))
