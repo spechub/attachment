@@ -1,0 +1,25 @@
+library LocalDecomp
+
+spec Requirement =
+  pred p:()
+  . p
+end
+
+spec Design =
+  pred q:()
+  . q
+end
+
+spec DesignExt =
+  Design
+then
+  pred r:()
+end
+
+view RequirementToDesign : Requirement to Design =
+  p |-> q
+end
+
+view RequirementToDesignExt : Requirement to DesignExt =
+  p |-> r
+end
