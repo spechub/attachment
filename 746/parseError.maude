@@ -1,0 +1,8 @@
+fmod M1 is
+ sort s .
+endfm
+
+fmod M2 is
+ protecting M1 .
+ sort t .
+endfm
