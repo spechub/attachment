@@ -1,0 +1,714 @@
+logic CASL
+
+
+%% from Basic/StructuredDatatypes
+spec Set[sort Elem] = %mono
+     generated type Set[Elem] ::= {} | __+__(Set[Elem]; Elem)
+     pred  __eps__ : Elem * Set[Elem]
+     pred  __isSubsetOf__ : Set[Elem] * Set[Elem]
+     op    __union__ : Set[Elem] * Set[Elem] -> Set[Elem]
+     forall x, y : Elem; M, N : Set[Elem]
+     . not x eps {} %(elemOf_empty_Set)%
+     . x eps M + y <=> x = y \/ x eps M %(elemOf_NonEmpty_Set)%
+     . M = N <=> forall x : Elem . x eps M <=> x eps N %(equality_Set)%
+     . M isSubsetOf N <=> forall x : Elem . x eps M => x eps N
+                                                     %(isSubsetOf_def)%
+     . M union {} = M %(union_EmptySet)%
+     . M union (N + x) = (M union N) + x %(union_NonEmptySet)%
+end
+
+spec List[sort Elem] = %mono
+     free type
+     List[Elem] ::= nil | __::__(first :? Elem; rest :? List[Elem])
+     op    __++__ : List[Elem] * List[Elem] -> List[Elem], assoc
+     forall x : Elem; K, L : List[Elem]
+     . nil ++ K = K %(concat_nil_List)%
+     . (x :: L) ++ K = x :: (L ++ K) %(concat_NeList_List)%
+end
+
+spec S =
+     sort  S
+end
+
+spec T =
+     sort  T
+end
+
+spec Map[sort S][sort T] = %mono
+     generated type Map[S,T] ::= empty | __[__/__](Map[S,T]; T; S)
+     op    lookup : S * Map[S,T] ->? T
+     forall M, N : Map[S,T]; s, s1, s2 : S; t, t1, t2 : T
+     . not def lookup(s, empty) %(lookup_empty_Map)%
+     . lookup(s, M [ t1 / s1 ]) = t1 when s = s1 else lookup(s, M)
+                                                %(lookup_nonEmpty_Map)%
+     . M = N <=> forall s : S . lookup(s, M) = lookup(s, N)
+                                                       %(equality_Map)%
+end
+
+
+%% here starts our own type of maybe lists
+spec Some[S] =
+     List[S]
+then free type Some[S] ::= undef | Some(List[S])
+end
+
+spec Option[S] =
+     free type Option[S] ::= none | One(S)
+end
+
+spec Id[S] =
+     sort  Id[S]
+     op    getId : S -> Id[S]
+end
+
+spec Error =
+     sort  Error
+end
+
+spec ErrorList =
+     List[Error] with List[Error] |-> ErrorList
+end
+
+spec Errors[S] given ErrorList =
+     Some[S]
+and  Id[S]
+then
+     %% singleton errors
+     ops   noDoc[S] : ErrorList;
+           wrong[S] : Id[S] -> ErrorList
+end
+
+spec FindId[S] =
+     Some[S]
+and  Id[S]
+then op    find : Id[S] * Some[S] ->? S
+     ops   remove[S], insert[S] : Some[S] * S -> Some[S]
+     var   i : Id[S]
+     . not def find(i, undef)
+     . not def find(i, Some(nil))
+     forall s, t : S; r : List[S]
+     . find(i, Some(s :: r)) = s when getId(s) = i else find(i, Some(r))
+     . remove[S](undef, t) = undef
+     . remove[S](Some(nil), t) = Some(nil)
+     . remove[S](Some(s :: r), t)
+       = Some(r) when getId(s) = getId(t)
+         else insert[S](remove[S](Some(r), t), s)
+     . insert[S](undef, t) = Some(t :: nil)
+     . insert[S](Some(r), t) = Some(t :: r)
+     pred  hasId(i : Id[S]; l : Some[S]) <=> def find(i, l);
+end
+
+spec HasAllIds[S] =
+     FindId[S]
+and  List[sort Id[S]]
+then pred  hasAllIds : List[Id[S]] * Some[S]
+     forall l : Some[S]; i : Id[S]; r : List[Id[S]]
+     . hasAllIds(nil, l)
+     . hasAllIds(i :: r, l) <=> hasId(i, l) /\ hasAllIds(r, l)
+end
+
+spec Objects =
+     sort  EUC %(Equipment under Control)%
+and  Id[sort Hazard]
+and  Id[sort Fault]
+and  Id[sort Require]
+and  Id[sort Implement]
+and  Id[sort TestCase]
+then HasAllIds[sort Require]
+and  HasAllIds[sort TestCase]
+and  Option[sort Id[Implement]]
+and  Option[sort Id[TestCase]]
+then free type Success ::= yes | no
+     free type FaultCase ::= Conj | Disj
+     free type Hazard ::= hazard(getId : Id[Hazard])
+     free type
+     Fault
+     ::= faultCase(getId : Id[Fault]; FaultCase; Id[Fault]; Id[Fault])
+       | faultAddress(getId : Id[Fault]; List[Id[Require]])
+     free type
+     Require
+     ::= refineRequire(getId : Id[Require]; List[Id[Require]])
+       | leafRequire(getId : Id[Require];
+                     Option[Id[Implement]];
+                     Option[Id[TestCase]])
+     free type Implement ::= function(getId : Id[Implement])
+     free type
+     TestCase
+     ::= testCase(getId : Id[TestCase];
+                  Option[Id[Implement]]; List[Id[TestCase]]; success : Success)
+end
+
+spec Types =
+     sort  Development
+     op    undef : Development
+end
+
+spec Access[S] given Types, ErrorList =
+     FindId[S]
+and  Errors[S]
+then op    gets[S] : Development -> Some[S]
+     op    sets[S] : Development * Some[S] -> Development
+     . gets[S](undef) = undef
+     forall d : Development; s : Some[S] . gets[S](sets[S](d, s)) = s
+     op    insert(d : Development; s : S) : Development
+           = sets[S](d, insert[S](remove[S](gets[S](d), s), s))
+     op    remove(d : Development; s : S) : Development
+           = sets[S](d, remove[S](gets[S](d), s))
+     op    incomplete[S] : Development * Some[S] -> ErrorList
+     pred  enabled[S](d : Development; s : Some[S])
+           <=> incomplete[S](d, s) = nil;
+end
+
+spec Development =
+     Objects
+then Access[sort Hazard]
+and  Access[sort Fault]
+and  Access[sort Require]
+and  Access[sort Implement]
+and  Access[sort TestCase]
+then ops   AllLeafFaultsAddressed
+           : Some[Fault] * Some[Require] -> ErrorList;
+           FaultsAddressed
+           : List[Fault] * Some[Fault] * Some[Require] -> ErrorList;
+           FaultAddressed : Fault * Some[Fault] * Some[Require] -> ErrorList;
+           AllLeafReqsImplemented
+           : Some[Require] * Some[Implement] -> ErrorList;
+           ReqsImplemented
+           : List[Require] * Some[Require] * Some[Implement] -> ErrorList;
+           ReqIdsImplemented
+           : List[Id[Require]] * Some[Require] * Some[Implement] -> ErrorList;
+           ReqImplemented
+           : Require * Some[Require] * Some[Implement] -> ErrorList;
+           AllImplsSuccessfullyTested
+           : Some[Require] * Some[Implement] * Some[TestCase] -> ErrorList;
+           ImplsSuccessfullyTested
+           : List[Require] * Some[TestCase] -> ErrorList;
+           ImplSuccessfullyTested : Require * Some[TestCase] -> ErrorList;
+           incomplete : Development -> ErrorList;
+
+           %% an error constant
+           isNonEmpty : Development -> ErrorList
+     vars  d : Development; hs : Some[Hazard]; c : FaultCase;
+           fl : List[Fault]; f : Fault; fi, f1, f2 : Id[Fault];
+           fs, fs2 : Some[Fault]; r : Require; ri : Id[Require];
+           ris : List[Id[Require]]; rl : List[Require]; rs : Some[Require];
+           ii : Id[Implement]; is : Some[Implement];
+           oi : Option[Id[Implement]]; ti : Id[TestCase]; ts : Some[TestCase];
+           ot : Option[Id[TestCase]]
+     . AllLeafFaultsAddressed(undef, rs) = noDoc[Fault] %(reject)%
+     . AllLeafFaultsAddressed(Some(fl), rs)
+       = FaultsAddressed(fl, Some(fl), rs)
+     . FaultsAddressed(nil, fs, rs) = nil %(nothing to check)%
+     . FaultsAddressed(f :: fl, fs, rs)
+       = FaultsAddressed(fl, fs, rs) ++ FaultAddressed(f, fs, rs)
+     . FaultAddressed(faultAddress(fi, ris), fs, rs)
+       = nil when not ris = nil /\ hasAllIds(ris, rs)
+         else wrong[Fault](fi)
+     . f = faultCase(fi, c, f1, f2) /\ fs2 = remove[Fault](fs, f)
+       => FaultAddressed(f, fs, rs)
+          = (FaultAddressed(find(f1, fs2), fs2, rs) when hasId(f1, fs2)
+             else wrong[Fault](f1))
+            ++ (FaultAddressed(find(f2, fs2), fs2, rs) when hasId(f2, fs2)
+                else wrong[Fault](f2))
+     . AllLeafReqsImplemented(undef, is) = noDoc[Require] %(reject)%
+     . AllLeafReqsImplemented(Some(rl), is)
+       = ReqsImplemented(rl, Some(rl), is)
+     . ReqsImplemented(nil, rs, is) = nil %(nothing to check)%
+     . ReqsImplemented(r :: rl, rs, is)
+       = ReqsImplemented(rl, rs, is) ++ ReqImplemented(r, rs, is)
+     . ReqImplemented(leafRequire(ri, One(ii), ot), rs, is)
+       = nil when hasId(ii, is) else wrong[Require](ri)
+     . ReqImplemented(leafRequire(ri, none, ot), rs, is)
+       = wrong[Require](ri)
+     . r = refineRequire(ri, ris)
+       => ReqImplemented(r, rs, is)
+          = (wrong[Require](ri) when ris = nil else nil)
+            ++ ReqIdsImplemented(ris, remove[Require](rs, r), is)
+     . ReqIdsImplemented(nil, rs, is) = nil
+     . ReqIdsImplemented(ri :: ris, rs, is)
+       = (ReqImplemented(find(ri, rs), rs, is) when hasId(ri, rs)
+          else wrong[Require](ri))
+         ++ ReqIdsImplemented(ris, rs, is)
+     . AllImplsSuccessfullyTested(rs, undef, ts) = noDoc[Implement]
+                                                             %(reject)%
+     . AllImplsSuccessfullyTested(undef, is, ts) = noDoc[Require]
+                                                             %(reject)%
+     . AllImplsSuccessfullyTested(Some(rl), is, ts)
+       = ImplsSuccessfullyTested(rl, ts)
+     . ImplsSuccessfullyTested(nil, ts) = nil %(nothing to check)%
+     . ImplsSuccessfullyTested(r :: rl, ts)
+       = ImplSuccessfullyTested(r, ts) ++ ImplsSuccessfullyTested(rl, ts)
+     . ImplSuccessfullyTested(refineRequire(ri, ris), ts) = nil
+     . ImplSuccessfullyTested(leafRequire(ri, oi, none), ts)
+       = wrong[Require](ri)
+     . ImplSuccessfullyTested(leafRequire(ri, oi, One(ti)), ts)
+       = nil when success(find(ti, ts)) = yes else wrong[Require](ri)
+     . incomplete[Hazard](d, hs) = nil when d = undef else isNonEmpty(d)
+     . incomplete[Fault](d, fs)
+       = (noDoc[Hazard] when gets[Hazard](d) = undef else nil)
+         ++ incomplete[Hazard](sets[Hazard](d, undef), undef)
+     . incomplete[Require](d, rs)
+       = ((noDoc[Fault] when gets[Fault](d) = undef else nil)
+          ++ incomplete[Fault](sets[Fault](d, undef), undef))
+         ++ AllLeafFaultsAddressed(gets[Fault](d), rs)
+     . rs = gets[Require](d)
+       => incomplete[Implement](d, is)
+          = ((noDoc[Require] when rs = undef else nil)
+             ++ incomplete[Require](sets[Require](d, undef), rs))
+            ++ AllLeafReqsImplemented(rs, is)
+     . is = gets[Implement](d)
+       => incomplete[TestCase](d, ts)
+          = ((noDoc[Implement] when is = undef else nil)
+             ++ incomplete[Implement](sets[Implement](d, undef), is))
+            ++ AllImplsSuccessfullyTested(gets[Require](d), is, ts)
+     . ts = gets[TestCase](d)
+       => incomplete(d)
+          = (noDoc[TestCase] when ts = undef else nil)
+            ++ incomplete[TestCase](sets[TestCase](d, undef), ts)
+
+     %% the undef condition is eventually tested by incomplete[Hazard]
+     pred  enabled(d : Development) <=> incomplete(d) = nil;
+end
+
+spec Treat[S] =
+     Some[S]
+then sorts EUC, BigStep
+     op    treat[S] : EUC * Some[S] -> BigStep
+end
+
+spec BigStep =
+     Development
+then Treat[sort Hazard]
+and  Treat[sort Fault]
+and  Treat[sort Require]
+and  Treat[sort Implement]
+and  Treat[sort TestCase]
+then
+     %% basic steps together with the "treat" functions
+     ops   planinstallation, planvalidation, planoperation, certify,
+           install, validate, maintainance, decommissioning : EUC -> BigStep
+
+     %% compound steps
+     ops   strictLifeCycle, strictDevelopment, planning : EUC -> BigStep
+end
+
+spec SmallStep =
+     sorts Part, Document, SmallStep, EUC, Development
+
+     %% indirectly defined via Access and the subsorting in Affects
+     ops   insert, remove : Development * Part -> Development
+
+     %% possible step constructors
+     ops   insertPart, removePart : EUC * Part -> SmallStep;
+           review : EUC * Document -> SmallStep
+
+     %% composed steps
+     ops   flexibleLifeCycle : EUC -> SmallStep;
+           flexibleDevelopment : EUC -> SmallStep
+then Set[sort SmallStep]
+then free type Status ::= open | close
+     free type
+     Ticket
+     ::= mkTicket(doc : Document; steps : Set[SmallStep]; state : Status)
+     sort  TicketId
+then Map[sort TicketId][sort Ticket]
+and  Set[sort TicketId]
+end
+
+spec Affects[S] given SmallStep =
+     sort  S < Part
+     pred  affects[S](e : EUC; m : SmallStep)
+           <=> exists p : S . m = insertPart(e, p) \/ m = removePart(e, p);
+end
+
+logic ExtModal
+
+spec Dev =
+     Types
+then sorts EUC, BigStep
+     time term modality BigStep
+     flexible op dev : EUC -> Development
+end
+
+
+%% sort S does not work because S is a keyword!
+spec NextStep[T] given Dev =
+     Treat[T]
+and  Access[T]
+then vars  d : Development; e : EUC; t : Some[T]
+     . d = dev(e) /\ enabled[T](d, t)
+       => [treat[T](e, t)] dev(e) = sets[T](d, t)
+     %{
+     this condition is unprovable when a big step is replaced
+     by different small steps
+     /\ forall s:BigStep . not s = treat[T](e, t)
+     => [s] dev(e) = d;
+     }%
+end
+
+spec StrictLifeCycle =
+     BigStep
+then flexible pred Certified : EUC
+then NextStep[sort Hazard]
+and  NextStep[sort Fault]
+and  NextStep[sort Require]
+and  NextStep[sort Implement]
+and  NextStep[sort TestCase]
+then time term modality BigStep
+     {forall e : EUC
+     . [strictLifeCycle(e)] PHI
+       <=> [strictDevelopment(e) ; maintainance(e) ; decommissioning(e)]
+           PHI
+     forall e : EUC
+     . [planning(e)] PHI
+       <=> [planinstallation(e) ; planvalidation(e) ; planoperation(e)]
+           PHI
+     forall e : EUC
+     . [strictDevelopment(e)] PHI
+       <=> exists hars : Some[Hazard]; fts : Some[Fault];
+           reqs : Some[Require]; impls : Some[Implement];
+           tests : Some[TestCase]
+           . [treat[Hazard](e, hars)
+              ; treat[Fault](e, fts)
+                ; treat[Require](e, reqs)
+                  ; (planning(e)
+                     & treat[Implement](e, impls)
+                       ; treat[TestCase](e, tests)
+                         ; certify(e) ; install(e) ; validate(e))]
+             PHI
+     }
+     vars  e : EUC; d : Development
+
+     %{ Certification }%
+     . d = dev(e) /\ enabled(d) /\ not Certified(e)
+       => [certify(e)] Certified(e)
+     . d = dev(e) /\ enabled(d) /\ not Certified(e)
+       => < certify(e) > Certified(e)
+end
+
+spec Tickets =
+     SmallStep
+then flexible op tickets : EUC -> Map[TicketId,Ticket]
+     flexible op dev : EUC -> Development
+     time term modality SmallStep
+end
+
+spec Certified[T] given Tickets =
+     Access[T]
+and  Affects[T]
+then sort  Some[T] < Document
+     flexible pred certified[T] : EUC
+     flexible pred
+     openTickets[T](e : EUC)
+     <=> exists n : TicketId; t : Ticket
+         . t = lookup(n, tickets(e)) /\ state(t) = open
+           /\ doc(t) in Some[T]
+     forall e : EUC
+     . certified[T](e) => not openTickets[T](e)
+
+     %% a certified part remains certified when steps do not affect the part
+     . certified[T](e)
+       => forall m : SmallStep
+          . not affects[T](e, m) => [m] certified[T](e)
+end
+
+spec Review[T] given Tickets =
+     Certified[T]
+then
+     %% a review certifies or creates open tickets
+     forall e : EUC
+     . not certified[T](e) /\ not openTickets[T](e)
+       => [review(e, gets[T](dev(e)))]
+          ((certified[T](e) /\ not openTickets[T](e))
+           \/ (not certified[T](e) /\ openTickets[T](e)))
+end
+
+spec FlexibleDevelopment =
+     Development
+and  Review[sort Hazard]
+and  Review[sort Fault]
+and  Review[sort Require]
+and  Review[sort Implement]
+and  Review[sort TestCase]
+then flexible pred
+     Certified(e : EUC)
+     <=> certified[Hazard](e) /\ certified[Fault](e)
+         /\ certified[Require](e) /\ certified[Implement](e)
+         /\ certified[TestCase](e)
+     flexible pred
+     AllDone(e : EUC)
+     <=> exists d : Development
+         . d = dev(e) /\ enabled(d) /\ Certified(e)
+end
+
+spec SmallStepSpec =
+     SmallStep
+then generated type
+     SmallStep
+     ::= insertPart(EUC; Part)
+       | removePart(EUC; Part)
+       | review(EUC; Document)
+       | maintainance(EUC)
+       | decommissioning(EUC)
+     op    doAndAddress : SmallStep * Set[TicketId] -> SmallStep
+end
+
+spec FlexibleLifeCycle =
+     FlexibleDevelopment
+and  SmallStepSpec
+then time term modality SmallStep
+     {forall e : EUC
+     . [flexibleLifeCycle(e)] PHI
+       <=> [flexibleDevelopment(e) ; maintainance(e) ; decommissioning(e)]
+           PHI
+     forall e : EUC
+     . [flexibleDevelopment(e)] PHI
+       <=> (AllDone(e) /\ PHI)
+           \/ (exists p : Part
+               . exists N : Set[TicketId]
+                 . [(doAndAddress(insertPart(e, p), N)
+                     | doAndAddress(removePart(e, p), N))
+                    ; flexibleDevelopment(e)]
+                   PHI)
+           \/ exists d : Document
+              . [review(e, d) ; flexibleDevelopment(e)] PHI
+     forall e : EUC; s : SmallStep; N : Set[TicketId];
+     ts : Map[TicketId,Ticket]
+     . [doAndAddress(s, N)] PHI
+       <=> [s] PHI
+           /\ forall n : TicketId
+              . n eps N => s eps steps(lookup(n, tickets(e)))
+     }
+     vars  e : EUC; ts : Map[TicketId,Ticket]
+
+     %{ Tickets for an EUC exists iff a development for EUC exists }%
+     . tickets(e) = empty <=> dev(e) = undef
+
+     %{ Tickets are never deleted, only closed and then never reopen,
+        and the steps are preserved monotonic }%
+     . tickets(e) = ts
+       => forall m : SmallStep
+          . [m]
+            forall n : TicketId; t1 : Ticket; ts2 : Map[TicketId,Ticket]
+            . ts2 = tickets(e) /\ t1 = lookup(n, ts)
+              => exists t2 : Ticket
+                 . t2 = lookup(n, ts2) /\ doc(t1) = doc(t2)
+                   /\ steps(t1) isSubsetOf steps(t2)
+                   /\ (state(t1) = close => state(t2) = close)
+end
+
+spec Refinement =
+     StrictLifeCycle
+and  FlexibleLifeCycle
+then nominal
+     i;
+     j
+then %implies
+     %{
+     if in the current world i, we start the development for EUC e and
+     reach a world fulfilling the lifecycleconformity requirements,
+     then there would have existed a path to the current world
+     following the lifecycle strictly;
+     possibly only with the alternative semantics of nominals
+     }%
+     forall e : EUC
+     . Here i [flexibleLifeCycle(e)] Here j @ i [strictLifeCycle(e)] j
+     %{ the previous is probably no longer provable because of the tickets }%
+end
+
+view v1 :
+     {FlexibleLifeCycle
+     reveal SmallStep, flexibleLifeCycle, flexibleDevelopment
+     } to
+     StrictLifeCycle =
+     flexibleLifeCycle |-> strictLifeCycle, SmallStep |-> BigStep,
+     flexibleDevelopment |-> strictDevelopment
+end
+
+
+%{
+to write down this view we need to map the BigStep sorts
+to the SmallStep sorts, which have completely different constructors;
+I believe we need to provide as part of the view the "implementation"
+of the bigstep-steps in terms of insert/remove-part smallsteps.
+}%
+spec BigViaSmallSteps[T] =
+     Some[T]
+and  Affects[T]
+then
+     %% this is the program treat different from treat[T]
+     flexible op treatImpl : EUC * Some[T] -> SmallStep
+     time term modality SmallStep
+     {forall e : EUC . [treatImpl(e, Some(nil))] PHI <=> PHI
+     forall e : EUC; t : T; ts : List[T]
+     . [treatImpl(e, Some(t :: ts))] PHI
+       <=> [insertPart(e, t) ; treatImpl(e, Some(ts))] PHI
+     }
+     flexible op treat[T] : EUC * Some[T] -> SmallStep
+     time term modality SmallStep
+     {forall e : EUC; ts : Some[T]
+     . [treat[T](e, ts)] PHI <=> [treatImpl(e, ts)] PHI
+     }
+end
+
+view v2 :
+     StrictLifeCycle to
+     {FlexibleLifeCycle
+     and  BigViaSmallSteps[sort Hazard]
+     and  BigViaSmallSteps[sort Fault]
+     and  BigViaSmallSteps[sort Require]
+     and  BigViaSmallSteps[sort Implement]
+     and  BigViaSmallSteps[sort TestCase]
+     and  BigStep
+          with BigStep |-> SmallStep, strictLifeCycle |-> flexibleLifeCycle,
+               strictDevelopment |-> flexibleDevelopment
+     } =
+     BigStep |-> SmallStep, strictLifeCycle |-> flexibleLifeCycle,
+     strictDevelopment |-> flexibleDevelopment
+end
+
+spec TrackCertified[T] =
+     Certified[T]
+then pred  consistent[T] : Development
+     sort  RepairOperations
+     op    ResetCertified : Some[T] -> RepairOperations
+     time term modality RepairOperations
+     flexible pred
+     TrackCertified[T] : EUC
+     %{
+     If a part is certified then it has no opentickets associated to
+     it or else we reset the certified status and start monitoring again
+     }%
+     var   e : EUC
+     . TrackCertified[T](e)
+       <=> G (certified[T](e)
+              => not openTickets[T](e) /\ consistent[T](dev(e)))
+           \/ [ResetCertified(gets[T](dev(e)))] TrackCertified[T](e)
+     . <[ResetCertified(gets[T](dev(e)))]> not certified[T](e)
+end
+
+spec FlexibleLifeCycleImplementation =
+     FlexibleDevelopment
+and  TrackCertified[sort Hazard]
+and  TrackCertified[sort Fault]
+and  TrackCertified[sort Require]
+and  TrackCertified[sort Implement]
+and  TrackCertified[sort TestCase]
+then var   d : Development
+     %% compared to the incomplete/enabled spec, conditions are moved up
+     . consistent[Hazard](d)
+     . consistent[Fault](d)
+       <=> AllLeafFaultsAddressed(gets[Fault](d), gets[Require](d)) = nil
+     . consistent[Require](d)
+       <=> AllLeafReqsImplemented(gets[Require](d), gets[Implement](d))
+           = nil
+     . consistent[Implement](d)
+       <=> AllImplsSuccessfullyTested(gets[Require](d),
+                                      gets[Implement](d), gets[TestCase](d))
+           = nil
+     . consistent[TestCase](d)
+
+     %{
+     Functions and Predicates that I assume below
+     and eventually have to be specified
+     }%
+     free type
+     RepairOperations
+     ::= ResetCertified(Document)
+       | InsertSteps(Set[SmallStep]; TicketId)
+     flexible ops
+     MonitorNewTickets : EUC -> RepairOperations;
+     MonitorTickets : EUC -> RepairOperations;
+     MonitorDevelopment : EUC -> RepairOperations;
+     TicketNewlyInserted : EUC * TicketId -> RepairOperations
+     preds PartOf : Part * Document;
+           DocOf : Document * Development
+     flexible pred
+     DocumentOf(d : Document; e : EUC) <=> DocOf(d, dev(e))
+then flexible preds
+     TrackTickets : EUC;
+     TrackSmallSteps, TrackOpenTicket : EUC * TicketId;
+     hasTicket(e : EUC; t : TicketId) <=> def lookup(t, tickets(e))
+     flexible op
+     getTicket(e : EUC; t : TicketId) :? Ticket = lookup(t, tickets(e))
+     time term modality RepairOperations
+     {
+     %{
+     Monitoring a development consists of monitoring the created tickets
+     and track the certification status of the different documents
+     }%
+     forall e : EUC
+     . [MonitorDevelopment(e)] PHI
+       <=> [MonitorNewTickets(e)] PHI /\ TrackCertified[Hazard](e)
+           /\ TrackCertified[Fault](e) /\ TrackCertified[Require](e)
+           /\ TrackCertified[Implement](e) /\ TrackCertified[TestCase](e)
+
+     %{
+     monitoring new tickets means to detect when a new tickets is created and
+     then start to monitor (1) it is never closed before at least some step has
+     addressed it, (2) smallsteps are never lost
+     }%
+     forall e : EUC; t : TicketId
+     . [MonitorNewTickets(e)] PHI
+       <=> [TicketNewlyInserted(e, t)]
+           (TrackOpenTicket(e, t) /\ TrackSmallSteps(e, t)
+            /\ [MonitorNewTickets(e)] PHI)
+     forall e : EUC; t : TicketId
+     . [TicketNewlyInserted(e, t)] PHI
+       <=> not hasTicket(e, t)
+           /\ not hasTicket(e, t) U (hasTicket(e, t) /\ PHI)
+     }
+
+     %{
+     A ticket cannot be closed before there has been at least one step
+     addressing it
+     }%
+     vars  d : Document; t : TicketId; e : EUC; s1, s2 : Set[SmallStep]
+     . TrackOpenTicket(e, t)
+       <=> G (state(getTicket(e, t)) = open
+              => state(getTicket(e, t)) = open
+                 U not steps(getTicket(e, t)) = {})
+                                           %(not closed without steps)%
+     . TrackSmallSteps(e, t)
+       <=> forall s : Set[SmallStep]
+           . s = steps(getTicket(e, t))
+             => G s isSubsetOf steps(getTicket(e, t))
+                \/ [InsertSteps(s, t)] TrackSmallSteps(e, t)
+                                               %(steps are never lost)%
+     . steps(getTicket(e, t)) = s1
+       => <[InsertSteps(s2, t)]> steps(getTicket(e, t)) = s1 union s2
+     . TrackTickets(e)
+       <=> G forall t : TicketId . hasTicket(e, t) => G hasTicket(e, t)
+                                          %(tickets are never deleted)%
+     %{
+     for every part of a document there exists a step in some ticket
+     that inserted that part
+     }%
+     . G forall x : Part
+         . PartOf(x, d) /\ DocumentOf(d, e)
+           => exists t : TicketId
+              . hasTicket(e, t) /\ insertPart(e, x) eps steps(getTicket(e, t))
+                            %(all parts are inserted by a ticket step)%
+
+     %{
+     A part remains in a document until there is a remove steps for it
+     and the remove step is associated to some ticket
+     }%
+     . G forall x : Part
+         . PartOf(x, d) /\ DocumentOf(d, e)
+           => PartOf(x, d)
+              U exists t : TicketId
+                . hasTicket(e, t) /\ removePart(e, x) eps steps(getTicket(e, t))
+                          %(parts can only be deleted by ticket steps)%
+end
+
+
+%{
+This should be the right view stating, that the implementation meets
+the specification
+}%
+view Impl :
+     {FlexibleLifeCycle hide maintainance, decommissioning, doAndAddress
+     } to
+     FlexibleLifeCycleImplementation
+end
