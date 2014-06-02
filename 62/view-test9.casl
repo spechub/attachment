@@ -1,0 +1,26 @@
+library UserManual/Chapter7
+
+%author Michel Bidoit <bidoit@lsv.ens-cachan.fr>
+%date   20 Oct 2003
+
+spec Monoid =
+    sort Monoid
+    ops 1 : Monoid;
+	__*__ : Monoid * Monoid -> Monoid, assoc, unit 1
+end
+
+spec List_Rev [sort Elem] =
+    free type List[Elem] ::= empty | cons(head:?Elem; tail:?List[Elem])
+    ops __++__ : List[Elem] * List[Elem] -> List[Elem],
+	    unit empty;
+	reverse : List[Elem] -> List[Elem]
+    forall e:Elem; L, L1, L2:List[Elem]
+    . cons(e, L1) ++ L2 = cons(e, L1 ++ L2)
+    . reverse(empty) = empty
+    . reverse(cons(e, L)) = reverse(L) ++ cons(e, empty)
+end
+
+
+view List_as_Monoid [sort Elem] : Monoid to List_Rev [sort Elem] =
+     Monoid |-> List[Elem], 1 |-> empty, __*__ |-> __++__
+end
