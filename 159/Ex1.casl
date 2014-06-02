@@ -1,0 +1,71 @@
+spec Strict_Partial_Order =
+    sort Elem
+    pred __<__ : Elem * Elem
+    forall x, y, z:Elem
+    . not (x < x) %(strict)%
+    . (x < y) => not (y < x) %(asymmetric)%
+    . (x < y) /\ (y < z) => (x < z) %(transitive)%
+    %{ Note that there may exist x, y such that
+       neither x < y nor y < x. }%
+end
+
+spec Strict_Total_Order =
+    Strict_Partial_Order
+then
+    forall x, y:Elem
+    . (x < y) \/ (y < x) \/ x = y %(total)%
+end
+
+spec Partial_Order =
+    Strict_Partial_Order
+then
+    pred __<=__(x, y :Elem) <=> (x < y) \/ x = y
+end
+
+spec Partial_Order_1 =
+    Partial_Order
+then %implies
+    forall x, y, z:Elem
+    . (x <= y) /\ (y <= z) => (x <= z) %(transitive)%
+end
+
+
+spec Total_Order_Aux =
+  Partial_Order_1 and Strict_Total_Order 
+end
+
+spec Total_Order =
+  Total_Order_Aux hide __<__
+end
+
+spec Nat =
+    free type Nat ::= 0 | suc(Nat)
+end
+
+spec Nat_Order =
+  Nat
+then
+  pred   __ <= __ : Nat*Nat
+  forall m,n : Nat
+  . 0 <= n                           %(leq_def1_Nat)%
+  . not suc(n) <= 0                  %(leq_def2_Nat)%
+  . suc(m) <= suc(n) <=> m <= n      %(leq_def3_Nat)%
+  
+end
+
+view v : Total_Order to Nat_Order
+end
+
+
+spec Nat_Strict_Total_Order =
+     Nat_Order
+then %cons
+  pred __<__ : Nat * Nat
+  forall m,n:Nat
+  . m<n <=> (m<=n /\ not m=n)          %(less_def)%
+  . m<n \/ n<m \/ m=n     %(total_nat)%
+end
+
+view w : Total_Order_Aux to Nat_Strict_Total_Order 
+end
+
