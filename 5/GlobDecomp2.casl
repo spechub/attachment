@@ -1,0 +1,10 @@
+library GlobDecomp2
+
+from GlobDecomp1 get sp1'
+
+spec sp2 =
+  pred q:()
+  . q  %(q)%
+end
+
+view v : sp1' to sp2
