@@ -1,0 +1,5 @@
+library test_dg2a
+
+view v : {. true and . false} to { {} }
+end
+
