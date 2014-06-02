@@ -1,0 +1,10 @@
+logic Propositional
+
+spec Prop =
+  props A,B,C
+  . A               %(A)%
+  . not (A /\ B)    %(notAB)%
+  . C => B          %(CimplB)%
+  . not C           %(notC)%     %implied
+end
+
