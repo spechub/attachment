@@ -1,0 +1,5 @@
+library subsorts
+
+spec sp =
+  sorts S<T; T<U; U<V; V<W
+end
