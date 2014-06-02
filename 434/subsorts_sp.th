@@ -1,0 +1,73 @@
+spec sp =
+sorts S, T, U, V, W
+op gn_inj : S -> T
+op gn_inj : S -> U
+op gn_inj : S -> V
+op gn_inj : S -> W
+op gn_inj : T -> U
+op gn_inj : T -> V
+op gn_inj : T -> W
+op gn_inj : U -> V
+op gn_inj : U -> W
+op gn_inj : V -> W
+op gn_proj : T ->? S
+op gn_proj : U ->? S
+op gn_proj : U ->? T
+op gn_proj : V ->? S
+op gn_proj : V ->? T
+op gn_proj : V ->? U
+op gn_proj : W ->? S
+op gn_proj : W ->? T
+op gn_proj : W ->? U
+op gn_proj : W ->? V
+
+forall x, y : S
+. (gn_inj(x : S)) : T =e= (gn_inj(y : S)) : T => x =e= y
+                                      %(ga_embedding_injectivity)%
+
+forall x, y : T . gn_proj(x) =e= gn_proj(y) => x =e= y
+                                     %(ga_projection_injectivity)%
+
+forall x : S . gn_proj((gn_inj(x : S)) : T) =e= x %(ga_projection)%
+
+forall x, y : T
+. (gn_inj(x : T)) : U =e= (gn_inj(y : T)) : U => x =e= y
+                                    %(ga_embedding_injectivity_1)%
+
+forall x, y : U
+. (gn_proj(x : U)) : T =e= (gn_proj(y : U)) : T => x =e= y
+                                   %(ga_projection_injectivity_1)%
+
+forall x : T . gn_proj((gn_inj(x : T)) : U) =e= x
+                                               %(ga_projection_1)%
+
+forall x, y : U
+. (gn_inj(x : U)) : V =e= (gn_inj(y : U)) : V => x =e= y
+                                    %(ga_embedding_injectivity_2)%
+
+forall x, y : V
+. (gn_proj(x : V)) : U =e= (gn_proj(y : V)) : U => x =e= y
+                                   %(ga_projection_injectivity_2)%
+
+forall x : U . gn_proj((gn_inj(x : U)) : V) =e= x
+                                               %(ga_projection_2)%
+
+forall x, y : V . gn_inj(x) =e= gn_inj(y) => x =e= y
+                                    %(ga_embedding_injectivity_3)%
+
+forall x, y : W
+. (gn_proj(x : W)) : V =e= (gn_proj(y : W)) : V => x =e= y
+                                   %(ga_projection_injectivity_3)%
+
+forall x : V . gn_proj(gn_inj(x)) =e= x %(ga_projection_3)%
+
+forall x : S
+. (gn_inj((gn_inj(x : S)) : T)) : U =e= (gn_inj(x : S)) : U
+                                               %(ga_transitivity)%
+
+forall x : T
+. (gn_inj((gn_inj(x : T)) : U)) : V =e= (gn_inj(x : T)) : V
+                                             %(ga_transitivity_1)%
+
+forall x : U . gn_inj(gn_inj(x : U)) =e= gn_inj(x : U)
+                                             %(ga_transitivity_2)%
