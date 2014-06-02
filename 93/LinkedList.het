@@ -1,0 +1,39 @@
+library LinkedList
+
+%right_assoc( __::__)%
+%left_assoc __ ++ __
+%list [__], [], __::__
+%prec {__ ++ __} < {__ :: __}
+
+spec List[sort Elem] =
+     free type List[Elem] ::=  [] | __::__(Elem; List[Elem])
+     ops __++__: List[Elem] * List[Elem] -> List[Elem]
+     forall K,L,L1,L2:List[Elem]; x,y,z:Elem
+     . [] ++ K = K                           %(concat_nil_List)%
+     . x::L ++ K = x :: (L ++ K)           %(concat_NeList_List)%
+     . x::((L1++(y::L2))++[z]) = (x::L1)++(y::L2)++[z]
+              %(shift_brackets)% %implied
+     . ([x]) ++ ([y]) = x :: [y] %(concat_singletons)% %implied
+end
+
+spec LinkedList [sort Elem pred link : Elem * Elem] =
+     List [sort Elem]
+then
+     pred LinkedList : List[Elem]
+     forall K: List[Elem];x,y:Elem
+     . LinkedList([]) %(empty_list_is_linked)%
+     . LinkedList(x::[])  %(single_element_list_is_linked)%
+     . LinkedList(x::y::K) <=> link(x,y) /\ LinkedList(y::K)
+      %(head_elements)%
+then %implies
+     forall x,y,z:Elem;K:List[Elem]
+     . link(x,y) <=> LinkedList([x,y]) %(a_link_implies_a_linked_list)% 
+%[     . forall L:List[Elem] 
+       . LinkedList(x :: (z::L)) /\ LinkedList((z::L)++(y::[])) => 
+	   LinkedList(x::((z::L)++(y::[]))) %(path_split)%
+     . LinkedList(x::K) /\ link (y,x) => LinkedList(y::(x::K)) 
+           %(a_link_to_a_linked_list)% ]%
+     . forall L1,L2:List[Elem] 
+       . forall x: Elem 
+	 . LinkedList(x::(L1++[y])) /\ LinkedList(y::(L2++[z])) =>
+	   LinkedList(x::(L1++(y::L2)++[z])) %(LL)%
