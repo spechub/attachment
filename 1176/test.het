@@ -1,0 +1,9 @@
+spec sp =
+sort s
+op z:s
+ops a,b,c,d:s->s
+. a(z)=z => b(z)=z %(ab)%
+. b(z)=z => c(z)=z %(bc)%
+. a(z)=z => d(z)=z %(ad)%
+. a(z)=z => c(z)=z %(ac)% %implied
+end
