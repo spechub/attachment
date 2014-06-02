@@ -1,0 +1,261 @@
+
+
+library RouteGraphDesign version 0.6
+
+%author Klaus Luettich <luettich@tzi.de>
+%date 29.06.2004
+%author Bernd Krieg-Brueckner <bkb@tzi.de>
+%date 06.07.2004
+
+%{ This is a very loose specification of a RouteGraph.  This concept
+was proposed by [1]. Further this library provides various specialized
+but also loose specifications regarding the Bremen wheelchair Rolland
+and other SFB-TR8 relevant specifiactions
+
+[1] Steffen Werner, Bernd Krieg-Brueckner, Theo Herrmann:
+    Modelling Navigational Knowledge by Route Graphs. 
+    LNCS 1849, year 2000, pp. 295-316
+}%
+
+from RouteGraphOnt get RouteGraphIndoors,GenGraph
+from Basic/StructuredDatatypes get List
+from Basic/Numbers get Nat
+from Basic/Graphs get NonUniqueEdgesGraph 
+
+spec List2[sort Elem] given Nat =
+     List[sort Elem fit Elem |-> Elem]
+then
+     pred atMostOnce : List[Elem]
+     forall l : List[Elem]; x : Elem
+     . atMostOnce([])
+     . atMostOnce(x::l) <=> freq(l,x) = 0 /\ atMostOnce(l)
+end
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% RouteGraph Data Types
+
+spec Graph2 [sort Kind] given Nat = 
+     sorts Node, Edge
+     ops source,target: Edge -> Node;
+then
+     NonUniqueEdgesGraph [sort Node] [sort Edge] and
+     List2 [sort Edge fit Elem |-> Edge] with [], __::__, atMostOnce
+then
+     pred connected: List[Edge]
+     forall rs1,rs2: Edge;rsl: List[Edge]
+     . connected([])                           %(connected_empty)%
+     . connected(rs1 ::[])                      %(connected_singleton)%
+     . connected(rs1 :: rs2 :: rsl) <=> 
+	   target(rs1) = source(rs2) /\ connected(rs2 :: rsl) %(connected_rec)%
+then  
+    List2 [sort Node fit Elem |-> Node]
+   then 
+	op sources,targets : List[Edge] -> List[Node]
+	forall l: List[Edge]; rs:Edge
+	. sources ([]) = []
+	. sources (rs::l) = source(rs)::sources(l)
+	forall l: List[Edge]; rs:Edge
+	. targets ([]) = []
+	. targets (rs::l) = target(rs)::targets(l)
+     sort Path = {l : List[Edge]  .    connected (l)};      %(def_path)%
+          Route = {l : Path . atMostOnce(sources(l)) /\ atMostOnce(l)} %(def_route)%
+then %def
+     %% additional predicates and functions
+     pred __ pathIn __ : Path * Graph
+     ops startOf,endOf: List[Edge] ->? Node
+     forall p:Path;g:Graph;l : List[Edge]
+     . p pathIn g <=> (forall e:Edge . e eps p => e isIn g)
+                     %(path_in_def)%
+     . startOf(l) = source(first(l)) %(startOf_def)%
+     . endOf(l) = target(last(l)) %(endOf_def)%
+
+spec RouteGraph [sort Kind] =
+	Graph2 [sort Kind]  with Graph |-> RouteGraph
+then
+     sorts Place<Node; Segment<Edge
+     sorts Course, Entry, Exit
+     ops 
+	 entry : Segment -> Entry;
+	 course : Segment -> Course;
+	 exit : Segment -> Exit;
+end
+
+spec RefSystemRolland =
+     %% Just the list of all Vectors to RouteMarks "visible" from this Node
+     List[sort Vector fit Elem |-> Vector]
+
+spec RollandSegments = 
+     sort MinCourseInfo, Distance, Width, Angle
+     ops width : MinCourseInfo -> Width;
+	 distance : MinCourseInfo -> Distance;
+end
+
+spec RouteGraphIndoorsLoose = 
+     RouteGraph [sort IndoorsK fit Kind |-> IndoorsK]
+then
+     sort EdgeInfo %% encapsulates at least Entry, Course, Exit
+     op hasEdgeInfo : Segment -> EdgeInfo
+
+spec RouteGraphIndoorsLoose_O =
+     RouteGraphIndoorsLoose 
+then %def
+     %% now  all the missing predicates of RGOnt are specified
+     pred hasNode : RouteGraph * Node;
+	  hasEdge : RouteGraph * Edge;
+	  hasElem : List[Edge] * Edge
+     forall g: RouteGraph; n: Node; e: Edge; l: List[Edge]
+     . hasNode (g,n) <=> n isIn g
+     . hasEdge (g,e) <=> e isIn g
+     . hasElem (l,e) <=> e eps l
+
+
+view Graph2_implements_GraphOnt :
+     GenGraph [sort k fit Kind |-> k] to
+     {Graph2 [sort k fit Kind |-> k] then %def
+      preds hasEdge(g:Graph;e:Edge) <=> e isIn g; %(hasEdge_def)%
+            hasNode(g:Graph;n:Node) <=> n isIn g; %(hasNode_def)%
+            hasElem(l:List[Edge];e:Edge) <=> e eps l; %(hasElem_Edge_def)%
+            hasElem(l:List[Node];n:Node) <=> n eps l %(hasElem_Node_def)%
+     }
+   = Edge[k] |-> Edge, Graph[k] |-> Graph, k |-> k, Nat |-> Nat,
+     Node[k] |-> Node, Path[k] |-> Path, Pos |-> Pos,
+     Route[k] |-> Route, Sequence[Edge[k]] |-> List[Edge],
+     Sequence[Node[k]] |-> List[Node],
+     EmptySeq : Sequence[Edge[k]] |-> [] : List[Edge],
+     EmptySeq : Sequence[Node[k]] |-> [] : List[Node],
+     head : Sequence[Edge[k]] ->? Edge[k]
+       |-> first : List[Edge] ->? Edge,
+     last : Sequence[Edge[k]] ->? Edge[k]
+       |-> last : List[Edge] ->? Edge,
+     tail : Sequence[Edge[k]] ->? Sequence[Edge[k]]
+       |-> rest : List[Edge] ->? List[Edge],
+     head : Sequence[Node[k]] ->? Node[k]
+       |-> first : List[Node] ->? Node,
+     last : Sequence[Node[k]] ->? Node[k]
+       |-> last : List[Node] ->? Node,
+     tail : Sequence[Node[k]] ->? Sequence[Node[k]]
+       |-> rest : List[Node] ->? List[Node],
+     connected |-> connected
+
+%[
+view RGOnt_to_RGLoose :
+   {  RouteGraphIndoors 
+      hide RailwayK, RoadK}
+to RouteGraphIndoorsLoose_O =
+    sorts IndoorsK |-> IndoorsK,
+	  AreaK |-> IndoorsK,
+	  LiftK |-> IndoorsK,
+	  PassageK |-> IndoorsK,
+	  OfficeK |-> IndoorsK,
+	  HallK |-> IndoorsK,
+	  Edge[IndoorsK] |-> Edge,
+	  Node[IndoorsK] |-> Node,
+	  Graph[IndoorsK] |-> RouteGraph,
+	  Sequence[Edge[IndoorsK]] |-> List[Edge],
+	  Path[IndoorsK] |-> Path,
+	  Route[IndoorsK] |-> Route,
+	  Nat,Pos,
+     ops hasTail |-> rest,
+	 hasHead |-> first,
+	 hasSource |-> source, 
+	 hasTarget |-> target,
+     pred connected,hasElem
+end
+]%
+%[
+spec Maybe [sort S] = %mono
+     free type Maybe[S] ::= Nothing | Just(S)
+     pred isJust : Maybe[S]
+     forall x : S
+     . not isJust (Nothing) 
+     . isJust(Just(x))
+end
+
+
+spec RouteGraphIndoorsDesign = 
+     RouteGraphIndoorsLoose
+     hide IndoorsK,Path, Route, __pathIn__,MinCourseInfo,course
+then
+     free types CourseInfo ::= CourseInfo(distance:Distance;width:Width); 
+                EdgeInfo ::= EdgeInfo(Angle; courseInfo: CourseInfo; Angle);
+		Segment ::= Seg(source:Node;
+				hasEdgeInfo:EdgeInfo;
+				target:Node);
+		Node ::= Node(id:Nat;List[Vector])
+    op course (s:Segment):CourseInfo = courseInfo(hasEdgeInfo(s))
+then
+{
+     Maybe [sort List[Segment]
+	    free type Path ::= ConPath(List[Segment])
+	    fit S |-> Path]
+then
+     Maybe [sort List[Segment]
+            free type Route ::= ConRoute(List[Segment])
+	    fit S |-> Route]
+then
+     pred __pathIn__ : Path * RouteGraph
+
+     ops listToPath : List[Segment] -> Maybe[Path];
+	 listToRoute : List[Segment] -> Maybe[Route];
+	 listToPath : List[Segment] ->? Path;
+	 listToRoute : List[Segment] ->? Route;
+	 pathToRoute : Path ->? Route;	 
+	 pathToRoute : Path -> Maybe[Route];	 
+         pathToList : Path -> List[Segment];
+	 routeToPath : Route -> Path; 
+	 routeToList : Route -> List[Segment]
+     forall l : List[Segment]
+     . listToPath(l) = (Just(ConPath(l)) when connected(l) 
+           else Nothing)
+     . listToRoute(l) = (Just(ConRoute(l)) 
+         when isJust(listToPath(l)) /\
+	      noBranches(l) /\
+	      (forall e : Segment
+	       . e eps l => freq(l,e) = 1)
+	 else Nothing)
+     . listToPath(l) = ConPath(l) if connected(l) 
+     . listToRoute(l) = ConRoute(l) if connected(l) /\ noBranches(l) /\ atMostOnce(l)
+     . pathToRoute(ConPath(l)) = ConRoute(l) if noBranches(l) /\ atMostOnce(l)
+     . pathToRoute(ConPath(l)) = Just(ConRoute(l)) when noBranches(l)
+	 /\ atMostOnce(l) else Nothing
+     . pathToList(ConPath(l)) = l
+     . routeToPath(ConRoute(l)) = ConPath(l)
+     . routeToList(ConRoute(l)) = l
+} hide ConPath, ConRoute
+
+
+spec RouteGraphDesign_L =
+     RouteGraphIndoorsDesign 
+then
+     sorts Path < List[Segment];
+	   Route < Path
+     forall x:List[Segment];p:Path
+     . listToPath(x) = x
+     . pathToRoute(p) = p
+     . listToRoute(x) = x
+
+view RGLoose_to_RGDesign : 
+     RouteGraphIndoorsLoose to 
+     RouteGraphDesign_L
+     = 
+       sorts Angle |-> Angle, 
+	     Distance |-> Distance, 
+	     EdgeId |-> EdgeId, 
+	     EdgeInfo |-> EdgeInfo, 
+             List[Segment],
+	     List[Vector],
+             MinCourseInfo |-> CourseInfo, 
+	     Nat, 
+	     Node, 
+	     Path, 
+	     Pos, 
+	     Route, 
+	     RouteGraph, 
+	     Segment,
+	     Vector, Width
+
+
+end
+
+
+]%
