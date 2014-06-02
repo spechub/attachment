@@ -1,0 +1,9 @@
+library Isa
+
+spec S =
+sort s
+op a, b, c : s
+
+. a = b %simp
+. b = c %simp
+. a = c %implied
