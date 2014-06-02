@@ -1,0 +1,1297 @@
+Index: complex/date_time_vocabulary/dtv_plus/dtv_plus_def.clif
+===================================================================
+--- complex/date_time_vocabulary/dtv_plus/dtv_plus_def.clif	(Revision 716)
++++ complex/date_time_vocabulary/dtv_plus/dtv_plus_def.clif	(Arbeitskopie)
+@@ -21,7 +21,7 @@
+ 				(if 	("time interval1 is part of time interval2" t1 t2)
+ 					(= t2 t3))
+ 				(if 	("time interval1 is part of time interval2" t2 t1)
+-					(= t1 t3)))))
++					(= t1 t3))))))
+ 
+ (forall (t1 t2 t3)
+ 	(iff 	("time interval1 to time interval2 specifies time interval3" t1 t2 t3)
+@@ -43,6 +43,6 @@
+ 			("time interval" t3)
+ 			(if 	("time interval1 overlaps time interval2" t1 t2)
+ 				(and 	("time interval1 finishes time interval2" t3 t1)
+-					("time interval1 starts time interval2" t3 t2)))))
++					("time interval1 starts time interval2" t3 t2))))))
+ 
+ )
+Index: complex/date_time_vocabulary/dtv_plus/dtv_plus.clif
+===================================================================
+--- complex/date_time_vocabulary/dtv_plus/dtv_plus.clif	(Revision 716)
++++ complex/date_time_vocabulary/dtv_plus/dtv_plus.clif	(Arbeitskopie)
+@@ -25,11 +25,11 @@
+ 					(= t4 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 starts time interval2" t1 t2)
+ 				(and 	("time interval1 finishes time interval2" t3 t2)
+-					("time interval1 meets time interval2" t1 t3)))))
++					("time interval1 meets time interval2" t1 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+@@ -44,11 +44,11 @@
+ 	(= t3 t4)))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 finishes time interval2" t1 t2)
+ 				(and 	("time interval1 starts time interval2" t3 t2)
+-					("time interval1 meets time interval2" t3 t1)))))
++					("time interval1 meets time interval2" t3 t1))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+Index: complex/date_time_vocabulary/dtv20111209.clif
+===================================================================
+--- complex/date_time_vocabulary/dtv20111209.clif	(Revision 716)
++++ complex/date_time_vocabulary/dtv20111209.clif	(Arbeitskopie)
+@@ -145,11 +145,11 @@
+ 				(= t1 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 starts time interval2" t1 t2)
+ 				(and 	("time interval1 finishes time interval2" t3 t2)
+-					("time interval1 meets time interval2" t1 t3)))))
++					("time interval1 meets time interval2" t1 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+@@ -165,11 +165,11 @@
+ 				(= i 1)))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 finishes time interval2" t1 t2)
+ 				(and 	("time interval1 starts time interval2" t3 t2)
+-					("time interval1 meets time interval2" t3 t1)))))
++					("time interval1 meets time interval2" t3 t1))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+@@ -421,7 +421,7 @@
+ 
+ (forall (("system of units" "system of units"))        (= (count             ("system of units is for system of quantities"              "system of units"))           1))
+ 
+-(forall ((thing thing)) (iff ("quantity value"(thing))      (or ("atomic quantity value"(thing))          ("compound quantity value"(thing)))))
++(forall ((thing thing)) (iff ("quantity value" thing)      (or ("atomic quantity value" thing)          ("compound quantity value" thing))))
+ 
+ (forall (("atomic quantity value 1" "atomic quantity value")         ("atomic quantity value 2" "atomic quantity value")         ("measurement unit" "measurement unit")) (iff (converted "atomic quantity value 1"                 "atomic quantity value 2"                 "measurement unit")      (exists ((quantity quantity)               ("measurement unit 2" "measurement unit"))        (and ("quantity value has measurement unit"              "atomic quantity value 2"              "measurement unit 2")             (= "measurement unit" "measurement unit 2")             (= "atomic value 1" quantity)             (= "atomic value 2" quantity)))))
+ 
+Index: complex/date_time_vocabulary/date_time_vocabulary20111209.clif
+===================================================================
+--- complex/date_time_vocabulary/date_time_vocabulary20111209.clif	(Revision 716)
++++ complex/date_time_vocabulary/date_time_vocabulary20111209.clif	(Arbeitskopie)
+@@ -145,11 +145,11 @@
+ 				(= t1 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 starts time interval2" t1 t2)
+ 				(and 	("time interval1 finishes time interval2" t3 t2)
+-					("time interval1 meets time interval2" t1 t3)))))
++					("time interval1 meets time interval2" t1 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+@@ -165,11 +165,11 @@
+ 				(= i 1)))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 finishes time interval2" t1 t2)
+ 				(and 	("time interval1 starts time interval2" t3 t2)
+-					("time interval1 meets time interval2" t3 t1)))))
++					("time interval1 meets time interval2" t3 t1))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+@@ -378,7 +378,7 @@
+ (forall ((part thing) (whole thing)) 
+ 	(if 	(and 	("part of" part whole)
+ 			("part of" whole part))
+-		(= part whole))) 
++		(= part whole)))
+ 
+ (forall ((part thing) (whole thing) (part3 thing))  
+ 	(if 	(and 	("part of" part whole)
+@@ -402,4 +402,4 @@
+ 			(and	("proper part" part2 whole)
+ 				(not (overlaps part2 part1))))))
+ 
+-)
++)
+\ No newline at end of file
+Index: complex/date_time_vocabulary/date_time_vocabulary.clif
+===================================================================
+--- complex/date_time_vocabulary/date_time_vocabulary.clif	(Revision 716)
++++ complex/date_time_vocabulary/date_time_vocabulary.clif	(Arbeitskopie)
+@@ -141,16 +141,16 @@
+ 				(exists ((t4 "time interval"))
+ 					(and 	("time interval1 meets time interval2" t4 t2)
+ 						("time interval1 meets time interval2" t1 t4)
+-						("time interval1 plus time interval2 is time interval3" t1 t4 t3)))
++						("time interval1 plus time interval2 is time interval3" t1 t4 t3))))
+ 			(and 	("time interval1 meets time interval2" t1 t2)
+-				(= t1 t3))))))
++				(= t1 t3)))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 starts time interval2" t1 t2)
+ 				(and 	("time interval1 finishes time interval2" t3 t2)
+-					("time interval1 meets time interval2" t1 t3)))))
++					("time interval1 meets time interval2" t1 t3))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 starts time interval2 complementing time interval3" t1 t2 t3)
+@@ -165,11 +165,11 @@
+ 	(= t3 t4)))
+ 
+ (forall ((t1 "time interval") (t2 "time interval"))
+-	(exists (t3 "time interval))
++	(exists (t3 "time interval")
+ 		(iff 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+ 			(if 	("time interval1 finishes time interval2" t1 t2)
+ 				(and 	("time interval1 starts time interval2" t3 t2)
+-					("time interval1 meets time interval2" t3 t1)))))
++					("time interval1 meets time interval2" t3 t1))))))
+ 
+ (forall ((t1 "time interval") (t2 "time interval") (t3 "time interval"))
+ 	(if 	("time interval1 finishes time interval2 complementing time interval3" t1 t2 t3)
+Index: complex/duration/point_duration.clif
+===================================================================
+--- complex/duration/point_duration.clif	(Revision 716)
++++ complex/duration/point_duration.clif	(Arbeitskopie)
+@@ -14,7 +14,7 @@
+ (if  (and	(timeduration d1)
+ 		(timeduration d2)
+ 		(timeduration d3))
+-          (= (add (add d1 d2) d3) (add d1 (add d2 d3))))
++          (= (add (add d1 d2) d3) (add d1 (add d2 d3)))))
+ 
+ (forall (d)
+ (if  (timeduration d)
+@@ -24,7 +24,7 @@
+ (if  (timeduration d1)
+           (exists (d2)
+ 		(and 	(timeduration d2)
+-                	(= (add d1 d2) zero))))
++                	(= (add d1 d2) zero)))))
+ 
+ (forall (d1 d2)
+ (if  (and	(timeduration d1)
+@@ -61,16 +61,16 @@
+ (forall (d1 d2 d3)
+ 	(and	(timeduration d1)
+ 		(timeduration d2)
+-		(timeduration d3))
+-        (iff    (lesser d1 d2)
+-                (lesser (add d1 d3) (add d2 d3))))
++		(timeduration d3)
++        	(iff    (lesser d1 d2)
++                	(lesser (add d1 d3) (add d2 d3)))))
+ 
+ (forall (d1 d2 d3)
+ 	(and	(timeduration d1)
+ 		(timeduration d2)
+-		(timeduration d3))
+-        (iff    (= d1 d2)
+-                (= (add d1 d3) (add d2 d3)))))
++		(timeduration d3)
++		        (iff    (= d1 d2)
++ 			        (= (add d1 d3) (add d2 d3)))))
+ 
+ (forall (t1 t2)
+ 	(if  (and	(timepoint t1)
+@@ -88,7 +88,7 @@
+ (if  (and	(timepoint t1)
+ 		(timepoint t2))
+ 	  (iff	(= zero (duration t1 t2))
+-		(= t1 t2)))
++		(= t1 t2))))
+ 
+ (forall (t1 t2)
+ (if  (and	(timepoint t1)
+Index: complex/dolce/dolce_hets/dolce_hets_tptp.clif
+===================================================================
+--- complex/dolce/dolce_hets/dolce_hets_tptp.clif	(Revision 722)
++++ complex/dolce/dolce_hets/dolce_hets_tptp.clif	(Arbeitskopie)
+@@ -8,7 +8,7 @@
+  *    Michael Gruninger, Carmen Chui
+  *******************************************************************************/
+  
+-(cl-text dolce_hets_tptp)
++(cl-text dolce_hets_tptp
+ 
+ /*
+ )                       
+@@ -907,7 +907,7 @@
+ 	(if (and (NASO x)(T t1)(T t2))
+ 		(and (PRE_2_st x t1)(p t2 t1)(PRE_2_st x t2))))
+ 
+-formula(forall([sC(X)], exists([t(T)], pRE_2_st(X, T))), Ax1_14).
++/*formula(forall([sC(X)], exists([t(T)], pRE_2_st(X, T))), Ax1_14).*/
+ 
+ /*formula
+ (forall
+@@ -1206,7 +1206,7 @@
+ 	(if (and (PD x)(T t1)(T t2))
+ 		(and (PRE_2_pt x t1)(p t2 t1)(PRE_2_pt x t2))))
+ 
+-formula(forall([tQ(X)], exists([t(T)], pRE(X, T))), Ax1_14_109).
++/*formula(forall([tQ(X)], exists([t(T)], pRE(X, T))), Ax1_14_109).*/
+ 
+ /*formula
+ (forall
+@@ -1885,9 +1885,9 @@
+ 		(not(exists (y)
+ 			(and (S y)(pP_2 y x))))))
+ 
+-formula
++/*formula
+ (forall([s(X), s(Y)], equiv(atP_2(X, Y), and(p_2(X, Y), at_1(X)))),
+- Dd17_18).
++ Dd17_18).*/
+ 
+ /*formula
+ (forall
+@@ -2029,7 +2029,7 @@
+ /*formula
+ (forall([pD(X), pD(Y), pD(Z)], p_2_pp(X, X)), reflexivity_33).*/
+ (forall (x)
+-	(and (p_2_pp x x)(PD x))
++	(and (p_2_pp x x)(PD x)))
+ 
+ 
+ /*formula
+Index: complex/dolce/dolce_original/dolce_mereology.clif
+===================================================================
+--- complex/dolce/dolce_original/dolce_mereology.clif	(Revision 722)
++++ complex/dolce/dolce_original/dolce_mereology.clif	(Arbeitskopie)
+@@ -36,8 +36,8 @@
+ (cl-comment "Ad2")
+ 
+ (forall (x y)
+-	(if ((P x y)
+-		(iff (PD x) (PD y)))))
++	(if (P x y)
++		(iff (PD x) (PD y))))
+ 
+ (cl-comment "Ad3")
+ 
+@@ -103,11 +103,11 @@
+ 					(not (O z y))))))
+ 
+ (cl-comment "Ad9 - original DOLCE axiom")
+-(if (or (and (exists x (phi x))
++(if (or (and (exists (x) (phi x))
+ 			(if (forall (x)(phi x))
+ 					(AB x)))
+ 		(forall (x) (if (phi x)(PD x))))
+-	(exists k (= k sigma_x_phi x)))
++	(exists (k) (= k (sigma_x_phi x))))
+ 
+ (cl-comment "Ad9 - edited with argument restrictions and binary sum")
+ (forall (x y)
+Index: complex/dolce/dolce_original/dolce_temporary_parthood.clif
+===================================================================
+--- complex/dolce/dolce_original/dolce_temporary_parthood.clif	(Revision 722)
++++ complex/dolce/dolce_original/dolce_temporary_parthood.clif	(Arbeitskopie)
+@@ -75,10 +75,10 @@
+ 					(not(O z y t))))))
+ 
+ (cl-comment "Ad15 - original DOLCE axiom")
+-(if (or (and (exists x (phi x))
++(if (or (and (exists (x) (phi x))
+ 			(if (forall (x)(phi x))
+ 					(ED x))))
+-	(exists k (= k sigma_te_x_phi x)))
++	(exists (k) (= k (sigma_te_x_phi x))))
+ 
+ (cl-comment "Ad15 - edited with argument restrictions and binary sum")
+ (forall (x y)
+@@ -160,8 +160,8 @@
+ 		(PRE x t)))
+ 
+ (forall (x y t)
+-	(if (not (forall (x y z t))
+-			(and (PRE x t)(Sum z x y)))
++	(if (not (forall (x y z t)
++			(and (PRE x t)(Sum z x y))))
+ 			(P x z t)))
+ 
+ /*
+Index: complex/dolce/dolce_original/dolce_present.clif
+===================================================================
+--- complex/dolce/dolce_original/dolce_present.clif	(Revision 722)
++++ complex/dolce/dolce_original/dolce_present.clif	(Arbeitskopie)
+@@ -21,22 +21,22 @@
+ (cl-comment "Dd40 - Being Present at t")
+ (forall (x t)
+ 	(iff (PRE x t)
+-		(exists t1
++		(exists (t1)
+ 			(and (ql_t t1 x)(P t t1)))))
+ 
+ (cl-comment "Dd41 - Being Present in s at t")
+ (forall (x s t)
+ 	(iff (PRE x s t)
+ 		(and (PRE x t)
+-			(exists s1
++			(exists (s1)
+ 				(and (ql_s s1 x t)(P s s1))))))
+ 
+ (cl-comment "Dd41 - Being Present in s at t - Expanded with PRE(x,y) definition")
+ (forall (x s t)
+ 	(iff (PRE x s t)
+-		(and (exists t1
++		(and (exists (t1)
+ 				(and (ql_t t1 x)(P t t1)))
+-			(exists s1
++			(exists (s1)
+ 				(and (ql_s s1 x t)(P s s1))))))
+  
+ /*
+@@ -83,36 +83,36 @@
+ (forall (x)
+ 	(if (or (ED x)(PD x)(Q x))
+ 		(exists (t)
+-			(exists t1
++			(exists (t1)
+ 				(and (ql_t t1 x)(P t t1))))))
+ 			
+ (cl-comment "Td16")
+ (forall (x t)
+ 	(if (and (or (PED x)(PQ x))
+-		(exists t1
++		(exists (t1)
+ 			(and (ql_t t1 x)(P t t1))))
+ 		(exists (s)
+-			(and (exists t1
++			(and (exists (t1)
+ 				(and (ql_t t1 x)(P t t1)))
+-			(exists s1
++			(exists (s1)
+ 				(and (ql_s(s1 x t))(P s s1)))))))
+ 
+ (cl-comment "Ground Axioms")
+ 
+ (cl-comment "Td17")
+ (forall (x t t1)
+-	(if (and (exists t1
++	(if (and (exists (t1)
+ 			(and (ql_t t1 x)(P t t1)))(P t1 t))
+-		(exists t2
++		(exists (t2)
+ 			(and (ql_t t2 x)(P t1 t2)))))
+ 
+ (cl-comment "Td18")
+ (forall (s x t)
+-	(if (and (exists t1
++	(if (and (exists (t1)
+ 				(and (ql_t t1 x)(P t t1)))
+-			(exists s1
++			(exists (s1)
+ 				(and (ql_s(s1 x t))(P s s1))))
+-		(exists t1
++		(exists (t1)
+ 			(and (ql_t t1 x)(P t t1)))))
+ 
+ /*
+@@ -130,12 +130,13 @@
+  * Check the typo? In KIF version,
+  *  '=' exists between t and sigma t.
+  */
+-(cl-comment "Dd31 - ql_t_ed")
+-(forall (x t t1)
+-	(iff (ql_t_ed t x)
+-		(and (ED x)
+-			(= t (sigma_t1 (exists (y)
+-				(PC x y t1)))))))
++// sschulze: This isn't possible in standard standard CommonLogic, only in IKL.
++//(cl-comment "Dd31 - ql_t_ed")
++//(forall (x t t1)
++//	(iff (ql_t_ed t x)
++//		(and (ED x)
++//			(= t (sigma_t1 (exists (y)
++//				(PC x y t1)))))))
+ 
+ (cl-comment "Dd32 - ql_t_tq")
+ (forall (x t)
+Index: complex/dolce/dolce_core/dolce_core_quality.clif
+===================================================================
+--- complex/dolce/dolce_core/dolce_core_quality.clif	(Revision 722)
++++ complex/dolce/dolce_core/dolce_core_quality.clif	(Arbeitskopie)
+@@ -11,10 +11,10 @@
+ (cl-text dolce_core_quality
+ 
+ (cl-comment "The third option relies on the notions of individual quality, quality kind
+-and (quality-)space introduced in section 2.1. Each individual quality, say “the
+-color of my car” or “the weight of John”, and its host are in a special relationship
+-called inheritance (I). Formally, expression I(x, y), stands for “the
+-individual quality x inheres in the entity y”.15 This relationship binds a specific
++and (quality-)space introduced in section 2.1. Each individual quality, say 'the
++color of my car' or 'the weight of John', and its host are in a special relationship
++called inheritance (I). Formally, expression I(x, y), stands for 'the
++individual quality x inheres in the entity y'.15 This relationship binds a specific
+ bearer (A21) and each quality existentially depends on the entity that
+ bears it (A22); in the previous examples the bearers are my car and John,
+ respectively. Finally, axiom (A23) states that qualities exist during the whole
+Index: complex/dolce/dolce_core/dolce_core_location.clif
+===================================================================
+--- complex/dolce/dolce_core/dolce_core_location.clif	(Revision 722)
++++ complex/dolce/dolce_core/dolce_core_location.clif	(Arbeitskopie)
+@@ -12,8 +12,8 @@
+ 
+ (cl-comment "The location relation (L) provides the link between qualities and spaces.
+ First, we require regions (and in particular spaces) not to change over the
+-time they exist (A28). Expression L(x, y, t) is used to state “at time t, region
+-x is the location of the individual quality y” as enforced (at least in part)
++time they exist (A28). Expression L(x, y, t) is used to state 'at time t, region
++x is the location of the individual quality y' as enforced (at least in part)
+ by axioms (A30) and (A31).17 Each individual quality in qi must be located
+ at least in one of the associated spaces sij (axioms (A34) and (A35)). The
+ location in a single space is unique (A36) and a quality that has a location
+Index: complex/dolce/dolce_core/dolce_core_properties.clif
+===================================================================
+--- complex/dolce/dolce_core/dolce_core_properties.clif	(Revision 722)
++++ complex/dolce/dolce_core/dolce_core_properties.clif	(Arbeitskopie)
+@@ -13,9 +13,9 @@
+ (cl-comment "The second option consists in reifying properties, that is, in associating
+ them to entities in the category of concepts, c.  In order to deal with concepts
+ and to relate concepts to an entity according to the properties the latter
+-has, a (possibly intensional) ‘instance-of’ relation, called classification (CF),
+-is introduced in the ontology. CF(x, y, t) stands for ‘x classifies y as it is at
+-time t’ and is characterized in dolce-core as a time regular relation.")
++has, a (possibly intensional) 'instance-of' relation, called classification (CF),
++is introduced in the ontology. CF(x, y, t) stands for 'x classifies y as it is at
++time t' and is characterized in dolce-core as a time regular relation.")
+ 
+ (cl-comment "A17")
+ (forall (x y t)
+Index: complex/dolce/dolce_core/dolce_core_participation.clif
+===================================================================
+--- complex/dolce/dolce_core/dolce_core_participation.clif	(Revision 722)
++++ complex/dolce/dolce_core/dolce_core_participation.clif	(Arbeitskopie)
+@@ -13,8 +13,8 @@
+ (cl-comment "The dolce-core unified framework relies on the participation relation
+ (PC) to relate the temporal qualities of events and the atemporal qualities of
+ objects. Participation is taken to be a time regular relation defined between
+-objects and events: PC(x, y, t) stands for “the object x participates in the
+-event y at t”.")
++objects and events: PC(x, y, t) stands for 'the object x participates in the
++event y at t'.")
+ 
+ (cl-comment "A39")
+ (forall (x y t)
+Index: complex/combined_time/no_backwards.clif
+===================================================================
+--- complex/combined_time/no_backwards.clif	(Revision 716)
++++ complex/combined_time/no_backwards.clif	(Arbeitskopie)
+@@ -7,7 +7,7 @@
+ 	(if	(timeinterval i1)
+ 		(not (exists (i2)
+ 			(and	(timeinterval i2)
+-				(= (beginof i2) (endof(i1)))
++				(= (beginof i2) (endof i1))
+ 				(= (endof i2) (beginof i1))
+                                 (= (beginof i1) (endof i1))
+                                 (= (beginof i2) (endof i2)))))))
+Index: complex/combined_time/finite_backwards.clif
+===================================================================
+--- complex/combined_time/finite_backwards.clif	(Revision 722)
++++ complex/combined_time/finite_backwards.clif	(Arbeitskopie)
+@@ -7,7 +7,7 @@
+ 	(if	(timeinterval i1)
+ 		(exists (i2)
+ 			(and	(timeinterval i2)
+-				(= (beginof i2) (endofi1))
++				(= (beginof i2) (endof i1))
+ 				(= (endof i2) (beginof i1))))))
+ 
+ )
+Index: complex/combined_time/vector_continuum.clif
+===================================================================
+--- complex/combined_time/vector_continuum.clif	(Revision 716)
++++ complex/combined_time/vector_continuum.clif	(Arbeitskopie)
+@@ -27,7 +27,7 @@
+         (if     (and    (timepoint p)
+                         (timepoint q))
+                 (and    (= p (beginof (between p q)))
+-                        (= q (endof (between p q)))))
++                        (= q (endof (between p q))))))
+ 
+ 
+ )
+Index: complex/boxworld/boxworld.clif
+===================================================================
+--- complex/boxworld/boxworld.clif	(Revision 716)
++++ complex/boxworld/boxworld.clif	(Arbeitskopie)
+@@ -3,8 +3,8 @@
+ 
+ (cl-imports boxworld_border)
+ (cl-imports boxworld_peak)
+-(cl-imports boxworld_vertex)
+-(cl-imports boxworld_box)
++//(cl-imports boxworld_vertex)
++//(cl-imports boxworld_box)
+ 
+ (forall (x)
+         (or     (point x) (edge x) (surface x) (box x)))
+Index: complex/time_interval_incidence/point_continuum.clif
+===================================================================
+--- complex/time_interval_incidence/point_continuum.clif	(Revision 716)
++++ complex/time_interval_incidence/point_continuum.clif	(Arbeitskopie)
+@@ -79,7 +79,7 @@
+ (forall (i p q)
+ 	(if	(and	(= p (beginof i))
+ 			(= q (endof i)))
+-		(= i (between p q)))
++		(= i (between p q))))
+ 
+ )
+ 
+Index: complex/vision_cardworld/inda.clif
+===================================================================
+--- complex/vision_cardworld/inda.clif	(Revision 716)
++++ complex/vision_cardworld/inda.clif	(Arbeitskopie)
+@@ -10,7 +10,7 @@
+ 
+ (cl-text inda
+ 
+-(cl-imports interior_depict)
++//(cl-imports interior_depict)
+ 
+ (forall (r s t)
+ 	(if	(and	(depict r s)
+Index: complex/vision_cardworld/urda.clif
+===================================================================
+--- complex/vision_cardworld/urda.clif	(Revision 716)
++++ complex/vision_cardworld/urda.clif	(Arbeitskopie)
+@@ -8,7 +8,7 @@
+  *    Michael Gruninger - initial implementation
+  *******************************************************************************/
+ 
+-(cl-urda urda
++(cl-text urda
+ 
+ (cl-imports kernel)
+ 
+Index: complex/vision_cardworld/occludes.clif
+===================================================================
+--- complex/vision_cardworld/occludes.clif	(Revision 716)
++++ complex/vision_cardworld/occludes.clif	(Arbeitskopie)
+@@ -12,7 +12,7 @@
+ 
+ (cl-imports obscures)
+ 
+-(cl-imports interior_depicts)
++//(cl-imports interior_depicts)
+ 
+ (forall (p q s t) 
+ 	(if 	(and 	(point p) 
+Index: complex/tarski_geometry/neutral_tarski.clif
+===================================================================
+--- complex/tarski_geometry/neutral_tarski.clif	(Revision 716)
++++ complex/tarski_geometry/neutral_tarski.clif	(Arbeitskopie)
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports continuity_tarski)
+ 
+-(cl-imports congruence_tarski)
++//(cl-imports congruence_tarski)
+ 
+ )
+Index: complex/tarski_geometry/weak_tarski.clif
+===================================================================
+--- complex/tarski_geometry/weak_tarski.clif	(Revision 716)
++++ complex/tarski_geometry/weak_tarski.clif	(Arbeitskopie)
+@@ -1,7 +1,7 @@
+ 
+ (cl-text weak_tarski
+ 
+-(cl-imports congruence_tarski)
++//(cl-imports congruence_tarski)
+ 
+ (cl-comment "Given any angle  and any point v in its interior, there exists a line segment including v, with an endpoint on each side of the angle.")
+ (forall (x y z u v)
+Index: complex/owltime/owltime_instants/owltime_instant_l.clif
+===================================================================
+--- complex/owltime/owltime_instants/owltime_instant_l.clif	(Revision 716)
++++ complex/owltime/owltime_instants/owltime_instant_l.clif	(Arbeitskopie)
+@@ -1,7 +1,7 @@
+ 
+ (cl-text owltime_instant_l
+ 
+-(cl-imports ../owltime_instants/owltime_instants)
++(cl-imports owltime_instants)
+ 
+ (forall (t1 t2)
+ 	(if	(and	(Instant t1)
+Index: complex/owltime/owltime_interval/owltime_interval_lemmas.clif
+===================================================================
+--- complex/owltime/owltime_interval/owltime_interval_lemmas.clif	(Revision 716)
++++ complex/owltime/owltime_interval/owltime_interval_lemmas.clif	(Arbeitskopie)
+@@ -1,7 +1,7 @@
+ 
+ (cl-text owltime_interval_lemmas
+ 
+-(cl-imports owltime_interval
++(cl-imports owltime_interval)
+ 
+ (cl-comment "colore/verification/owltime/owltime_interval/entailment/owltime_interval_lemmas/ex314-1")
+ 
+Index: complex/owltime/owltime_interval/owltime_interval.clif
+===================================================================
+--- complex/owltime/owltime_interval/owltime_interval.clif	(Revision 716)
++++ complex/owltime/owltime_interval/owltime_interval.clif	(Arbeitskopie)
+@@ -1,7 +1,7 @@
+ 
+ (cl-text owltime_interval
+ 
+-(cl-imports ../owltime_instants/owltime_instants)
++(cl-imports owltime_instants)
+ 
+ (forall (t)
+ 	(if	(Instant t)
+Index: complex/owltime/owltime_interval/owltime_semilinear.clif
+===================================================================
+--- complex/owltime/owltime_interval/owltime_semilinear.clif	(Revision 716)
++++ complex/owltime/owltime_interval/owltime_semilinear.clif	(Arbeitskopie)
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports owltime_interval)
+ 
+-(cl-imports ../owltime_instants/owltime_instant_s)
++(cl-imports owltime_instant_s)
+ 
+ )
+Index: complex/owltime/owltime_interval/vila.clif
+===================================================================
+--- complex/owltime/owltime_interval/vila.clif	(Revision 716)
++++ complex/owltime/owltime_interval/vila.clif	(Arbeitskopie)
+@@ -1,7 +1,7 @@
+ 
+ (cl-text vila
+ 
+-(cl-imports owltime_instants_l)
++(cl-imports owltime_instant_l)
+ 
+ (cl-imports owltime_instants_infinite)
+ 
+Index: complex/owltime/owltime_interval/owltime_linear.clif
+===================================================================
+--- complex/owltime/owltime_interval/owltime_linear.clif	(Revision 716)
++++ complex/owltime/owltime_interval/owltime_linear.clif	(Arbeitskopie)
+@@ -1,8 +1,8 @@
+ 
+-(cl-text owltime/owltime_interval/owltime_linear
++(cl-text owltime_linear
+ 
+ (cl-imports owltime_interval)
+ 
+-(cl-imports ../owltime_instants/owltime_instant_l)
++(cl-imports owltime_instant_l)
+ 
+ )
+Index: complex/owltime/owltime_eventuality/mappings/owltime_eventuality_reduction.clif
+===================================================================
+--- complex/owltime/owltime_eventuality/mappings/owltime_eventuality_reduction.clif	(Revision 716)
++++ complex/owltime/owltime_eventuality/mappings/owltime_eventuality_reduction.clif	(Arbeitskopie)
+@@ -23,7 +23,7 @@
+ 		(or	(point x)
+ 			(line x))))
+ 
+-forall (x y)
++(forall (x y)
+ 	(iff	(begins x y)
+ 		(and	(point x)
+ 			(line y)
+@@ -31,12 +31,12 @@
+ 			(forall (z)
+ 				(if	(and	(point z)
+ 						(in z y))
+-					(leq x z))))
++					(leq x z)))
+                         (and    (point x)
+                                 (= x y)))))
+ 
+ 
+-forall (x y)
++(forall (x y)
+ 	(iff	(ends x y)
+ 		(and	(point x)
+ 			(line y)
+@@ -44,7 +44,7 @@
+ 			(forall (z)
+ 				(if	(and	(point z)
+ 						(in z y))
+-					(leq z x))))
++					(leq z x)))
+                         (and    (point x)
+                                 (= x y)))))
+ 
+Index: core/subposet/discrete_uplp_dense_weak_separative.clif
+===================================================================
+--- core/subposet/discrete_uplp_dense_weak_separative.clif	(Revision 716)
++++ core/subposet/discrete_uplp_dense_weak_separative.clif	(Arbeitskopie)
+@@ -5,6 +5,6 @@
+ 
+ (cl-imports uplr)
+ 
+-(cl-imports dense_weak_separative)
++//(cl-imports dense_weak_separative)
+ 
+ )
+Index: core/subposet/tree_mm_subposet_dense_weak_separative.clif
+===================================================================
+--- core/subposet/tree_mm_subposet_dense_weak_separative.clif	(Revision 716)
++++ core/subposet/tree_mm_subposet_dense_weak_separative.clif	(Arbeitskopie)
+@@ -5,6 +5,6 @@
+ 
+ (cl-imports subposet)
+ 
+-(cl-imports dense_weak_separative)
++//(cl-imports dense_weak_separative)
+ 
+ )
+Index: core/quadripartite_incidence/partition3polytope.clif
+===================================================================
+--- core/quadripartite_incidence/partition3polytope.clif	(Revision 716)
++++ core/quadripartite_incidence/partition3polytope.clif	(Arbeitskopie)
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports dis3polytope)
+ 
+-(cl-imports partition_new_polytope)
++// (cl-imports partition_new_polytope)
+ 
+ )
+Index: core/cyclic_geometry/chain_mcg.clif
+===================================================================
+--- core/cyclic_geometry/chain_mcg.clif	(Revision 716)
++++ core/cyclic_geometry/chain_mcg.clif	(Arbeitskopie)
+@@ -1,7 +1,7 @@
+ 
+ (cl-text chain_mcg
+ 
+-(cl-imports cyclic_chain)
++//(cl-imports cyclic_chain)
+ 
+ (cl-imports mcg)
+ 
+Index: core/cyclic_geometry/chain_cgg.clif
+===================================================================
+--- core/cyclic_geometry/chain_cgg.clif	(Revision 722)
++++ core/cyclic_geometry/chain_cgg.clif	(Arbeitskopie)
+@@ -1,7 +1,7 @@
+ 
+ (cl-text chain_ccg
+ 
+-(cl-imports chain_cyclic)
++// (cl-imports chain_cyclic)
+ 
+ (cl-imports ccg)
+ 
+Index: core/cyclic_geometry/chain_hcg.clif
+===================================================================
+--- core/cyclic_geometry/chain_hcg.clif	(Revision 716)
++++ core/cyclic_geometry/chain_hcg.clif	(Arbeitskopie)
+@@ -1,7 +1,7 @@
+ 
+ (cl-text chain_hcg
+ 
+-(cl-imports cyclic_chain)
++//(cl-imports cyclic_chain)
+ 
+ (cl-imports hcg)
+ 
+Index: core/graphs/graph_def.clif
+===================================================================
+--- core/graphs/graph_def.clif	(Revision 716)
++++ core/graphs/graph_def.clif	(Arbeitskopie)
+@@ -22,20 +22,21 @@
+ 		(and	(adj x y)
+ 			(adj y z))))
+ 
+-(forall (x y ...)
+-	(odd_cycle x ... y)
+-	(and	(even_path x ... y)
+-		(adj x y))))
++// ???
++// (forall (x y ...)
++// 	(odd_cycle x ... y)
++// 	(and	(even_path x ... y)
++// 		(adj x y))))
++// 
++// (forall (x y ...)
++// 	(even_cycle x ... y)
++// 	(and	(odd_path x ... y)
++// 		(adj x y))))
+ 
+-(forall (x y ...)
+-	(even_cycle x ... y)
+-	(and	(odd_path x ... y)
+-		(adj x y))))
++// (even_path )
+ 
+-(even_path )
++// (not (odd_path ))
+ 
+-(not (odd_path ))
+-
+ (forall (x)
+ 	(not (even_path x)))
+ 
+@@ -71,20 +72,20 @@
+ 		(and	(not (adj x y))
+ 			(not (adj y z)))))
+ 
+-(forall (x y ...)
+-	(complement_odd_cycle x ... y)
+-	(and	(complement_even_path x ... y)
+-		(not (adj x y)))))
++// (forall (x y ...)
++// 	(complement_odd_cycle x ... y)
++// 	(and	(complement_even_path x ... y)
++// 		(not (adj x y)))))
++// 
++// (forall (x y ...)
++// 	(complement_even_cycle x ... y)
++// 	(and	(complement_odd_path x ... y)
++// 		(not (adj x y)))))
+ 
+-(forall (x y ...)
+-	(complement_even_cycle x ... y)
+-	(and	(complement_odd_path x ... y)
+-		(not (adj x y)))))
++//(complement_even_path )
+ 
+-(complement_even_path )
++//(not (complement_odd_path ))
+ 
+-(not (complement_odd_path ))
+-
+ (forall (x)
+ 	(not (complement_even_path x)))
+ 
+Index: core/graphs/star_graph.clif
+===================================================================
+--- core/graphs/star_graph.clif	(Revision 716)
++++ core/graphs/star_graph.clif	(Arbeitskopie)
+@@ -4,7 +4,7 @@
+ (cl-imports undirected_graph)
+ 
+ (exists (x)
+-	(forall y)
++	(forall (y)
+ 		(or	(adj x y)
+ 			(= x y))))
+ )
+Index: core/bipartite_incidence/twin_lines.clif
+===================================================================
+--- core/bipartite_incidence/twin_lines.clif	(Revision 716)
++++ core/bipartite_incidence/twin_lines.clif	(Arbeitskopie)
+@@ -1,5 +1,5 @@
+ 
+-(cl-text twin_lines)
++(cl-text twin_lines
+ 
+ (cl-imports weak_bipartite)
+ 
+Index: core/bipartite_incidence/helly.clif
+===================================================================
+--- core/bipartite_incidence/helly.clif	(Revision 716)
++++ core/bipartite_incidence/helly.clif	(Arbeitskopie)
+@@ -10,13 +10,13 @@
+ 		(exists (w)
+ 			(and	(point w)
+ 				(forall (l)
+-					(if	(and	(line(l)
++					(if	(and	(linel)
+ 							(or	(in x l)
+ 								(in y l))
+ 							(or	(in x l)
+ 								(in z l))
+ 							(or	(in y l)
+-								(in z l))))
++								(in z l)))
+ 						(in w l)))))))
+ 
+ )
+Index: core/bipartite_incidence/double_exist.clif
+===================================================================
+--- core/bipartite_incidence/double_exist.clif	(Revision 716)
++++ core/bipartite_incidence/double_exist.clif	(Arbeitskopie)
+@@ -1,5 +1,5 @@
+ 
+-(cl-text double_exist)
++(cl-text double_exist
+ 
+ (cl-imports weak_bipartite)
+ 
+Index: core/bipartite_incidence/boundary_incidence.clif
+===================================================================
+--- core/bipartite_incidence/boundary_incidence.clif	(Revision 716)
++++ core/bipartite_incidence/boundary_incidence.clif	(Arbeitskopie)
+@@ -1,7 +1,7 @@
+ 
+ (cl-text boundary_incidence
+ 
+-(cl-imports bipartite_incidence)
++(cl-imports weak_bipartite)
+ 
+ (cl-imports nontrivial_lines)
+ 
+Index: core/tripartite_incidence/boundary_partitioning.clif
+===================================================================
+--- core/tripartite_incidence/boundary_partitioning.clif	(Revision 716)
++++ core/tripartite_incidence/boundary_partitioning.clif	(Arbeitskopie)
+@@ -1,8 +1,8 @@
+-
+ (cl-text boundary_partitioning
+-
+-(cl-imports conn_partitioning)
+-
+-(cl-imports cyclic_boundary)
+-
++//
++//(cl-imports conn_partitioning)
++//
++//(cl-imports cyclic_boundary)
++//
++(and)
+ )
+Index: core/tripartite_incidence/tripartite.clif
+===================================================================
+--- core/tripartite_incidence/tripartite.clif	(Revision 716)
++++ core/tripartite_incidence/tripartite.clif	(Arbeitskopie)
+@@ -1,9 +1,9 @@
+ 
+ (cl-text tripartite
+ 
+-(cl-imports bipartite_incidence)
++(cl-imports weak_bipartite)
+ 
+-(cl-imports  plane_existence)
++//(cl-imports  plane_existence)
+ 
+ (cl-imports nontrivial_plane)
+ 
+Index: core/tripartite_incidence/partition3polytope.clif
+===================================================================
+--- core/tripartite_incidence/partition3polytope.clif	(Revision 716)
++++ core/tripartite_incidence/partition3polytope.clif	(Arbeitskopie)
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports dis3polytope)
+ 
+-(cl-imports conn_partitioning)
++// (cl-imports partition_new_polytope)
+ 
+ )
+Index: core/tripartite_incidence/diamond_planar.clif
+===================================================================
+--- core/tripartite_incidence/diamond_planar.clif	(Revision 716)
++++ core/tripartite_incidence/diamond_planar.clif	(Arbeitskopie)
+@@ -1,7 +1,7 @@
+ 
+ (cl-text diamond_planar
+ 
+-(cl-imports transitive_tripartite
++(cl-imports transitive_tripartite)
+ 
+ (forall (x y z)
+ 	(if	(and	(point x)
+Index: core/between/hashimotoB1.clif
+===================================================================
+--- core/between/hashimotoB1.clif	(Revision 716)
++++ core/between/hashimotoB1.clif	(Arbeitskopie)
+@@ -27,7 +27,7 @@
+ 		(or	(between a b c)
+ 			(between a c b))))
+ 
+-(forall a x b y c d)
++(forall (a x b y c d)
+ 	(if	(and	(between a x b)
+ 			(between a y b)
+ 			(between c x d)
+Index: core/between/veblen.clif
+===================================================================
+--- core/between/veblen.clif	(Revision 716)
++++ core/between/veblen.clif	(Arbeitskopie)
+@@ -3,14 +3,14 @@
+ 
+ (cl-imports infinite_bet)
+ 
+-(cl-imports pasch)
++//(cl-imports pasch)
+ 
+ (exists (p1 p2)
+ 	(not	(= p1 p2)))
+ 	
+ (forall (a b c)
+ 	(if	(between a b c)
+-		(between c b a)
++		(between c b a)))
+ 		
+ (forall (a b c)
+ 	(if	(between a b c)
+Index: core/between/hashimotoB0.clif
+===================================================================
+--- core/between/hashimotoB0.clif	(Revision 716)
++++ core/between/hashimotoB0.clif	(Arbeitskopie)
+@@ -27,7 +27,7 @@
+ 		(or	(between a b c)
+ 			(between a c b))))
+ 
+-(forall a x b y c d)
++(forall (a x b y c d)
+ 	(if	(and	(between a x b)
+ 			(between a y b)
+ 			(between c x d)
+Index: core/between/hashimotoB2.clif
+===================================================================
+--- core/between/hashimotoB2.clif	(Revision 716)
++++ core/between/hashimotoB2.clif	(Arbeitskopie)
+@@ -26,7 +26,7 @@
+ 		(or	(between a b c)
+ 			(between a c b))))
+ 
+-(forall a x b y c d)
++(forall (a x b y c d)
+ 	(if	(and	(between a x b)
+ 			(between a y b)
+ 			(between c x d)
+Index: core/between/tschet.clif
+===================================================================
+--- core/between/tschet.clif	(Revision 716)
++++ core/between/tschet.clif	(Arbeitskopie)
+@@ -9,7 +9,7 @@
+ 	(if	(between a b c)
+ 		(not (between a c b))))
+ 
+-forall (a b c)
++(forall (a b c)
+ 	(if	(between a b c)
+ 		(not (= a c))))
+ 
+Index: core/arithmetic/s_arithmetic.clif
+===================================================================
+--- core/arithmetic/s_arithmetic.clif	(Revision 716)
++++ core/arithmetic/s_arithmetic.clif	(Arbeitskopie)
+@@ -1,8 +1,8 @@
+ 
+-(cl-text successor)
++(cl-text successor
+ 
+ (forall (x)
+-	(not (= (S zero))))
++	(not (= (S x) zero)))
+ 
+ (forall (x y)
+ 	(if	(= (S x) (S y))
+Index: core/orderings/lattice_ordering.clif
+===================================================================
+--- core/orderings/lattice_ordering.clif	(Revision 716)
++++ core/orderings/lattice_ordering.clif	(Arbeitskopie)
+@@ -1,5 +1,5 @@
+ 
+-(cl_text lattice_ordering
++(cl-text lattice_ordering
+ 
+ (cl-imports partial_ordering)
+ 
+Index: core/orderings/discrete_forest.clif
+===================================================================
+--- core/orderings/discrete_forest.clif	(Revision 716)
++++ core/orderings/discrete_forest.clif	(Arbeitskopie)
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports forest)
+ 
+-(cl-imports discrete_partial_ordering)
++//(cl-imports discrete_partial_ordering)
+ 
+ )
+Index: core/orderings/dense_linear_order_no_end.clif
+===================================================================
+--- core/orderings/dense_linear_order_no_end.clif	(Revision 716)
++++ core/orderings/dense_linear_order_no_end.clif	(Arbeitskopie)
+@@ -5,6 +5,6 @@
+ 
+ (cl-imports nofinal)
+ 
+-(cl-imports dense_linear_order)
++// (cl-imports dense_linear_order)
+ 
+ )
+Index: core/orderings/partial_semiorder.clif
+===================================================================
+--- core/orderings/partial_semiorder.clif	(Revision 716)
++++ core/orderings/partial_semiorder.clif	(Arbeitskopie)
+@@ -5,7 +5,7 @@
+ 
+ (forall (x a b c)
+ 	(if	(and	(lt a b)
+-			(lt b c))
++			(lt b c)
+ 			(not (lt a x)))
+ 		(lt x c)))
+ 
+Index: core/orderings/discrete_linear_order_no_end.clif
+===================================================================
+--- core/orderings/discrete_linear_order_no_end.clif	(Revision 716)
++++ core/orderings/discrete_linear_order_no_end.clif	(Arbeitskopie)
+@@ -5,6 +5,6 @@
+ 
+ (cl-imports nofinal)
+ 
+-(cl-imports discrete_linear_order)
++//(cl-imports discrete_linear_order)
+ 
+ )
+Index: core/orderings/discrete_semilinear.clif
+===================================================================
+--- core/orderings/discrete_semilinear.clif	(Revision 716)
++++ core/orderings/discrete_semilinear.clif	(Arbeitskopie)
+@@ -1,5 +1,5 @@
+ 
+-(cl-text discrete_semilinear)
++(cl-text discrete_semilinear
+ 
+ (cl-imports semilinear_ordering)
+ 
+Index: core/orderings/join_semilattice_ordering.clif
+===================================================================
+--- core/orderings/join_semilattice_ordering.clif	(Revision 716)
++++ core/orderings/join_semilattice_ordering.clif	(Arbeitskopie)
+@@ -1,5 +1,5 @@
+ 
+-(cl_text join_semilattice_ordering
++(cl-text join_semilattice_ordering
+ 
+ (cl-imports partial_ordering)
+ 
+Index: core/orderings/bounded_dense_linear_order.clif
+===================================================================
+--- core/orderings/bounded_dense_linear_order.clif	(Revision 716)
++++ core/orderings/bounded_dense_linear_order.clif	(Arbeitskopie)
+@@ -3,6 +3,5 @@
+ 
+ (cl-imports bounded_linear_order)
+ 
+-(cl-imports dense_partial_order)
+-
++//(cl-imports dense_partial_order)
+ )
+Index: core/orderings/bounded_discrete_linear_order.clif
+===================================================================
+--- core/orderings/bounded_discrete_linear_order.clif	(Revision 716)
++++ core/orderings/bounded_discrete_linear_order.clif	(Arbeitskopie)
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports bounded_linear_order)
+ 
+-(cl-imports discrete_partial_order)
++//(cl-imports discrete_partial_order)
+ 
+ )
+Index: core/orderings/semiorder.clif
+===================================================================
+--- core/orderings/semiorder.clif	(Revision 716)
++++ core/orderings/semiorder.clif	(Arbeitskopie)
+@@ -5,7 +5,7 @@
+ 
+ (forall (x a b c)
+ 	(if	(and	(lt a b)
+-			(lt b c))
++			(lt b c)
+ 			(not (lt a x)))
+ 		(lt x c)))
+ 
+Index: core/orderings/meet_semilattice_ordering.clif
+===================================================================
+--- core/orderings/meet_semilattice_ordering.clif	(Revision 716)
++++ core/orderings/meet_semilattice_ordering.clif	(Arbeitskopie)
+@@ -1,5 +1,5 @@
+ 
+-(cl_text meet_semilattice_ordering
++(cl-text meet_semilattice_ordering
+ 
+ (cl-imports partial_ordering)
+ 
+Index: core/ordered_geometry/plane_order.clif
+===================================================================
+--- core/ordered_geometry/plane_order.clif	(Revision 716)
++++ core/ordered_geometry/plane_order.clif	(Arbeitskopie)
+@@ -31,10 +31,10 @@
+ 		(point p3)
+ 		(line l)
+ 		(in p1 l)
+-		(in p3 l))
+-	(exists (p2)
+-		(and	(point p2)
+-			(between p1 p2 p3))))
++		(in p3 l)
++		(exists (p2)
++			(and	(point p2)
++				(between p1 p2 p3)))))
+ 
+ (cl-comment "Of any three points situated on a straight line, 
+ there is always one which lies between the other two.")
+Index: core/cyclic_ordering/strict_cyclic.clif
+===================================================================
+--- core/cyclic_ordering/strict_cyclic.clif	(Revision 716)
++++ core/cyclic_ordering/strict_cyclic.clif	(Arbeitskopie)
+@@ -1,5 +1,5 @@
+ 
+-(cl-text strict_cyclic)
++(cl-text strict_cyclic
+ 
+ (cl-imports cyclic)
+ 
+Index: core/cyclic_ordering/asymmetric_cyclic.clif
+===================================================================
+--- core/cyclic_ordering/asymmetric_cyclic.clif	(Revision 716)
++++ core/cyclic_ordering/asymmetric_cyclic.clif	(Arbeitskopie)
+@@ -1,5 +1,5 @@
+ 
+-(cl-text asymmetric_cyclic)
++(cl-text asymmetric_cyclic
+ 
+ (cl-imports cyclic)
+ 
+Index: core/mereology/ex_cm_mereology.clif
+===================================================================
+--- core/mereology/ex_cm_mereology.clif	(Revision 716)
++++ core/mereology/ex_cm_mereology.clif	(Arbeitskopie)
+@@ -3,6 +3,6 @@
+ 
+ (cl-imports cm_mereology)
+ 
+-(cl-imports ex_m_mereology)
++//(cl-imports ex_m_mereology)
+ 
+ )
