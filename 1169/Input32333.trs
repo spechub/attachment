@@ -1,0 +1,19 @@
+(VAR t t1 t2 a b c d)
+(RULES
+eq(t,t) -> true
+eq(_,_) -> false
+and(true,t) -> t
+and(false,t) -> false
+or(true,t) -> true
+or(false,t) -> t
+implies(false,t) -> true
+implies(true,t) -> t
+equiv(t,t) -> true
+equiv(_,_) -> false
+not(true) -> false
+not(false) -> true
+when_else(t1,true,t2) -> t1
+when_else(t1,false,t2) -> t2
+__Minus__(a,b) -> __Minus__(c,d) | __Plus__(a,d) -> __Plus__(c,b)
+eq(a,__Minus__(a,0)) -> true
+)
