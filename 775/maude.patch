@@ -1,0 +1,22 @@
+Index: Maude/Shellout.hs
+===================================================================
+--- Maude/Shellout.hs	(revision 12970)
++++ Maude/Shellout.hs	(working copy)
+@@ -70,7 +70,7 @@
+ -- | extracts a Maude module or view
+ getAllOutput :: Handle -> String -> Bool -> IO String
+ getAllOutput hOut s False = do
+-    ready <- hReady hOut
++    ready <- hWaitForInput hOut 100
+     if ready
+         then do 
+             ss <- hGetLine hOut
+@@ -83,7 +83,7 @@
+ -- | extracts the Haskell representation of a Maude module or view
+ getAllSpec :: Handle -> String -> Bool -> IO String
+ getAllSpec hOut s False = do
+-    ready <- hReady hOut
++    ready <- hWaitForInput hOut 100
+     if ready
+         then do
+             ss <- hGetLine hOut
