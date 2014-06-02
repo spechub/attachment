@@ -1,0 +1,28 @@
+library NFtest
+
+spec sp1 =
+  sorts Man, Woman < Person
+  sort Hybrid < Man
+  sort Hybrid < Woman
+end
+
+spec sp2 =
+  sorts Man, Woman < Person
+  sorts Female < Person
+  forall p: Person
+  . p in Woman => p  in Female
+  . p in Man => not p in Female
+end
+
+
+spec sp = 
+  {sp1 hide Hybrid}
+and
+  {sp2 hide Female}
+end
+
+spec spimplies =
+  sp
+then %implies
+  . false
+end
