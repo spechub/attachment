@@ -1,0 +1,52 @@
+library HasCASL/Real
+
+spec BasicField =
+  sort Elem
+  op e:Elem
+end
+
+spec TotalOrder =
+  sort Elem
+end
+
+spec ExtTotalOrder[TotalOrder] = {}
+end
+
+spec Field =
+     BasicField with op e |-> 1
+end
+
+spec FieldWithOrdering =
+     Field and TotalOrder
+end
+
+spec ExtField[FieldWithOrdering] =
+     ExtTotalOrder[TotalOrder]
+end
+
+spec RichField = ExtField[FieldWithOrdering]
+
+logic HasCASL
+
+spec Real =
+     RichField with Elem |-> Real
+then
+ {}
+then %def
+     ops
+        |__| : Real -> Real;
+then %implies
+  {}
+end
+
+spec FieldWithArchimedianValuation =
+     Field
+and  Real
+then
+     op val: Elem -> Real
+end
+
+view Real_as_FieldWithArchimedianValuation :
+     FieldWithArchimedianValuation to Real
+=    Elem |-> Real, val |-> |__|
+end
