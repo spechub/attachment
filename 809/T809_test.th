@@ -1,0 +1,135 @@
+logic HasCASL.PPolyTyConsHOL=
+spec test =
+types
+s : Type;
+t : Type
+op f : s -> s
+op f : s -> t
+op gn_inj : forall a : Type; b : Type . a -> b
+op gn_proj : forall a : Type; b : Type . a ->? b
+op gn_subt : forall a : Type; b : Type . a * b ->? Unit
+
+. (gn_inj (op f : s -> s) : s -> t)
+  = (gn_inj (op f : s -> t) : s -> t);         %(ga_monotonicity)%
+
+forall a : Type; x : a; y : a . gn_subt (x, y);
+                                             %(ga_subt_reflexive)%
+
+forall a : Type; b : Type; c : Type; x : a; y : b; z : c
+. gn_subt (x, y) /\ gn_subt (y, z) => gn_subt (x, z);
+                                            %(ga_subt_transitive)%
+
+forall a : Type; b : Type; x : a; y : b
+. gn_subt (x, y) => (y = gn_inj x <=> x = gn_proj y);
+                                              %(ga_subt_inj_proj)%
+
+forall a : Type; b : Type; c : Type; x : a; y : b; z : c
+. gn_subt (x, y) /\ (gn_subt (y, z) /\ y = gn_inj x)
+  => (z = gn_inj x <=> z = gn_inj y);        %(ga_inj_transitive)%
+
+forall a : Type; x : a . x = gn_inj x; %(ga_inj_identity)%
+
+forall
+gn_a1 : Type; gn_b1 : Type; x1 : gn_a1; y1 : gn_b1; x : ? gn_a1;
+y : ? gn_b1
+. gn_subt (x1, y1) => gn_subt (x, y);            %(ga_subt_?_<_?)%
+
+forall
+gn_a1 : Type; gn_b1 : Type; x1 : gn_a1; y1 : gn_b1; x : Pred gn_a1;
+y : Pred gn_b1
+. gn_subt (y1, x1) => gn_subt (x, y);      %(ga_subt_Pred_<_Pred)%
+
+forall
+gn_a2 : Type; gn_b2 : Type; gn_a1 : Type; gn_b1 : Type; x2 : gn_a2;
+y2 : gn_b2; x1 : gn_a1; y1 : gn_b1; x : gn_a2 * gn_a1;
+y : gn_b2 * gn_b1
+. gn_subt (x2, y2) /\ gn_subt (x1, y1) => gn_subt (x, y);
+                                         %(ga_subt___*___<___*__)%
+
+forall
+gn_a3 : Type; gn_b3 : Type; gn_a2 : Type; gn_b2 : Type;
+gn_a1 : Type; gn_b1 : Type; x3 : gn_a3; y3 : gn_b3; x2 : gn_a2;
+y2 : gn_b2; x1 : gn_a1; y1 : gn_b1; x : gn_a3 * gn_a2 * gn_a1;
+y : gn_b3 * gn_b2 * gn_b1
+. gn_subt (x3, y3) /\ (gn_subt (x2, y2) /\ gn_subt (x1, y1))
+  => gn_subt (x, y);               %(ga_subt___*__*___<___*__*__)%
+
+forall
+gn_a4 : Type; gn_b4 : Type; gn_a3 : Type; gn_b3 : Type;
+gn_a2 : Type; gn_b2 : Type; gn_a1 : Type; gn_b1 : Type; x4 : gn_a4;
+y4 : gn_b4; x3 : gn_a3; y3 : gn_b3; x2 : gn_a2; y2 : gn_b2;
+x1 : gn_a1; y1 : gn_b1; x : gn_a4 * gn_a3 * gn_a2 * gn_a1;
+y : gn_b4 * gn_b3 * gn_b2 * gn_b1
+. gn_subt (x4, y4)
+  /\ (gn_subt (x3, y3) /\ (gn_subt (x2, y2) /\ gn_subt (x1, y1)))
+  => gn_subt (x, y);         %(ga_subt___*__*__*___<___*__*__*__)%
+
+forall
+gn_a5 : Type; gn_b5 : Type; gn_a4 : Type; gn_b4 : Type;
+gn_a3 : Type; gn_b3 : Type; gn_a2 : Type; gn_b2 : Type;
+gn_a1 : Type; gn_b1 : Type; x5 : gn_a5; y5 : gn_b5; x4 : gn_a4;
+y4 : gn_b4; x3 : gn_a3; y3 : gn_b3; x2 : gn_a2; y2 : gn_b2;
+x1 : gn_a1; y1 : gn_b1; x : gn_a5 * gn_a4 * gn_a3 * gn_a2 * gn_a1;
+y : gn_b5 * gn_b4 * gn_b3 * gn_b2 * gn_b1
+. gn_subt (x5, y5)
+  /\ (gn_subt (x4, y4)
+      /\ (gn_subt (x3, y3) /\ (gn_subt (x2, y2) /\ gn_subt (x1, y1))))
+  => gn_subt (x, y);   %(ga_subt___*__*__*__*___<___*__*__*__*__)%
+
+forall
+gn_a2 : Type; gn_b2 : Type; gn_a1 : Type; gn_b1 : Type; x2 : gn_a2;
+y2 : gn_b2; x1 : gn_a1; y1 : gn_b1; x : gn_a2 --> gn_a1;
+y : gn_b2 --> gn_b1
+. gn_subt (y2, x2) /\ gn_subt (x1, y1) => gn_subt (x, y);
+                                     %(ga_subt___-->___<___-->__)%
+
+forall
+gn_a2 : Type; gn_b2 : Type; gn_a1 : Type; gn_b1 : Type; x2 : gn_a2;
+y2 : gn_b2; x1 : gn_a1; y1 : gn_b1; x : gn_a2 --> gn_a1;
+y : gn_b2 -->? gn_b1
+. gn_subt (y2, x2) /\ gn_subt (x1, y1) => gn_subt (x, y);
+                                    %(ga_subt___-->___<___-->?__)%
+
+forall
+gn_a2 : Type; gn_b2 : Type; gn_a1 : Type; gn_b1 : Type; x2 : gn_a2;
+y2 : gn_b2; x1 : gn_a1; y1 : gn_b1; x : gn_a2 --> gn_a1;
+y : gn_b2 -> gn_b1
+. gn_subt (y2, x2) /\ gn_subt (x1, y1) => gn_subt (x, y);
+                                      %(ga_subt___-->___<___->__)%
+
+forall
+gn_a2 : Type; gn_b2 : Type; gn_a1 : Type; gn_b1 : Type; x2 : gn_a2;
+y2 : gn_b2; x1 : gn_a1; y1 : gn_b1; x : gn_a2 -->? gn_a1;
+y : gn_b2 -->? gn_b1
+. gn_subt (y2, x2) /\ gn_subt (x1, y1) => gn_subt (x, y);
+                                   %(ga_subt___-->?___<___-->?__)%
+
+forall
+gn_a2 : Type; gn_b2 : Type; gn_a1 : Type; gn_b1 : Type; x2 : gn_a2;
+y2 : gn_b2; x1 : gn_a1; y1 : gn_b1; x : gn_a2 -->? gn_a1;
+y : gn_b2 ->? gn_b1
+. gn_subt (y2, x2) /\ gn_subt (x1, y1) => gn_subt (x, y);
+                                    %(ga_subt___-->?___<___->?__)%
+
+forall
+gn_a2 : Type; gn_b2 : Type; gn_a1 : Type; gn_b1 : Type; x2 : gn_a2;
+y2 : gn_b2; x1 : gn_a1; y1 : gn_b1; x : gn_a2 -> gn_a1;
+y : gn_b2 -> gn_b1
+. gn_subt (y2, x2) /\ gn_subt (x1, y1) => gn_subt (x, y);
+                                       %(ga_subt___->___<___->__)%
+
+forall
+gn_a2 : Type; gn_b2 : Type; gn_a1 : Type; gn_b1 : Type; x2 : gn_a2;
+y2 : gn_b2; x1 : gn_a1; y1 : gn_b1; x : gn_a2 -> gn_a1;
+y : gn_b2 ->? gn_b1
+. gn_subt (y2, x2) /\ gn_subt (x1, y1) => gn_subt (x, y);
+                                      %(ga_subt___->___<___->?__)%
+
+forall
+gn_a2 : Type; gn_b2 : Type; gn_a1 : Type; gn_b1 : Type; x2 : gn_a2;
+y2 : gn_b2; x1 : gn_a1; y1 : gn_b1; x : gn_a2 ->? gn_a1;
+y : gn_b2 ->? gn_b1
+. gn_subt (y2, x2) /\ gn_subt (x1, y1) => gn_subt (x, y);
+                                     %(ga_subt___->?___<___->?__)%
+
+forall x : s; y : t . gn_subt (x, y); %(ga_subt_s_<_t)%
