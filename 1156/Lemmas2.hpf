@@ -1,0 +1,40 @@
+#!hets -I
+
+# $Id: Vickrey-Vickrey-vickreyA.hpf 840 2013-03-11 22:19:46Z till $
+# 
+# Auction Theory Toolbox
+# 
+# Authors:
+# * Christoph Lange <math.semantic.web@gmail.com>
+# * Till Mossakowski <till.mossakowski@dfki.de>
+# 
+# Dually licenced under
+# * Creative Commons Attribution (CC-BY) 3.0
+# * ISC License (1-clause BSD License)
+# See LICENSE file for details
+# (Rationale for this dual licence: http://arxiv.org/abs/1107.3212)
+
+# Proves Vickrey/Vickrey#vickreyA
+
+use Vickrey_proof_trans.het
+dg basic Lemmas2
+
+set goals vickreyA_pre01
+#set axioms 
+prover eprover
+set time-limit 30000
+prove
+
+dg basic Lemmas3
+
+set goals vickreyA_pre03
+#set axioms 
+prover eprover
+set time-limit 30000
+prove
+
+set goals vickreyA_pre04
+#set axioms 
+prover eprover
+set time-limit 30000
+prove
