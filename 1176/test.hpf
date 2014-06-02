@@ -1,0 +1,4 @@
+use test.het
+dg basic sp
+prover eprover
+prove
