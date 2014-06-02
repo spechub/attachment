@@ -1,0 +1,24 @@
+spec sp1 =
+  esort t
+then
+  sort t
+end
+
+spec sp2 =
+  sort t
+then
+  esort t
+end
+
+spec sp3 =
+  esort t
+and
+  sort t
+end
+
+spec sp4 =
+  sort t
+then
+  esort t
+end
+
