@@ -1,0 +1,11 @@
+spec a = sort a op o :?a
+
+spec a2 = a with logic CASL2SubCFOL
+
+spec b = { a then sort b . true } with logic CASL2SubCFOL
+
+logic HasCASL
+
+spec c = a2 then type b
+
+view v : b to c
