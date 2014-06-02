@@ -1,0 +1,38 @@
+library Modal/BasicSystems
+
+logic Modal
+
+spec M =     
+     modality empty { [](p /\ q) => []p }
+end
+
+spec K =     
+     modality empty { [](p => q) => ([]p => []q) }
+end
+
+spec T =
+     K
+then
+     modality empty { []p => p }
+end
+
+spec S4 =
+     T
+then
+     modality empty { []A => [][]A }
+end
+
+spec S5 =
+     T
+then
+     modality empty {<>A => []<>A}
+end
+
+spec test =
+  S5
+then
+  sort s
+  flexible pred p:s
+  . forall x:s . [] [] p(x) <=> [] p(x) %implied
+end
+
