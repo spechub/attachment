@@ -1,0 +1,22 @@
+- eliminate data type "LibId", put range in "LibName"
+[- don't use LibId/LibName as a key anywhere; instead, use the idIRI as a
+   key; if necessary, create a "Map IRI LibName" or save the libName in
+   the second component of a tuple; also make sure that IRIs are brought to a
+   proper normal form after being parsed]
+- get rid of libNameToFile; check each use and come up with an alternative
+  (such as: libNameToSerIRI, downloading the file to hard disk, etc.)
+- make sure .env files work
+- when setting the logic in DOL, assume that logic (and serialization) as the
+  default for loading ontologies
+- make hets_cgi work (will probably do it myself, but need to talk to Christian first)
+
+[ATC/Sml_cats.hs]
+-- OMDoc/*
+-- LF/Twelf2DG.hs
+?- FreeCAD/*
+?? Maude/*
+-- OWL2/*
+-- HolLight/*
+-- Isabelle/*
+
+branch IriLibName started at 17744
