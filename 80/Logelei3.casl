@@ -1,0 +1,20 @@
+spec R‰tsel =
+  free type Eingeborene ::= weiﬂ|orange|zitrone|gelb
+  free type St‰mme ::= weiﬂ|orange|zitrone
+  op Stamm : Eingeborene -> St‰mme
+  preds a1, a2 : Eingeborene
+  . a1 (weiﬂ) <=> not Stamm (weiﬂ) = weiﬂ  %(a1w)%
+  . a2 (weiﬂ) <=> Stamm (gelb) = orange  %(a2w)%
+  . a1 (orange) <=> not Stamm (orange) = orange  %(a1o)%
+  . a2 (orange) <=> Stamm (gelb) = zitrone  %(a2o)%
+  . a1 (zitrone) <=> not Stamm (zitrone) = zitrone  %(a1z)%
+  . a2 (zitrone) <=> Stamm (gelb) = weiﬂ  %(a2z)%
+  forall x : Eingeborene
+  . Stamm (x) = weiﬂ => a1 (x) /\ a2 (x)  %(sw)%
+  . Stamm (x) = orange => not a1 (x) /\ not a2 (x)  %(so)%
+  . Stamm (x) = zitrone => (a1 (x) <=> not a2 (x))  %(sz)%
+then %implies
+  . Stamm (gelb) = weiﬂ %(weiﬂ)%
+  . Stamm (gelb) = orange %(orange)%
+  . Stamm (gelb) = zitrone %(zitrone)%
+end
