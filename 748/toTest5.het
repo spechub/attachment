@@ -1,0 +1,23 @@
+library toTest5 
+logic OWL 
+from flangeExample get definition 
+ spec meinTest= 
+Individual: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED.1
+Types: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED,
+owl:Thing
+ Facts: 
+inverse_of_firstPart  Interference_4
+Individual: ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED.1
+Types: ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED,
+owl:Thing
+ Facts: 
+inverse_of_secondPart  Interference_4
+Individual: Interference_4
+Types: Interference,
+owl:Thing
+ Facts: 
+firstPart
+ISO_4034_NUT_M14_STEEL_GRADE_C_HEXAGON_HEAD_NONPREFERRED.1,
+secondPart
+ISO_4014_BOLT_M14x70_STEEL_GRADE_A_HEXAGON_HEAD_NONPREFERRED.1
+end
