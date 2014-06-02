@@ -1,0 +1,13 @@
+spec Classical_Extensional_Parthood =
+sort s
+pred P:s * s
+then %cons
+
+preds
+%% Overlap
+Ov(x:s; y:s) <=> exists z:s.(P(z, x) /\  P(z, y)); %(Dd15)%
+
+%%  Binary Difference
+Dif(z:s; x:s; y:s) <=> forall w:s.(P(w,z) <=> (P(w, x) /\ not Ov(w, y)));
+
+end
