@@ -1,0 +1,133 @@
+<Ontologies>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.buildingsmart-tech.org/ifcOWL"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://www.buildingsmart-tech.org/ifcOWL"
+     versionIRI="http://www.buildingsmart-tech.org/ifcOWL/IFC4_ADD1">
+    <Prefix name="" IRI="http://www.buildingsmart-tech.org/ifcOWL#"/>
+    <Prefix name="dce" IRI="http://purl.org/dc/elements/1.1/"/>
+    <Prefix name="dct" IRI="http://purl.org/dc/terms/"/>
+    <Prefix name="ifc" IRI="http://www.buildingsmart-tech.org/ifcOWL#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Serialized using C++ RDF library by Walter Terkaj (ITIA-CNR, walter.terkaj@itia.cnr.it) based on Redland API C library. Thu Dec 04 10:10:50 2014
+</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dce:language"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">en</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dce:creator"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Pieter Pauwels (pipauwel.pauwels@ugent.be)</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dce:description"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">OWL ontology for the IFC conceptual data schema and exchange file format for Building Information Model (BIM) data</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dce:title"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">IFC4_ADD1</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Ontology automatically generated from EXPRESS schema &apos;IFC4_ADD1.exp&apos; using &apos;genOnto&apos; converter developed by Walter Terkaj (ITIA-CNR, walter.terkaj@itia.cnr.it) with revision support from Pieter Pauwels (pipauwel.pauwels@ugent.be)</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dce:contributor"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Aleksandra Sojic (aleksandra.sojic@itia.cnr.it)</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dce:creator"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Walter Terkaj (walter.terkaj@itia.cnr.it)</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#IfcGeometricRepresentationItem"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IfcPresentableText"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IfcRepresentationItem"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IfcTextLiteral"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#STRING"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Literal"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dce:contributor"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dce:creator"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dce:description"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dce:format"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dce:identifier"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dce:language"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dce:title"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#IfcGeometricRepresentationItem"/>
+        <Class IRI="#IfcRepresentationItem"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IfcPresentableText"/>
+        <Class IRI="#STRING"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IfcTextLiteral"/>
+        <Class IRI="#IfcGeometricRepresentationItem"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IfcTextLiteral"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#Literal"/>
+            <Class IRI="#IfcPresentableText"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#Literal"/>
+    </FunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#Literal"/>
+        <Class IRI="#IfcTextLiteral"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#Literal"/>
+        <Class IRI="#IfcPresentableText"/>
+    </ObjectPropertyRange>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Literal</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Literal</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.4.8.${repository.version}) http://owlapi.sourceforge.net -->
+
+<Loaded name="file:/home/maeder/Hets/IFCfragment.owl" ontiri="http://www.buildingsmart-tech.org/ifcOWL"/>
+
+</Ontologies>
