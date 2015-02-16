@@ -1,0 +1,5 @@
+Prefix: : <http://ontohub.org/monster-blend/animals/prefixTest#>
+Ontology: <http://ontohub.org/monster-blend/animals/prefixTest>
+
+Import: <https://ontohub.org/monster-blend/animals/habitats.owl>
+
